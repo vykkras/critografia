@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criptografía Post-Cuántica - Presentación Interactiva</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .header-names {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            text-align: left;
+            font-size: 1.15em;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .interactive-demo {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid #667eea;
+        }
+
+        .demo-title {
+            color: #667eea;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 5px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: monospace;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .output {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .key-display {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        #readiness-checklist label {
+            display: grid;
+            grid-template-columns: 28px 1fr;
+            align-items: start;
+            column-gap: 12px;
+            margin: 8px 0;
+            font-size: 1.05em;
+        }
+
+        #readiness-checklist input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 3px;
+            justify-self: center;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .header-names {
+                bottom: 14px;
+                left: 14px;
+                font-size: 1em;
+            }
+        }
+
+        .quantum-visual {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .qubit {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 10px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .comparison-table tr:hover {
+            background: #f5f7fa;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .conclusion h2 {
+            color: white;
+            border-bottom: 3px solid white;
+        }
+
+        ul {
+            margin: 15px 0 15px 30px;
+            line-height: 2;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffd89b 0%, #19547b 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .kyber-anim {
+  margin-top: 15px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #667eea;
+  background: #0b1020;
+}
+
+.kyber-anim canvas {
+  width: 100%;
+  height: 220px;
+  display: block;
+}
+
+.kyber-anim-caption {
+  padding: 10px 12px;
+  color: white;
+  font-family: monospace;
+  font-size: 0.95em;
+  background: rgba(255,255,255,0.06);
+}
+.kyber-steps {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+.kyber-step {
+  background: #f8f9fa;
+  border-left: 4px solid #c3cfe2;
+  padding: 12px 14px;
+  border-radius: 8px;
+  transition: border-color 0.3s, background 0.3s;
+}
+.kyber-step.active {
+  border-color: #667eea;
+  background: #eef1ff;
+}
+.kyber-step.done {
+  border-color: #28a745;
+  background: #e9f7ef;
+}
+.kyber-step-title {
+  font-weight: bold;
+  color: #3b4cca;
+  margin-bottom: 6px;
+}
+.kyber-step-detail {
+  font-family: monospace;
+  font-size: 0.95em;
+  color: #2b2f3a;
+}
+.whiteboard-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 18, 35, 0.96);
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+}
+
+.whiteboard-header {
+  padding: 12px 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: rgba(255,255,255,0.05);
+  color: white;
+}
+
+.whiteboard-header button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.whiteboard-header .close {
+  background: #dc3545;
+  color: white;
+}
+
+.whiteboard-header .clear {
+  background: #ffc107;
+}
+
+.whiteboard-canvas {
+  flex: 1;
+  background: #111;
+  cursor: crosshair;
+  touch-action: none;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-names">
+                Victor Llivina<br>
+                Rafael<br>
+                Adalid
+            </div>
+            <h1>🔐 Criptografía Post-Cuántica</h1>
+            <p class="subtitle">El Futuro de la Seguridad en la Era Cuántica</p>
+        </header>
+
+        <!-- Sección 1: Introducción -->
+        <section class="section">
+            <h2>Introducción: La Amenaza Cuántica</h2>
+            
+            <p>La <span class="highlight">criptografía post-cuántica</span> representa el próximo paradigma en seguridad informática. Mientras que la criptografía actual protege nuestros datos mediante problemas matemáticos difíciles de resolver para computadoras clásicas, las computadoras cuánticas amenazan con romper estos sistemas de seguridad.</p>
+
+            <div class="info-box">
+                <h3>🎯 ¿Por qué es importante?</h3>
+                <ul>
+                    <li><strong>Harvest Now, Decrypt Later:</strong> Los atacantes están almacenando datos cifrados hoy para descifrarlos cuando tengan computadoras cuánticas</li>
+                    <li><strong>Infraestructura Crítica:</strong> Sistemas bancarios, gubernamentales y de comunicaciones dependen de criptografía vulnerable</li>
+                    <li><strong>Transición Larga:</strong> Migrar sistemas criptográficos a nivel mundial tomará décadas</li>
+                </ul>
+            </div>
+
+            <div class="quantum-visual">
+                <div class="qubit">|0⟩</div>
+                <div class="qubit">|1⟩</div>
+                <div class="qubit">|+⟩</div>
+                <div class="qubit">|-⟩</div>
+            </div>
+            <p style="text-align: center; font-style: italic; color: #667eea;">Estados cuánticos: superposición y entrelazamiento</p>
+        </section>
+
+        <!-- Sección 2: Computación Cuántica 101 -->
+        <section class="section">
+            <h2>⚛️ Computación Cuántica: Conceptos Básicos</h2>
+            
+            <h3>¿Qué hace especial a una computadora cuántica?</h3>
+            
+            <div class="grid-2">
+                <div>
+                    <h4 style="color: #667eea;">Computación Clásica</h4>
+                    <ul>
+                        <li>Bits: 0 o 1</li>
+                        <li>Procesamiento secuencial</li>
+                        <li>Determinista</li>
+                        <li>Estados definidos</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #764ba2;">Computación Cuántica</h4>
+                    <ul>
+                        <li>Qubits: 0, 1, o ambos (superposición)</li>
+                        <li>Procesamiento paralelo masivo</li>
+                        <li>Probabilística</li>
+                        <li>Entrelazamiento cuántico</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="demo-title"> Demostración: Superposición Cuántica vs Bits Clásicos</div>
+                
+                <p><strong>Simula el poder de un qubit en superposición:</strong></p>
+                
+                <div class="grid-2">
+                    <div>
+                        <h4>Bit Clásico</h4>
+                        <button onclick="classicalCompute()">Procesar 1 Bit</button>
+                        <div id="classical-result" class="output" style="min-height: 100px;"></div>
+                    </div>
+                    <div>
+                        <h4>Qubit en Superposición</h4>
+                        <button onclick="quantumCompute()">Procesar 1 Qubit</button>
+                        <div id="quantum-result" class="output" style="min-height: 100px;"></div>
+                    </div>
+                </div>
+                
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>Escalabilidad:</strong> Con n qubits, una computadora cuántica puede procesar 2^n estados simultáneamente.
+                    <br>Ejemplo: 300 qubits = más estados que átomos en el universo observable.
+                </div>
+            </div>
+
+            <h3>El Algoritmo de Shor: Rompiendo RSA</h3>
+            <p>El algoritmo de Shor, desarrollado en 1994, puede factorizar números grandes en tiempo polinómico usando una computadora cuántica. Esto rompe directamente la seguridad de RSA, que se basa en que factorizar números grandes es computacionalmente imposible.</p>
+            
+            <div class="warning">
+                <strong>⚠️ Impacto:</strong> Una computadora cuántica con ~4000 qubits lógicos podría romper RSA-2048 en cuestión de horas, exponiendo prácticamente todos los sistemas criptográficos actuales.
+            </div>
+        </section>
+
+        <!-- Sección 3: Criptografía Actual y Vulnerabilidades -->
+        <section class="section">
+            <h2>🔓 Criptografía Clásica</h2>
+            
+            <h3>Algoritmo RSA</h3>
+            
+            <div class="interactive-demo">
+                <div class="demo-title">🔐 Demostración Interactiva: RSA Simplificado</div>
+                
+                <p>Vamos a encriptar un mensaje usando RSA con números pequeños (en la realidad se usan números de 2048+ bits):</p>
+                
+                <div>
+                    <label><strong>Tu mensaje:</strong></label>
+                    <input type="text" id="rsa-message" placeholder="Escribe un mensaje corto" maxlength="10">
+                    
+                    <button onclick="generateRSAKeys()">1. Generar Claves RSA</button>
+                    
+                    <div id="rsa-keys" class="key-display" style="display:none;">
+                        <strong>Claves Generadas:</strong><br>
+                        Primos: p = <span id="p-value"></span>, q = <span id="q-value"></span><br>
+                        n (p × q) = <span id="n-value"></span><br>
+                        Clave Pública (e, n): (<span id="e-value"></span>, <span id="n-public"></span>)<br>
+                        Clave Privada (d, n): (<span id="d-value"></span>, <span id="n-private"></span>)
+                    </div>
+                    
+                    <button onclick="encryptRSA()" id="encrypt-btn" style="display:none;">2. Encriptar Mensaje</button>
+                    
+                    <div id="rsa-encrypted" class="output" style="display:none;">
+                        <strong>Mensaje Encriptado:</strong><br>
+                        <span id="encrypted-text"></span>
+                    </div>
+                    
+                    <button onclick="decryptRSA()" id="decrypt-btn" style="display:none;">3. Desencriptar Mensaje</button>
+                    
+                    <div id="rsa-decrypted" class="success" style="display:none;">
+                        <strong>Mensaje Desencriptado:</strong><br>
+                        <span id="decrypted-text"></span>
+                    </div>
+                </div>
+                
+                <div class="warning" style="margin-top: 20px;">
+                    <strong>Vulnerabilidad Cuántica:</strong> El algoritmo de Shor puede factorizar n en p y q eficientemente, recuperando la clave privada d. ¡La seguridad de RSA colapsaría!
+                </div>
+                
+                <button onclick="simulateQuantumBreak()">⚛️ Simular Ataque Cuántico (Algoritmo de Shor)</button>
+                
+                <div id="quantum-attack" style="display:none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="attack-progress">0%</div>
+                    </div>
+                    <div class="warning" id="attack-result"></div>
+                </div>
+            </div>
+
+            <h3>Otros Sistemas Vulnerables</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Sistema Criptográfico</th>
+                        <th>Base Matemática</th>
+                        <th>Algoritmo Cuántico que lo Rompe</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>RSA</td>
+                        <td>Factorización de enteros</td>
+                        <td>Algoritmo de Shor</td>
+                        <td>❌ Vulnerable</td>
+                    </tr>
+                    <tr>
+                        <td>Diffie-Hellman</td>
+                        <td>Logaritmo discreto</td>
+                        <td>Algoritmo de Shor</td>
+                        <td>❌ Vulnerable</td>
+                    </tr>
+                    <tr>
+                        <td>ECC (Curvas Elípticas)</td>
+                        <td>Logaritmo discreto en curvas</td>
+                        <td>Algoritmo de Shor modificado</td>
+                        <td>❌ Vulnerable</td>
+                    </tr>
+                    <tr>
+                        <td>AES-256</td>
+                        <td>Cifrado simétrico</td>
+                        <td>Algoritmo de Grover</td>
+                        <td>⚠️ Debilitado (efectivamente AES-128)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Sección 4: Criptografía Post-Cuántica -->
+        <section class="section">
+            <h2>🛡️ Criptografía Post-Cuántica: La Solución</h2>
+            
+            <p>La criptografía post-cuántica se basa en problemas matemáticos que permanecen difíciles incluso para computadoras cuánticas.</p>
+
+            <h3>Familias de Algoritmos Post-Cuánticos</h3>
+            
+            <div class="grid-2">
+                <div class="info-box">
+                    <h4>1. Criptografía Basada en Retículas (Lattices)</h4>
+                    <p><strong>Ejemplos:</strong> CRYSTALS-Kyber, CRYSTALS-Dilithium</p>
+                    <p><strong>Problema:</strong> Encontrar el vector más corto en un retículo de alta dimensión</p>
+                    <p><strong>Estado:</strong> ✅ Estandarizado por NIST en 2024</p>
+                </div>
+                
+                <div class="info-box">
+                    <h4>2. Criptografía Basada en Hash</h4>
+                    <p><strong>Ejemplos:</strong> SPHINCS+</p>
+                    <p><strong>Problema:</strong> Basado en resistencia de funciones hash criptográficas</p>
+                    <p><strong>Estado:</strong> ✅ Estandarizado por NIST</p>
+                </div>
+                
+                <div class="info-box">
+                    <h4>3. Criptografía Basada en Códigos</h4>
+                    <p><strong>Ejemplos:</strong> Classic McEliece</p>
+                    <p><strong>Problema:</strong> Decodificación de códigos lineales aleatorios</p>
+                    <p><strong>Estado:</strong> 🔄 En evaluación</p>
+                </div>
+                
+                <div class="info-box">
+                    <h4>4. Criptografía Multivariada</h4>
+                    <p><strong>Ejemplos:</strong> Rainbow (descartado)</p>
+                    <p><strong>Problema:</strong> Resolver sistemas de ecuaciones polinomiales multivariadas</p>
+                    <p><strong>Estado:</strong> ⚠️ Algunos algoritmos rotos</p>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="demo-title">🔬 Demostración: CRYSTALS-Kyber (Simulación Educativa)</div>
+                
+                <p>Kyber es un algoritmo de encapsulación de claves (KEM) basado en retículas, estandarizado por NIST.</p>
+                
+                <div>
+                    <label><strong>Mensaje secreto:</strong></label>
+                    <input type="text" id="kyber-message" placeholder="Escribe tu mensaje">
+                    
+                    <button onclick="kyberDemo()">Generar Claves y Encriptar (Kyber)</button>
+                    <button type="button" onclick="openBoard()">🖊️ Abrir pizarra</button>
+                    <div id="kyber-output"></div>
+                </div>
+                
+                <div class="success" style="margin-top: 20px;">
+                    <strong>✅ Resistencia Cuántica:</strong> Los problemas de retículas permanecen difíciles para computadoras cuánticas. No existe un algoritmo cuántico conocido que pueda resolverlos eficientemente.
+                </div>
+            </div>
+
+            <h3>Comparación: Clásica vs Post-Cuántica</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>RSA-2048</th>
+                        <th>CRYSTALS-Kyber-768</th>
+                        <th>CRYSTALS-Dilithium-2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tamaño Clave Pública</td>
+                        <td>256 bytes</td>
+                        <td>1,184 bytes</td>
+                        <td>1,312 bytes</td>
+                    </tr>
+                    <tr>
+                        <td>Tamaño Clave Privada</td>
+                        <td>256 bytes</td>
+                        <td>2,400 bytes</td>
+                        <td>2,528 bytes</td>
+                    </tr>
+                    <tr>
+                        <td>Velocidad</td>
+                        <td>Lenta</td>
+                        <td>Rápida</td>
+                        <td>Media</td>
+                    </tr>
+                    <tr>
+                        <td>Seguridad Cuántica</td>
+                        <td>❌ Roto</td>
+                        <td>✅ Seguro</td>
+                        <td>✅ Seguro</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Sección 5: Ataque Interactivo -->
+        <section class="section">
+            <h2>💥 Visualización: Ataque Cuántico en Acción</h2>
+            
+            <div class="interactive-demo">
+                <div class="demo-title">⚔️ Simulador de Ataque: Clásica vs Post-Cuántica</div>
+                
+                <p>Compara cuánto tiempo le tomaría a diferentes tipos de computadoras romper la encriptación:</p>
+                
+                <div class="grid-2">
+                    <div>
+                        <h4>Objetivo: RSA-2048</h4>
+                        <button onclick="attackClassical('rsa')">Atacar con Computadora Clásica</button>
+                        <button onclick="attackQuantum('rsa')">Atacar con Computadora Cuántica</button>
+                        <div id="rsa-attack-result" class="output"></div>
+                    </div>
+                    
+                    <div>
+                        <h4>Objetivo: CRYSTALS-Kyber-768</h4>
+                        <button onclick="attackClassical('kyber')">Atacar con Computadora Clásica</button>
+                        <button onclick="attackQuantum('kyber')">Atacar con Computadora Cuántica</button>
+                        <div id="kyber-attack-result" class="output"></div>
+                    </div>
+                </div>
+                
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>📊 Interpretación:</strong>
+                    <ul>
+                        <li>RSA es seguro contra computadoras clásicas (tomaría miles de años) pero vulnerable a cuánticas (horas/días)</li>
+                        <li>Kyber es seguro contra AMBOS tipos de computadoras (siglos incluso con cuánticas)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 6: Implementación Práctica -->
+        <section class="section">
+            <h2>🚀 Implementación y Migración</h2>
+            
+            <h3>Proceso de NIST</h3>
+            <p>En julio de 2024, el NIST (National Institute of Standards and Technology) finalizó la estandarización de los primeros algoritmos post-cuánticos:</p>
+            
+            <div class="success">
+                <strong>Estándares FIPS Publicados (2024):</strong>
+                <ul>
+                    <li><strong>FIPS 203:</strong> CRYSTALS-Kyber (ahora ML-KEM) - Encapsulación de claves</li>
+                    <li><strong>FIPS 204:</strong> CRYSTALS-Dilithium (ahora ML-DSA) - Firmas digitales</li>
+                    <li><strong>FIPS 205:</strong> SPHINCS+ (ahora SLH-DSA) - Firmas digitales basadas en hash</li>
+                </ul>
+            </div>
+
+            <h3>Estrategias de Migración</h3>
+            
+            <div class="grid-2">
+                <div class="info-box">
+                    <h4>🔄 Criptografía Híbrida</h4>
+                    <p>Combinar algoritmos clásicos con post-cuánticos durante la transición:</p>
+                    <ul>
+                        <li>RSA + Kyber</li>
+                        <li>ECDSA + Dilithium</li>
+                    </ul>
+                    <p><strong>Ventaja:</strong> Protección inmediata sin romper compatibilidad</p>
+                </div>
+                
+                <div class="info-box">
+                    <h4>📅 Línea de Tiempo</h4>
+                    <ul>
+                        <li><strong>2024-2025:</strong> Implementación en sistemas críticos</li>
+                        <li><strong>2025-2030:</strong> Adopción generalizada</li>
+                        <li><strong>2030-2035:</strong> Reemplazo completo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="demo-title">🎯 Checklist: ¿Está tu organización lista?</div>
+                
+                <div id="readiness-checklist">
+                    <label><input type="checkbox" onchange="updateReadiness()"> Inventario de sistemas criptográficos completado</label>
+                    <label><input type="checkbox" onchange="updateReadiness()"> Priorización de activos críticos realizada</label>
+                    <label><input type="checkbox" onchange="updateReadiness()"> Evaluación de compatibilidad con PQC iniciada</label>
+                    <label><input type="checkbox" onchange="updateReadiness()"> Plan de migración documentado</label>
+                    <label><input type="checkbox" onchange="updateReadiness()"> Implementación híbrida en curso</label>
+                    <label><input type="checkbox" onchange="updateReadiness()"> Capacitación de equipo completada</label>
+                    <label><input type="checkbox" onchange="updateReadiness()"> Pruebas de rendimiento realizadas</label>
+                    <label><input type="checkbox" onchange="updateReadiness()"> Actualización de políticas de seguridad</label>
+                </div>
+                
+                <div class="progress-bar" style="margin-top: 20px;">
+                    <div class="progress-fill" id="readiness-progress">0%</div>
+                </div>
+                
+                <div id="readiness-status" class="info-box" style="margin-top: 20px;"></div>
+            </div>
+        </section>
+
+        <!-- Sección 7: Recursos y Herramientas -->
+        <section class="section">
+            <h2>🛠️ Recursos y Herramientas</h2>
+            
+            <h3>Bibliotecas Open Source</h3>
+            <div class="code-block">
+# Ejemplo: liboqs (Open Quantum Safe)
+from oqs import Signature
+
+# Crear firmante con Dilithium
+with Signature("Dilithium2") as signer:
+    public_key = signer.generate_keypair()
+    message = b"Mensaje importante"
+    signature = signer.sign(message)
+    
+    # Verificar firma
+    is_valid = signer.verify(message, signature, public_key)
+            </div>
+
+            <h3>Recursos de Aprendizaje</h3>
+            <ul>
+                <li><strong>NIST Post-Quantum Cryptography:</strong> csrc.nist.gov/projects/post-quantum-cryptography</li>
+                <li><strong>Open Quantum Safe:</strong> openquantumsafe.org</li>
+                <li><strong>PQShield:</strong> pqshield.com/learning-center/</li>
+                <li><strong>ETSI Quantum Safe Cryptography:</strong> etsi.org</li>
+            </ul>
+        </section>
+
+        <!-- Conclusión -->
+        <section class="conclusion">
+            <h2>🎯 Conclusiones Clave</h2>
+            
+            <div style="text-align: left; margin-top: 30px;">
+                <h3 style="color: white;">La Amenaza es Real</h3>
+                <p>Las computadoras cuánticas harán obsoleta la mayoría de la criptografía actual. Aunque las computadoras cuánticas suficientemente poderosas aún no existen, el ataque "Harvest Now, Decrypt Later" significa que debemos actuar YA.</p>
+                
+                <h3 style="color: white;">Tenemos Soluciones</h3>
+                <p>La criptografía post-cuántica ya está estandarizada y lista para implementación. CRYSTALS-Kyber, Dilithium y SPHINCS+ ofrecen seguridad probada contra amenazas cuánticas.</p>
+                
+                <h3 style="color: white;">La Transición es Urgente</h3>
+                <p>Migrar la infraestructura criptográfica mundial tomará años, posiblemente décadas. Las organizaciones deben comenzar la planificación e implementación inmediatamente.</p>
+                
+                <h3 style="color: white;">El Camino Adelante</h3>
+                <ul>
+                    <li>Inventariar sistemas criptográficos actuales</li>
+                    <li>Implementar soluciones híbridas (clásica + post-cuántica)</li>
+                    <li>Capacitar equipos en nuevas tecnologías</li>
+                    <li>Seguir de cerca los estándares NIST</li>
+                    <li>Planificar migración completa para 2030-2035</li>
+                </ul>
+                
+                <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px; margin-top: 30px;">
+                    <h3 style="color: white; text-align: center;">💡 Mensaje Final</h3>
+                    <p style="text-align: center; font-size: 1.2em;">
+                        La seguridad cuántica no es el futuro - es el presente. Las organizaciones que actúen ahora estarán preparadas para la era post-cuántica. Las que esperen enfrentarán riesgos existenciales.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 40px; color: white;">
+            <p>Presentación Interactiva sobre Criptografía Post-Cuántica</p>
+            <p style="opacity: 0.8; margin-top: 10px;">Creado para educación y concientización sobre seguridad cuántica</p>
+        </footer>
+    </div>
+
+    <script>
+        let drawMode = "free"; // "free" | "line"
+let lineStart = null;
+let snapshot = null;
+let historyStack = [];
+const maxHistory = 50;
+        // ===== DEMOSTRACIÓN DE SUPERPOSICIÓN =====
+        function classicalCompute() {
+            const result = document.getElementById('classical-result');
+            const state = Math.random() > 0.5 ? '1' : '0';
+            result.innerHTML = `
+                <strong>Estado procesado:</strong> ${state}<br>
+                <strong>Posibilidades exploradas:</strong> 1<br>
+                <em>Un bit clásico solo puede estar en UN estado a la vez.</em>
+            `;
+        }
+
+        function quantumCompute() {
+            const result = document.getElementById('quantum-result');
+            result.innerHTML = `
+                <strong>Estados en superposición:</strong> |0⟩ y |1⟩ simultáneamente<br>
+                <strong>Posibilidades exploradas:</strong> 2<br>
+                <strong>Al medir:</strong> ${Math.random() > 0.5 ? '|1⟩' : '|0⟩'}<br>
+                <em>Un qubit procesa AMBOS estados al mismo tiempo hasta que se mide.</em>
+            `;
+        }
+
+        // ===== DEMOSTRACIÓN RSA =====
+        let rsaKeys = {};
+        
+        function gcd(a, b) {
+            while (b !== 0) {
+                let t = b;
+                b = a % b;
+                a = t;
+            }
+            return a;
+        }
+
+        function modPow(base, exp, mod) {
+            let result = 1;
+            base = base % mod;
+            while (exp > 0) {
+                if (exp % 2 === 1) {
+                    result = (result * base) % mod;
+                }
+                exp = Math.floor(exp / 2);
+                base = (base * base) % mod;
+            }
+            return result;
+        }
+
+        function modInverse(e, phi) {
+            let [old_r, r] = [phi, e];
+            let [old_s, s] = [0, 1];
+            
+            while (r !== 0) {
+                let quotient = Math.floor(old_r / r);
+                [old_r, r] = [r, old_r - quotient * r];
+                [old_s, s] = [s, old_s - quotient * s];
+            }
+            
+            return old_s < 0 ? old_s + phi : old_s;
+        }
+
+        function generateRSAKeys() {
+            // Usar primos pequeños para demostración
+            const primes = [61, 67, 71, 73, 79, 83, 89, 97, 101, 103];
+            const p = primes[Math.floor(Math.random() * primes.length)];
+            let q = primes[Math.floor(Math.random() * primes.length)];
+            while (q === p) {
+                q = primes[Math.floor(Math.random() * primes.length)];
+            }
+            
+            const n = p * q;
+            const phi = (p - 1) * (q - 1);
+            
+            // Encontrar e
+            let e = 3;
+            while (e < phi) {
+                if (gcd(e, phi) === 1) break;
+                e += 2;
+            }
+            
+            // Calcular d
+            const d = modInverse(e, phi);
+            
+            rsaKeys = { p, q, n, e, d, phi };
+            
+            document.getElementById('p-value').textContent = p;
+            document.getElementById('q-value').textContent = q;
+            document.getElementById('n-value').textContent = n;
+            document.getElementById('e-value').textContent = e;
+            document.getElementById('n-public').textContent = n;
+            document.getElementById('d-value').textContent = d;
+            document.getElementById('n-private').textContent = n;
+            
+            document.getElementById('rsa-keys').style.display = 'block';
+            document.getElementById('encrypt-btn').style.display = 'inline-block';
+        }
+
+        function encryptRSA() {
+            const message = document.getElementById('rsa-message').value;
+            if (!message) {
+                alert('Por favor ingresa un mensaje');
+                return;
+            }
+            
+            const encrypted = [];
+            for (let i = 0; i < message.length; i++) {
+                const m = message.charCodeAt(i);
+                const c = modPow(m, rsaKeys.e, rsaKeys.n);
+                encrypted.push(c);
+            }
+            
+            rsaKeys.encrypted = encrypted;
+            rsaKeys.originalMessage = message;
+            
+            document.getElementById('encrypted-text').textContent = encrypted.join(', ');
+            document.getElementById('rsa-encrypted').style.display = 'block';
+            document.getElementById('decrypt-btn').style.display = 'inline-block';
+        }
+
+        function decryptRSA() {
+            const decrypted = [];
+            for (let c of rsaKeys.encrypted) {
+                const m = modPow(c, rsaKeys.d, rsaKeys.n);
+                decrypted.push(String.fromCharCode(m));
+            }
+            
+            document.getElementById('decrypted-text').textContent = decrypted.join('');
+            document.getElementById('rsa-decrypted').style.display = 'block';
+        }
+
+        function simulateQuantumBreak() {
+            if (!rsaKeys.n) {
+                alert('Primero genera las claves RSA');
+                return;
+            }
+            
+            document.getElementById('quantum-attack').style.display = 'block';
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                document.getElementById('attack-progress').style.width = progress + '%';
+                document.getElementById('attack-progress').textContent = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    document.getElementById('attack-result').innerHTML = `
+                        <strong>🔓 ¡Ataque Exitoso!</strong><br>
+                        Factorización cuántica completada:<br>
+                        n = ${rsaKeys.n} = ${rsaKeys.p} × ${rsaKeys.q}<br>
+                        Clave privada recuperada: d = ${rsaKeys.d}<br>
+                        <br>
+                        <strong>Mensaje desencriptado sin clave privada original:</strong><br>
+                        "${rsaKeys.originalMessage}"<br>
+                        <br>
+                        <em>Con el algoritmo de Shor, esto tomaría solo horas en una computadora cuántica real.</em>
+                    `;
+                }
+            }, 200);
+        }
+
+        // ===== DEMOSTRACIÓN KYBER =====
+        function playKyberAnimation({ containerId = "kyber-output", onDone }) {
+  const host = document.getElementById(containerId);
+
+  // Inserta el canvas + texto
+  host.innerHTML = `
+  <div class="kyber-anim">
+  <canvas id="kyberCanvas"></canvas>
+  <div class="kyber-anim-caption" id="kyberCaption"></div>
+
+  <div style="padding:10px; font-size:0.85em; color:#ddd;">
+    <span style="color:#9ecbff">●</span> puntos de la retícula&nbsp;&nbsp;
+    <span style="color:#ffd59e">●</span> ruido pequeño&nbsp;&nbsp;
+    <span style="color:#c7a6ff">—</span> mezcla final
+  </div>
+</div>
+
+  <div id="kyberResults" style="margin-top:14px;"></div>
+`;
+
+  const canvas = document.getElementById("kyberCanvas");
+  const caption = document.getElementById("kyberCaption");
+
+  // Ajuste real de resolución
+  const rect = canvas.getBoundingClientRect();
+  const DPR = window.devicePixelRatio || 1;
+  canvas.width = Math.floor(rect.width * DPR);
+  canvas.height = Math.floor(220 * DPR);
+
+  const ctx = canvas.getContext("2d");
+  ctx.scale(DPR, DPR);
+
+  const W = rect.width;
+  const H = 220;
+
+  // Helpers
+  function clear() {
+    ctx.clearRect(0, 0, W, H);
+  }
+  function line(x1, y1, x2, y2, alpha = 1, width = 2) {
+    ctx.globalAlpha = alpha;
+    ctx.lineWidth = width;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+  function dot(x, y, r = 4, alpha = 1) {
+    ctx.globalAlpha = alpha;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  // Colores (sin depender del CSS global)
+  const gridColor = "rgba(255,255,255,0.10)";
+  const pointColor = "rgba(120,200,255,0.9)";
+  const noiseColor = "rgba(255,200,120,0.9)";
+  const vectorColor = "rgba(170,120,255,0.95)";
+
+  // Pre-genera puntos
+  const points = Array.from({ length: 28 }, () => ({
+    x: Math.random() * (W - 40) + 20,
+    y: Math.random() * (H - 40) + 20
+  }));
+
+  // Vector “principal” + “ruido”
+  const origin = { x: 60, y: H - 50 };
+  const target = { x: W - 80, y: 60 };
+  const noise = { x: (Math.random() - 0.5) * 40, y: (Math.random() - 0.5) * 40 };
+
+  let t0 = performance.now();
+  const total = 6200; // ms
+
+  function draw(now) {
+    const t = Math.min(1, (now - t0) / total);
+    clear();
+
+    // Fondo suave
+    ctx.fillStyle = "rgba(11,16,32,1)";
+    ctx.fillRect(0, 0, W, H);
+
+    // Grid aparece primero
+    const gridT  = Math.min(1, t / 0.35);
+    ctx.strokeStyle = gridColor;
+    ctx.lineWidth = 1;
+
+    const step = 24;
+    for (let x = 0; x <= W; x += step) line(x, 0, x, H, gridT, 1);
+    for (let y = 0; y <= H; y += step) line(0, y, W, y, gridT, 1);
+
+    // Puntos base (retícula) aparecen después
+    const ptsT   = t < 0.28 ? 0 : Math.min(1, (t - 0.28) / 0.22);
+    ctx.fillStyle = pointColor;
+    points.forEach((p, i) => dot(p.x, p.y, 3, ptsT * (0.4 + (i % 6) / 10)));
+
+    // Vector principal aparece
+    const vecT = t < 0.45 ? 0 : Math.min(1, (t - 0.45) / 0.22);
+    ctx.strokeStyle = vectorColor;
+    const vx = origin.x + (target.x - origin.x) * vecT;
+    const vy = origin.y + (target.y - origin.y) * vecT;
+    line(origin.x, origin.y, vx, vy, 0.9, 3);
+
+    // Ruido aparece al final (vector pequeño)
+    const noiseT = t < 0.68 ? 0 : Math.min(1, (t - 0.68) / 0.26);
+    ctx.strokeStyle = noiseColor;
+    line(vx, vy, vx + noise.x * noiseT, vy + noise.y * noiseT, 0.9, 3);
+    ctx.fillStyle = noiseColor;
+    dot(vx + noise.x * noiseT, vy + noise.y * noiseT, 4, 0.95);
+
+    // Paquetes (representan cápsulas/secretos)
+    const pktT = t < 0.62 ? 0 : Math.min(1, (t - 0.62) / 0.25);
+    if (pktT > 0) {
+      ctx.fillStyle = "rgba(255,255,255,0.7)";
+      const px = origin.x + (target.x - origin.x) * pktT;
+      const py = origin.y + (target.y - origin.y) * pktT;
+      ctx.fillRect(px - 4, py - 4, 8, 8);
+    }
+
+    // Etiquetas de pasos
+    ctx.font = "12px monospace";
+    ctx.fillStyle = "rgba(230,240,255,0.9)";
+    const stepLabel = t < 0.35 ? "Paso 1/3: Retícula" : t < 0.68 ? "Paso 2/3: Vector público" : "Paso 3/3: Ruido + cápsula";
+    ctx.fillText(stepLabel, 12, 18);
+
+    // Texto/estado
+    if (t < 0.35) {
+  caption.innerHTML = `
+    <strong>Retícula:</strong>
+    puntos ordenados donde se construyen claves públicas.
+  `;
+} else if (t < 0.68) {
+  caption.innerHTML = `
+    <strong>Vector público:</strong>
+    mezcla de estructura que todos pueden ver sin revelar el secreto.
+  `;
+} else if (t < 0.98) {
+  caption.innerHTML = `
+    <strong>Ruido + cápsula:</strong>
+    se encapsula un secreto y se enmascara con ruido.
+  `;
+} else {
+  caption.innerHTML = `
+    <strong>Resultado:</strong>
+    ambos lados derivan el mismo secreto compartido.
+  `;
+}
+
+
+    if (t < 1) requestAnimationFrame(draw);
+    else {
+      // mini pausa para que se vea el “Listo”
+      setTimeout(() => onDone && onDone(), 350);
+    }
+  }
+
+  requestAnimationFrame(draw);
+}
+        function kyberDemo() {
+            const message = document.getElementById('kyber-message').value;
+            if (!message) {
+                alert('Por favor ingresa un mensaje');
+                return;
+            }
+            
+            // Simulación educativa (no es implementación real de Kyber)
+            const publicKey = Array.from({length: 8}, () => Math.floor(Math.random() * 256));
+            const privateKey = Array.from({length: 8}, () => Math.floor(Math.random() * 256));
+            const sharedSecret = Array.from({length: 4}, () => Math.floor(Math.random() * 256));
+            
+            const encrypted = btoa(message).split('').map(c => c.charCodeAt(0) ^ sharedSecret[0]);
+            
+            playKyberAnimation({
+                containerId: "kyber-output",
+                onDone: () => {
+                    document.getElementById('kyberResults').innerHTML = `
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="kyber-progress">0%</div>
+                        </div>
+                        <div class="kyber-steps" id="kyber-steps"></div>
+                        <div class="info-box" style="margin-top: 15px;">
+                            <strong>Resumen:</strong> Kyber es un KEM: no cifra mensajes directamente,
+                            sino que encapsula un secreto compartido usando la clave pública.
+                        </div>
+                    `;
+                    runKyberSteps({ publicKey, privateKey, sharedSecret, encrypted, message });
+                }
+            });
+        }
+        
+
+        // ===== SIMULADOR DE ATAQUES =====
+        function attackClassical(system) {
+            const resultId = system + '-attack-result';
+            const result = document.getElementById(resultId);
+            
+            if (system === 'rsa') {
+                result.innerHTML = `
+                    <strong>⏳ Atacando RSA-2048 con computadora clásica...</strong><br><br>
+                    Método: Factorización con algoritmos clásicos (GNFS)<br>
+                    Tiempo estimado: <span style="color: #28a745; font-weight: bold;">~300 años</span> con supercomputadora<br>
+                    Estado: <span style="color: #28a745;">✅ SEGURO contra ataques clásicos</span>
+                `;
+            } else {
+                result.innerHTML = `
+                    <strong>⏳ Atacando Kyber-768 con computadora clásica...</strong><br><br>
+                    Método: Fuerza bruta sobre retículas<br>
+                    Tiempo estimado: <span style="color: #28a745; font-weight: bold;">~2^140 años</span> (más que la edad del universo)<br>
+                    Estado: <span style="color: #28a745;">✅ SEGURO contra ataques clásicos</span>
+                `;
+            }
+        }
+        function attackQuantum(system) {
+            const resultId = system + '-attack-result';
+            const result = document.getElementById(resultId);
+            
+            if (system === 'rsa') {
+                result.innerHTML = `
+                    <strong>⚛️ Atacando RSA-2048 con computadora cuántica...</strong><br><br>
+                    Método: Algoritmo de Shor<br>
+                    Qubits necesarios: ~4000 qubits lógicos<br>
+                    Tiempo estimado: <span style="color: #dc3545; font-weight: bold;">~8 horas</span><br>
+                    Estado: <span style="color: #dc3545;">❌ VULNERABLE - Completamente roto</span><br><br>
+                    <em>La clave privada puede ser calculada factorizando n = p × q</em>
+                `;
+            } else {
+                result.innerHTML = `
+                    <strong>⚛️ Atacando Kyber-768 con computadora cuántica...</strong><br><br>
+                    Método: Algoritmo de Grover (mejor ataque conocido)<br>
+                    Qubits necesarios: Millones de qubits<br>
+                    Tiempo estimado: <span style="color: #28a745; font-weight: bold;">~2^70 años</span><br>
+                    Estado: <span style="color: #28a745;">✅ SEGURO - Resistente a ataques cuánticos</span><br><br>
+                    <em>Los problemas de retículas permanecen difíciles incluso para computadoras cuánticas</em>
+                `;
+            }
+        }
+
+        // ===== CHECKLIST DE PREPARACIÓN =====
+        function updateReadiness() {
+            const checkboxes = document.querySelectorAll('#readiness-checklist input[type="checkbox"]');
+            const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const total = checkboxes.length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            document.getElementById('readiness-progress').style.width = percentage + '%';
+            document.getElementById('readiness-progress').textContent = percentage + '%';
+            
+            const statusDiv = document.getElementById('readiness-status');
+            
+            if (percentage === 0) {
+                statusDiv.innerHTML = '<strong>🔴 No iniciado:</strong> Tu organización aún no ha comenzado la transición a criptografía post-cuántica.';
+                statusDiv.style.borderColor = '#dc3545';
+                statusDiv.style.background = '#f8d7da';
+            } else if (percentage < 50) {
+                statusDiv.innerHTML = '<strong>🟡 Fase inicial:</strong> Has dado los primeros pasos. Continúa con el inventario y planificación.';
+                statusDiv.style.borderColor = '#ffc107';
+                statusDiv.style.background = '#fff3cd';
+            } else if (percentage < 80) {
+                statusDiv.innerHTML = '<strong>🟠 Progreso medio:</strong> Buen avance. Enfócate en implementación y capacitación.';
+                statusDiv.style.borderColor = '#fd7e14';
+                statusDiv.style.background = '#ffe5d0';
+            } else if (percentage < 100) {
+                statusDiv.innerHTML = '<strong>🟢 Casi listo:</strong> Excelente progreso. Completa los últimos pasos para estar preparado.';
+                statusDiv.style.borderColor = '#28a745';
+                statusDiv.style.background = '#d4edda';
+            } else {
+                statusDiv.innerHTML = '<strong>✅ Completamente preparado:</strong> Tu organización está lista para la era post-cuántica. ¡Excelente trabajo!';
+                statusDiv.style.borderColor = '#28a745';
+                statusDiv.style.background = '#d4edda';
+            }
+        }
+
+        // Inicializar el checklist
+        updateReadiness();
+        let boardCanvas, boardCtx;
+let drawing = false;
+
+function openBoard() {
+  const overlay = document.getElementById("whiteboard");
+  overlay.style.display = "flex";
+
+  boardCanvas = document.getElementById("boardCanvas");
+  boardCtx = boardCanvas.getContext("2d");
+
+  // Ajustar tamaño real
+  const dpr = window.devicePixelRatio || 1;
+  boardCanvas.width = boardCanvas.clientWidth * dpr;
+  boardCanvas.height = boardCanvas.clientHeight * dpr;
+  boardCtx.scale(dpr, dpr);
+
+  boardCtx.strokeStyle = "#ffffff";
+  boardCtx.lineWidth = 5;
+  boardCtx.lineCap = "round";
+
+  boardCanvas.addEventListener("mousedown", startDraw);
+  boardCanvas.addEventListener("mousemove", draw);
+  boardCanvas.addEventListener("mouseup", stopDraw);
+  boardCanvas.addEventListener("mouseleave", stopDraw);
+
+  boardCanvas.addEventListener("touchstart", startDraw, { passive: false });
+boardCanvas.addEventListener("touchmove", draw, { passive: false });
+boardCanvas.addEventListener("touchend", stopDraw);
+}
+
+function closeBoard() {
+  const overlay = document.getElementById("whiteboard");
+  overlay.style.display = "none";
+  clearBoard();
+}
+
+function startDraw(e) {
+  e.preventDefault();
+  const pos = getPos(e, boardCanvas);
+
+  if (drawMode === "line") {
+    saveState();
+    lineStart = pos;
+    snapshot = boardCtx.getImageData(
+      0, 0, boardCanvas.width, boardCanvas.height
+    );
+    drawing = true;
+    return;
+  }
+
+  // Modo dibujo libre
+  saveState();
+  drawing = true;
+  boardCtx.beginPath();
+  boardCtx.moveTo(pos.x, pos.y);
+}
+
+function draw(e) {
+  if (!drawing) return;
+  e.preventDefault();
+  const pos = getPos(e, boardCanvas);
+
+  if (drawMode === "line") {
+    boardCtx.putImageData(snapshot, 0, 0);
+    boardCtx.beginPath();
+    boardCtx.moveTo(lineStart.x, lineStart.y);
+    boardCtx.lineTo(pos.x, pos.y);
+    boardCtx.stroke();
+    return;
+  }
+
+  // Modo libre
+  boardCtx.lineTo(pos.x, pos.y);
+  boardCtx.stroke();
+}
+
+function stopDraw(e) {
+  if (!drawing) return;
+  e.preventDefault();
+  drawing = false;
+
+  if (drawMode === "line") {
+    drawMode = "free"; // vuelve a dibujo libre automáticamente
+    lineStart = null;
+    snapshot = null;
+  }
+}
+function setLineMode() {
+  drawMode = "line";
+}
+function saveState() {
+  if (!boardCtx || !boardCanvas) return;
+  historyStack.push(
+    boardCtx.getImageData(0, 0, boardCanvas.width, boardCanvas.height)
+  );
+  if (historyStack.length > maxHistory) {
+    historyStack.shift();
+  }
+}
+
+function clearBoard() {
+  if (!boardCtx || !boardCanvas) return;
+  if (historyStack.length === 0) return;
+
+  const lastState = historyStack.pop();
+  boardCtx.putImageData(lastState, 0, 0);
+}
+function clearCanvas() {
+  if (!boardCtx || !boardCanvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  boardCtx.clearRect(0, 0, boardCanvas.width / dpr, boardCanvas.height / dpr);
+}
+        // ===== PASOS KYBER (SIMULACIÓN) =====
+        function runKyberSteps({ publicKey, privateKey, sharedSecret, encrypted, message }) {
+            const steps = [
+                {
+                    title: "Paso 1 — KeyGen (Bob)",
+                    detail: `Bob genera (pk, sk). pk=[${publicKey.slice(0, 4).join(", ")}...] sk=[${privateKey.slice(0, 4).join(", ")}...]`
+                },
+                {
+                    title: "Paso 2 — Encapsulate (Alice)",
+                    detail: `Alice usa pk para crear ciphertext + secreto. c=[${encrypted.slice(0, 8).join(", ")}...] s=[${sharedSecret.join(", ")}...]`
+                },
+                {
+                    title: "Paso 3 — Decapsulate (Bob)",
+                    detail: `Bob usa sk para recuperar s. Resultado: s' = s (secreto compartido)`
+                },
+                {
+                    title: "Paso 4 — Usar el secreto",
+                    detail: `Con s, ambos derivan una clave para cifrar mensajes reales. Ejemplo: "${message}"`
+                }
+            ];
+
+            const list = document.getElementById("kyber-steps");
+            const progress = document.getElementById("kyber-progress");
+            if (!list || !progress) return;
+
+            list.innerHTML = steps.map((step, i) => `
+                <div class="kyber-step" data-step="${i}">
+                    <div class="kyber-step-title">${step.title}</div>
+                    <div class="kyber-step-detail">${step.detail}</div>
+                </div>
+            `).join("");
+
+            let idx = -1;
+            const advance = () => {
+                if (idx >= 0) {
+                    const prev = list.querySelector(`[data-step="${idx}"]`);
+                    if (prev) prev.classList.remove("active");
+                    if (prev) prev.classList.add("done");
+                }
+                idx += 1;
+                if (idx < steps.length) {
+                    const current = list.querySelector(`[data-step="${idx}"]`);
+                    if (current) current.classList.add("active");
+                    const pct = Math.round((idx / steps.length) * 100);
+                    progress.style.width = `${pct}%`;
+                    progress.textContent = `${pct}%`;
+                    setTimeout(advance, 1100);
+                } else {
+                    progress.style.width = "100%";
+                    progress.textContent = "100%";
+                }
+            };
+
+            advance();
+        }
+function getPos(e, canvas) {
+  const rect = canvas.getBoundingClientRect();
+
+  if (e.touches && e.touches[0]) {
+    return {
+      x: e.touches[0].clientX - rect.left,
+      y: e.touches[0].clientY - rect.top
+    };
+  }
+
+  return {
+    x: e.offsetX,
+    y: e.offsetY
+  };
+}
+function drawBoardGrid(step = 30) {
+  if (!boardCtx || !boardCanvas) return;
+  saveState();
+
+  const prevStroke = boardCtx.strokeStyle;
+  const prevWidth = boardCtx.lineWidth;
+  const prevFill = boardCtx.fillStyle;
+  const prevAlpha = boardCtx.globalAlpha;
+
+  const w = boardCanvas.clientWidth;
+  const h = boardCanvas.clientHeight;
+
+  // Líneas
+  boardCtx.strokeStyle = "rgba(150,235,255,0.7)";
+  boardCtx.lineWidth = 2;
+  boardCtx.globalAlpha = 1;
+
+  for (let x = 0; x <= w; x += step) {
+    boardCtx.beginPath();
+    boardCtx.moveTo(x, 0);
+    boardCtx.lineTo(x, h);
+    boardCtx.stroke();
+  }
+
+  for (let y = 0; y <= h; y += step) {
+    boardCtx.beginPath();
+    boardCtx.moveTo(0, y);
+    boardCtx.lineTo(w, y);
+    boardCtx.stroke();
+  }
+
+  // 🔵 PUNTOS en intersecciones
+  boardCtx.fillStyle = "rgba(190,245,255,0.9)";
+  for (let x = 0; x <= w; x += step) {
+    for (let y = 0; y <= h; y += step) {
+      boardCtx.beginPath();
+      boardCtx.arc(x, y, 2.3, 0, Math.PI * 2);
+      boardCtx.fill();
+    }
+  }
+
+  // Restaurar estilo previo
+  boardCtx.strokeStyle = prevStroke;
+  boardCtx.lineWidth = prevWidth;
+  boardCtx.fillStyle = prevFill;
+  boardCtx.globalAlpha = prevAlpha;
+}
+function drawDiagonalLattice() {
+  if (!boardCtx || !boardCanvas) return;
+
+  saveState();
+  clearCanvas();
+
+  const w = boardCanvas.clientWidth;
+  const h = boardCanvas.clientHeight;
+  const step = 48;
+
+  // Capas = "dimensiones"
+  const layers = [
+    { dx: 0,  dy: 0,  color: "rgba(120,210,255,0.65)" },
+    { dx: 12, dy: -9, color: "rgba(255,210,120,0.6)" },
+    { dx: 24, dy: -18, color: "rgba(200,160,255,0.58)" },
+    { dx: 36, dy: -27, color: "rgba(140,255,200,0.55)" }
+  ];
+
+  layers.forEach(layer => {
+    boardCtx.strokeStyle = layer.color;
+    boardCtx.fillStyle = layer.color;
+    boardCtx.lineWidth = 2;
+
+    // Líneas verticales
+    for (let x = layer.dx; x <= w; x += step) {
+      boardCtx.beginPath();
+      boardCtx.moveTo(x, 0);
+      boardCtx.lineTo(x, h);
+      boardCtx.stroke();
+    }
+
+    // Líneas horizontales
+    for (let y = layer.dy; y <= h; y += step) {
+      boardCtx.beginPath();
+      boardCtx.moveTo(0, y);
+      boardCtx.lineTo(w, y);
+      boardCtx.stroke();
+    }
+
+    // Puntos (lo importante)
+    for (let x = layer.dx; x <= w; x += step) {
+      for (let y = layer.dy; y <= h; y += step) {
+        boardCtx.beginPath();
+        boardCtx.arc(x, y, 2.4, 0, Math.PI * 2);
+        boardCtx.fill();
+      }
+    }
+  });
+}
+
+    </script>
+    <!-- PIZARRA -->
+<div class="whiteboard-overlay" id="whiteboard">
+  <div class="whiteboard-header">
+    <button class="clear" onclick="clearBoard()">🧹 Borrar</button>
+    <button type="button" onclick="drawBoardGrid()">📐 Retícula</button>
+    <button type="button" onclick="drawDiagonalLattice()">🧊 Dimensiones</button>
+    <button type="button" onclick="setLineMode()">📏 Línea</button>
+    
+    
+    <button class="close" onclick="closeBoard()">❌ Cerrar</button>
+  </div>
+  <canvas class="whiteboard-canvas" id="boardCanvas"></canvas>
+</div>
+</body>
+</html>
