@@ -366,27 +366,6 @@
             font-family: 'Courier New', monospace;
             overflow-x: auto;
         }
-        .kyber-anim {
-  margin-top: 15px;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 2px solid #667eea;
-  background: #0b1020;
-}
-
-.kyber-anim canvas {
-  width: 100%;
-  height: 220px;
-  display: block;
-}
-
-.kyber-anim-caption {
-  padding: 10px 12px;
-  color: white;
-  font-family: monospace;
-  font-size: 0.95em;
-  background: rgba(255,255,255,0.06);
-}
 .kyber-steps {
   display: grid;
   gap: 12px;
@@ -417,6 +396,169 @@
   font-size: 0.95em;
   color: #2b2f3a;
 }
+.kyber-step-visual {
+  margin-top: 10px;
+}
+.kyber-visual {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.kyber-node {
+  background: #ffffff;
+  border: 2px solid #c3cfe2;
+  border-radius: 10px;
+  padding: 8px 10px;
+  min-width: 120px;
+  text-align: center;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+.kyber-node-title {
+  font-weight: bold;
+  color: #3b4cca;
+  margin-bottom: 6px;
+}
+.kyber-chip {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: #eef1ff;
+  border: 1px solid #cbd6ff;
+  margin: 2px;
+}
+.kyber-arrow {
+  font-family: monospace;
+  font-weight: bold;
+  color: #667eea;
+}
+.kyber-interactive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-top: 16px;
+}
+.kyber-panel {
+  background: #0f1325;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 16px;
+  color: #e7ecff;
+}
+.kyber-panel-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 16px;
+}
+.kyber-legend-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 0.9em;
+  color: #dbe3ff;
+}
+.kyber-legend-box h5 {
+  margin-bottom: 8px;
+  color: #b9c7ff;
+}
+.kyber-legend-box ul {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.6;
+  font-family: monospace;
+}
+.kyber-legend-box li {
+  margin: 6px 0;
+}
+.kyber-panel h4 {
+  color: #b9c7ff;
+  margin-bottom: 8px;
+}
+.kyber-math {
+  font-family: monospace;
+  font-size: 0.95em;
+  color: #e2e7ff;
+}
+.kyber-math-line {
+  margin: 6px 0;
+}
+.kyber-keybox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.kyber-pill {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-family: monospace;
+  font-size: 0.85em;
+  color: #e7ecff;
+}
+.kyber-pill strong {
+  color: #b9c7ff;
+  margin-right: 4px;
+}
+.kyber-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.kyber-controls button {
+  padding: 10px 16px;
+  font-size: 0.95em;
+}
+.kyber-step-list {
+  margin-top: 12px;
+  padding-left: 18px;
+  line-height: 1.6;
+  color: #dfe6ff;
+  font-family: monospace;
+}
+.kyber-formula {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: monospace;
+  color: #f4f6ff;
+  margin-top: 10px;
+}
+.shor-steps {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+.shor-step {
+  background: #f8f9fa;
+  border-left: 4px solid #c3cfe2;
+  padding: 12px 14px;
+  border-radius: 8px;
+  transition: border-color 0.3s, background 0.3s;
+}
+.shor-step.active {
+  border-color: #667eea;
+  background: #eef1ff;
+}
+.shor-step.done {
+  border-color: #28a745;
+  background: #e9f7ef;
+}
+.shor-step-title {
+  font-weight: bold;
+  color: #3b4cca;
+  margin-bottom: 6px;
+}
+.shor-step-detail {
+  font-family: monospace;
+  font-size: 0.95em;
+  color: #2b2f3a;
+}
 .whiteboard-overlay {
   position: fixed;
   inset: 0;
@@ -441,6 +583,30 @@
   border: none;
   cursor: pointer;
   font-weight: bold;
+}
+.whiteboard-header input[type="color"] {
+  width: 44px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+}
+.whiteboard-header input[type="range"] {
+  width: 120px;
+}
+.whiteboard-header .tool-toggle {
+  background: #667eea;
+  color: white;
+}
+.whiteboard-header .tool-toggle.active {
+  background: #ffc107;
+  color: #111;
+}
+.whiteboard-header .tool-secondary {
+  background: #17a2b8;
+  color: white;
 }
 
 .whiteboard-header .close {
@@ -554,6 +720,8 @@
                 <strong>⚠️ Impacto:</strong> Una computadora cuántica con ~4000 qubits lógicos podría romper RSA-2048 en cuestión de horas, exponiendo prácticamente todos los sistemas criptográficos actuales.
             </div>
         </section>
+
+        
 
         <!-- Sección 3: Criptografía Actual y Vulnerabilidades -->
         <section class="section">
@@ -686,62 +854,89 @@
                 </div>
             </div>
 
+            <h3>CRYSTALS-Kyber - Explicación simple</h3>
+            <p><strong>¿Qué es?</strong> Kyber es un algoritmo post-cuántico de <strong>encapsulación de claves (KEM)</strong>. Su objetivo es que dos partes acuerden un secreto compartido que luego se usa para cifrar mensajes con un cifrado simétrico (por ejemplo, AES).</p>
+            <p><strong>Problema que resuelve:</strong> Las computadoras cuánticas podrán romper RSA y otros esquemas basados en factorización o logaritmos discretos. Kyber se apoya en problemas de <strong>retículas (lattices)</strong> que siguen siendo difíciles incluso con computación cuántica.</p>
+
+            <h4 style="color: #764ba2;">¿Cómo funciona? (versión simple)</h4>
+            <ul>
+                <li><strong>Retículas:</strong> imagina una red de puntos en muchas dimensiones. Encontrar el punto correcto o el más cercano en esa red es extremadamente difícil.</li>
+                <li><strong>Intercambio de claves (lo más importante):</strong> Kyber no cifra el mensaje directamente; encapsula un secreto compartido.</li>
+            </ul>
+
+            <div class="info-box">
+                <h4>Intercambio de claves, paso a paso</h4>
+                <ul>
+                    <li><strong>Paso 1 - KeyGen (Bob):</strong> Bob genera una clave pública y una privada. La pública incluye una estructura con <em>ruido controlado</em>.</li>
+                    <li><strong>Paso 2 - Encapsulate (Alice):</strong> Alice usa la clave pública de Bob, añade su propio ruido y envía un <em>ciphertext</em> que contiene el secreto encapsulado.</li>
+                    <li><strong>Paso 3 - Decapsulate (Bob):</strong> Bob usa su clave privada para eliminar el ruido y recuperar el mismo secreto compartido.</li>
+                </ul>
+                <p><strong>La clave del sistema:</strong> el ruido es lo bastante grande para confundir atacantes, pero lo bastante pequeño para que Bob pueda recuperarlo.</p>
+            </div>
+
             <div class="interactive-demo">
-                <div class="demo-title">🔬 Demostración: CRYSTALS-Kyber (Simulación Educativa)</div>
-                
-                <p>Kyber es un algoritmo de encapsulación de claves (KEM) basado en retículas, estandarizado por NIST.</p>
-                
-                <div>
-                    <label><strong>Mensaje secreto:</strong></label>
-                    <input type="text" id="kyber-message" placeholder="Escribe tu mensaje">
-                    
-                    <button onclick="kyberDemo()">Generar Claves y Encriptar (Kyber)</button>
-                    <button type="button" onclick="openBoard()">🖊️ Abrir pizarra</button>
-                    <div id="kyber-output"></div>
+                <div class="demo-title">🔬 Kyber con números pequeños (paso a paso)</div>
+
+                <p>Este demo muestra la matemática básica con números pequeños. Es solo educativo.</p>
+
+                <div class="grid-2">
+                    <div>
+                        <label><strong>Bit de mensaje (m):</strong></label>
+                        <select id="kyber-bit" onchange="kyberReset()">
+                            <option value="0">0</option>
+                            <option value="1" selected>1</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; align-items:end; gap:10px;">
+                        <button type="button" onclick="openBoard()">🖊️ Abrir pizarra</button>
+                    </div>
                 </div>
-                
-                <div class="success" style="margin-top: 20px;">
-                    <strong>✅ Resistencia Cuántica:</strong> Los problemas de retículas permanecen difíciles para computadoras cuánticas. No existe un algoritmo cuántico conocido que pueda resolverlos eficientemente.
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="kyber-progress">0%</div>
+                </div>
+
+                <div class="kyber-interactive-grid">
+                    <div class="kyber-panel">
+                        <div class="kyber-panel-grid">
+                            <div class="kyber-legend-box">
+                                <h5>Variables clave</h5>
+                                <ul>
+                                    <li>A: matriz publica</li>
+                                    <li>s: secreto de Bob</li>
+                                    <li>e, e1, e2: ruido pequeno</li>
+                                    <li>r: aleatorio de Alice</li>
+                                    <li>b: clave publica</li>
+                                    <li>u, v: cifrado</li>
+                                    <li>m: bit (0/1)</li>
+                                    <li>m': m escalado</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 id="kyber-step-title">Paso 1</h4>
+                                <p id="kyber-step-desc"></p>
+                                <div id="kyber-step-formula" class="kyber-formula"></div>
+                                <div id="kyber-step-details" class="kyber-math"></div>
+                                <div id="kyber-step-keybox" class="kyber-keybox"></div>
+
+                                <div id="kyber-step-list" class="kyber-step-list"></div>
+
+                                <div class="kyber-controls">
+                                    <button type="button" onclick="kyberPrev()">← Anterior</button>
+                                    <button type="button" onclick="kyberReset()">Reiniciar</button>
+                                    <button type="button" onclick="kyberNext()">Siguiente →</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success" style="margin-top: 16px;">
+                    <strong>✅ Resistencia Cuántica:</strong> No existe un algoritmo cuántico conocido que resuelva eficientemente los problemas de retículas usados por Kyber.
                 </div>
             </div>
 
-            <h3>Comparación: Clásica vs Post-Cuántica</h3>
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Característica</th>
-                        <th>RSA-2048</th>
-                        <th>CRYSTALS-Kyber-768</th>
-                        <th>CRYSTALS-Dilithium-2</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Tamaño Clave Pública</td>
-                        <td>256 bytes</td>
-                        <td>1,184 bytes</td>
-                        <td>1,312 bytes</td>
-                    </tr>
-                    <tr>
-                        <td>Tamaño Clave Privada</td>
-                        <td>256 bytes</td>
-                        <td>2,400 bytes</td>
-                        <td>2,528 bytes</td>
-                    </tr>
-                    <tr>
-                        <td>Velocidad</td>
-                        <td>Lenta</td>
-                        <td>Rápida</td>
-                        <td>Media</td>
-                    </tr>
-                    <tr>
-                        <td>Seguridad Cuántica</td>
-                        <td>❌ Roto</td>
-                        <td>✅ Seguro</td>
-                        <td>✅ Seguro</td>
-                    </tr>
-                </tbody>
-            </table>
+            
         </section>
 
         <!-- Sección 5: Ataque Interactivo -->
@@ -865,6 +1060,22 @@ with Signature("Dilithium2") as signer:
                 <li><strong>Open Quantum Safe:</strong> openquantumsafe.org</li>
                 <li><strong>PQShield:</strong> pqshield.com/learning-center/</li>
                 <li><strong>ETSI Quantum Safe Cryptography:</strong> etsi.org</li>
+            </ul>
+        </section>
+
+        <!-- Sección 8: Temas para profundizar -->
+        <section class="section">
+            <h2>📚 Temas para profundizar</h2>
+            <p>Conceptos que no cubrimos a detalle, pero valen la pena estudiar:</p>
+            <ul>
+                <li><strong>Rounding/Decoding:</strong> cómo se mapea m' a bits (0/1) con tolerancia a ruido.</li>
+                <li><strong>Learning With Errors (LWE):</strong> base matemática que garantiza seguridad.</li>
+                <li><strong>Parámetros y niveles:</strong> cómo se eligen tamaños de clave para diferentes niveles de seguridad.</li>
+                <li><strong>CCA vs CPA:</strong> por qué Kyber usa técnicas para resistir ataques de texto cifrado adaptativo.</li>
+                <li><strong>Calidad de aleatoriedad:</strong> impacto de RNG débil en la seguridad.</li>
+                <li><strong>Side-channels:</strong> ataques por tiempo/consumo y cómo mitigarlos (constant-time).</li>
+                <li><strong>Tolerancia a fallos:</strong> cómo manejar errores físicos y computación imperfecta.</li>
+                <li><strong>Implementación real:</strong> empaquetado de claves, formatos, y compatibilidad con TLS.</li>
             </ul>
         </section>
 
@@ -1071,197 +1282,437 @@ const maxHistory = 50;
             }, 200);
         }
 
-        // ===== DEMOSTRACIÓN KYBER =====
-        function playKyberAnimation({ containerId = "kyber-output", onDone }) {
-  const host = document.getElementById(containerId);
+        // ===== DEMO SHOR (SIMPLIFICADA) =====
+        let shorState = null;
+        let shorTimer = null;
 
-  // Inserta el canvas + texto
-  host.innerHTML = `
-  <div class="kyber-anim">
-  <canvas id="kyberCanvas"></canvas>
-  <div class="kyber-anim-caption" id="kyberCaption"></div>
+        function updateShorAOptions() {
+            const nSelect = document.getElementById('shor-n');
+            const aSelect = document.getElementById('shor-a');
+            if (!nSelect || !aSelect) return;
 
-  <div style="padding:10px; font-size:0.85em; color:#ddd;">
-    <span style="color:#9ecbff">●</span> puntos de la retícula&nbsp;&nbsp;
-    <span style="color:#ffd59e">●</span> ruido pequeño&nbsp;&nbsp;
-    <span style="color:#c7a6ff">—</span> mezcla final
-  </div>
-</div>
+            const n = parseInt(nSelect.value, 10);
+            const coprimes = [];
+            for (let i = 2; i < n; i += 1) {
+                if (gcd(i, n) === 1) coprimes.push(i);
+            }
 
-  <div id="kyberResults" style="margin-top:14px;"></div>
-`;
+            aSelect.innerHTML = coprimes.map(val => `<option value="${val}">${val}</option>`).join('');
+        }
 
-  const canvas = document.getElementById("kyberCanvas");
-  const caption = document.getElementById("kyberCaption");
+        function findPeriod(n, a) {
+            const sequence = [];
+            let value = 1;
+            let r = null;
+            for (let x = 1; x <= n; x += 1) {
+                value = (value * a) % n;
+                sequence.push({ x, value });
+                if (value === 1) {
+                    r = x;
+                    break;
+                }
+            }
+            return { r, sequence };
+        }
 
-  // Ajuste real de resolución
-  const rect = canvas.getBoundingClientRect();
-  const DPR = window.devicePixelRatio || 1;
-  canvas.width = Math.floor(rect.width * DPR);
-  canvas.height = Math.floor(220 * DPR);
+        function isUsefulA(n, a) {
+            const { r } = findPeriod(n, a);
+            if (!r || r % 2 !== 0) return false;
+            const apow = modPow(a, r / 2, n);
+            return apow !== n - 1;
+        }
 
-  const ctx = canvas.getContext("2d");
-  ctx.scale(DPR, DPR);
+        function buildShorSteps(n, a) {
+            const { r, sequence } = findPeriod(n, a);
+            const seqText = sequence.map(step => `${a}^${step.x} mod ${n} = ${step.value}`).join(' · ');
+            const rEven = r && r % 2 === 0;
+            const apow = rEven ? modPow(a, r / 2, n) : null;
+            const conditionOk = rEven && apow !== n - 1;
+            const factor1 = conditionOk ? gcd(apow - 1, n) : null;
+            const factor2 = conditionOk ? gcd(apow + 1, n) : null;
 
-  const W = rect.width;
-  const H = 220;
+            const steps = [
+                {
+                    title: "Paso 1 — Elegir a coprimo",
+                    detail: `a = ${a}, gcd(a, N) = ${gcd(a, n)}`
+                },
+                {
+                    title: "Paso 2 — Encontrar el período r",
+                    detail: `Secuencia: ${seqText}<br>Período r = ${r ?? "no encontrado"}`
+                },
+                {
+                    title: "Paso 3 — Verificar condición",
+                    detail: r
+                        ? `r ${rEven ? "es par" : "es impar"}; a^(r/2) mod N = ${rEven ? apow : "—"}`
+                        : "No se encontró un período válido."
+                },
+                {
+                    title: "Paso 4 — Obtener factores",
+                    detail: conditionOk
+                        ? `gcd(a^(r/2)-1, N) = ${factor1}<br>gcd(a^(r/2)+1, N) = ${factor2}`
+                        : "Este a no produce factores útiles. Prueba otro a."
+                }
+            ];
 
-  // Helpers
-  function clear() {
-    ctx.clearRect(0, 0, W, H);
-  }
-  function line(x1, y1, x2, y2, alpha = 1, width = 2) {
-    ctx.globalAlpha = alpha;
-    ctx.lineWidth = width;
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-  }
-  function dot(x, y, r = 4, alpha = 1) {
-    ctx.globalAlpha = alpha;
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-  }
+            return { steps, conditionOk };
+        }
 
-  // Colores (sin depender del CSS global)
-  const gridColor = "rgba(255,255,255,0.10)";
-  const pointColor = "rgba(120,200,255,0.9)";
-  const noiseColor = "rgba(255,200,120,0.9)";
-  const vectorColor = "rgba(170,120,255,0.95)";
+        function initShorDemo() {
+            const nSelect = document.getElementById('shor-n');
+            const aSelect = document.getElementById('shor-a');
+            const status = document.getElementById('shor-status');
+            const nextBtn = document.getElementById('shor-next');
+            const autoBtn = document.getElementById('shor-auto');
+            const tryBtn = document.getElementById('shor-try');
+            const progress = document.getElementById('shor-progress');
+            const stepsList = document.getElementById('shor-steps');
 
-  // Pre-genera puntos
-  const points = Array.from({ length: 28 }, () => ({
-    x: Math.random() * (W - 40) + 20,
-    y: Math.random() * (H - 40) + 20
-  }));
+            if (!nSelect || !aSelect || !status || !nextBtn || !autoBtn || !tryBtn || !progress || !stepsList) return;
 
-  // Vector “principal” + “ruido”
-  const origin = { x: 60, y: H - 50 };
-  const target = { x: W - 80, y: 60 };
-  const noise = { x: (Math.random() - 0.5) * 40, y: (Math.random() - 0.5) * 40 };
+            if (shorTimer) clearInterval(shorTimer);
 
-  let t0 = performance.now();
-  const total = 6200; // ms
+            const n = parseInt(nSelect.value, 10);
+            const a = parseInt(aSelect.value, 10);
+            const { steps, conditionOk } = buildShorSteps(n, a);
 
-  function draw(now) {
-    const t = Math.min(1, (now - t0) / total);
-    clear();
+            shorState = {
+                n,
+                a,
+                steps,
+                stepIndex: -1
+            };
 
-    // Fondo suave
-    ctx.fillStyle = "rgba(11,16,32,1)";
-    ctx.fillRect(0, 0, W, H);
+            stepsList.innerHTML = steps.map((step, i) => `
+                <div class="shor-step" data-step="${i}">
+                    <div class="shor-step-title">${step.title}</div>
+                    <div class="shor-step-detail">${step.detail}</div>
+                </div>
+            `).join('');
 
-    // Grid aparece primero
-    const gridT  = Math.min(1, t / 0.35);
-    ctx.strokeStyle = gridColor;
-    ctx.lineWidth = 1;
+            status.innerHTML = `Listo para iniciar con N = ${n} y a = ${a}.`;
+            progress.style.width = '0%';
+            progress.textContent = '0%';
+            nextBtn.disabled = false;
+            autoBtn.disabled = false;
+            tryBtn.disabled = conditionOk;
+        }
 
-    const step = 24;
-    for (let x = 0; x <= W; x += step) line(x, 0, x, H, gridT, 1);
-    for (let y = 0; y <= H; y += step) line(0, y, W, y, gridT, 1);
+        function nextShorStep() {
+            if (!shorState) return;
 
-    // Puntos base (retícula) aparecen después
-    const ptsT   = t < 0.28 ? 0 : Math.min(1, (t - 0.28) / 0.22);
-    ctx.fillStyle = pointColor;
-    points.forEach((p, i) => dot(p.x, p.y, 3, ptsT * (0.4 + (i % 6) / 10)));
+            const { steps } = shorState;
+            const status = document.getElementById('shor-status');
+            const progress = document.getElementById('shor-progress');
 
-    // Vector principal aparece
-    const vecT = t < 0.45 ? 0 : Math.min(1, (t - 0.45) / 0.22);
-    ctx.strokeStyle = vectorColor;
-    const vx = origin.x + (target.x - origin.x) * vecT;
-    const vy = origin.y + (target.y - origin.y) * vecT;
-    line(origin.x, origin.y, vx, vy, 0.9, 3);
-
-    // Ruido aparece al final (vector pequeño)
-    const noiseT = t < 0.68 ? 0 : Math.min(1, (t - 0.68) / 0.26);
-    ctx.strokeStyle = noiseColor;
-    line(vx, vy, vx + noise.x * noiseT, vy + noise.y * noiseT, 0.9, 3);
-    ctx.fillStyle = noiseColor;
-    dot(vx + noise.x * noiseT, vy + noise.y * noiseT, 4, 0.95);
-
-    // Paquetes (representan cápsulas/secretos)
-    const pktT = t < 0.62 ? 0 : Math.min(1, (t - 0.62) / 0.25);
-    if (pktT > 0) {
-      ctx.fillStyle = "rgba(255,255,255,0.7)";
-      const px = origin.x + (target.x - origin.x) * pktT;
-      const py = origin.y + (target.y - origin.y) * pktT;
-      ctx.fillRect(px - 4, py - 4, 8, 8);
-    }
-
-    // Etiquetas de pasos
-    ctx.font = "12px monospace";
-    ctx.fillStyle = "rgba(230,240,255,0.9)";
-    const stepLabel = t < 0.35 ? "Paso 1/3: Retícula" : t < 0.68 ? "Paso 2/3: Vector público" : "Paso 3/3: Ruido + cápsula";
-    ctx.fillText(stepLabel, 12, 18);
-
-    // Texto/estado
-    if (t < 0.35) {
-  caption.innerHTML = `
-    <strong>Retícula:</strong>
-    puntos ordenados donde se construyen claves públicas.
-  `;
-} else if (t < 0.68) {
-  caption.innerHTML = `
-    <strong>Vector público:</strong>
-    mezcla de estructura que todos pueden ver sin revelar el secreto.
-  `;
-} else if (t < 0.98) {
-  caption.innerHTML = `
-    <strong>Ruido + cápsula:</strong>
-    se encapsula un secreto y se enmascara con ruido.
-  `;
-} else {
-  caption.innerHTML = `
-    <strong>Resultado:</strong>
-    ambos lados derivan el mismo secreto compartido.
-  `;
-}
-
-
-    if (t < 1) requestAnimationFrame(draw);
-    else {
-      // mini pausa para que se vea el “Listo”
-      setTimeout(() => onDone && onDone(), 350);
-    }
-  }
-
-  requestAnimationFrame(draw);
-}
-        function kyberDemo() {
-            const message = document.getElementById('kyber-message').value;
-            if (!message) {
-                alert('Por favor ingresa un mensaje');
+            if (shorState.stepIndex >= steps.length - 1) {
+                if (shorTimer) clearInterval(shorTimer);
                 return;
             }
-            
-            // Simulación educativa (no es implementación real de Kyber)
-            const publicKey = Array.from({length: 8}, () => Math.floor(Math.random() * 256));
-            const privateKey = Array.from({length: 8}, () => Math.floor(Math.random() * 256));
-            const sharedSecret = Array.from({length: 4}, () => Math.floor(Math.random() * 256));
-            
-            const encrypted = btoa(message).split('').map(c => c.charCodeAt(0) ^ sharedSecret[0]);
-            
-            playKyberAnimation({
-                containerId: "kyber-output",
-                onDone: () => {
-                    document.getElementById('kyberResults').innerHTML = `
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="kyber-progress">0%</div>
-                        </div>
-                        <div class="kyber-steps" id="kyber-steps"></div>
-                        <div class="info-box" style="margin-top: 15px;">
-                            <strong>Resumen:</strong> Kyber es un KEM: no cifra mensajes directamente,
-                            sino que encapsula un secreto compartido usando la clave pública.
-                        </div>
-                    `;
-                    runKyberSteps({ publicKey, privateKey, sharedSecret, encrypted, message });
-                }
-            });
+
+            if (shorState.stepIndex >= 0) {
+                const prev = document.querySelector(`#shor-steps [data-step="${shorState.stepIndex}"]`);
+                if (prev) prev.classList.remove('active');
+                if (prev) prev.classList.add('done');
+            }
+
+            shorState.stepIndex += 1;
+            const current = document.querySelector(`#shor-steps [data-step="${shorState.stepIndex}"]`);
+            if (current) current.classList.add('active');
+
+            const pct = Math.round(((shorState.stepIndex + 1) / steps.length) * 100);
+            progress.style.width = `${pct}%`;
+            progress.textContent = `${pct}%`;
+            if (status) {
+                status.innerHTML = `<strong>${steps[shorState.stepIndex].title}</strong><br>${steps[shorState.stepIndex].detail}`;
+            }
+
+            if (shorState.stepIndex >= steps.length - 1 && shorTimer) {
+                clearInterval(shorTimer);
+            }
         }
+
+        function autoShorSteps() {
+            if (!shorState) return;
+            if (shorTimer) clearInterval(shorTimer);
+
+            shorTimer = setInterval(() => {
+                if (!shorState || shorState.stepIndex >= shorState.steps.length - 1) {
+                    clearInterval(shorTimer);
+                    return;
+                }
+                nextShorStep();
+            }, 1200);
+        }
+
+        function tryAnotherA() {
+            const nSelect = document.getElementById('shor-n');
+            const aSelect = document.getElementById('shor-a');
+            if (!nSelect || !aSelect) return;
+
+            const n = parseInt(nSelect.value, 10);
+            const options = Array.from(aSelect.options).map(opt => parseInt(opt.value, 10));
+            if (options.length === 0) return;
+
+            const current = parseInt(aSelect.value, 10);
+            const startIndex = options.indexOf(current);
+            let chosen = null;
+
+            for (let i = 1; i <= options.length; i += 1) {
+                const candidate = options[(startIndex + i) % options.length];
+                if (isUsefulA(n, candidate)) {
+                    chosen = candidate;
+                    break;
+                }
+            }
+
+            aSelect.value = chosen ?? options[(startIndex + 1) % options.length];
+            initShorDemo();
+        }
+
+        // ===== KYBER INTERACTIVO (NUMEROS PEQUENOS) =====
+        const kyberState = {
+            step: 0,
+            data: null
+        };
+
+        function kyberMod(n, m) {
+            return ((n % m) + m) % m;
+        }
+
+        function kyberMulMatVec(matrix, vector) {
+            return matrix.map(row => row.reduce((sum, val, i) => sum + val * vector[i], 0));
+        }
+
+        function kyberCompute() {
+            const modulo = 17;
+            const A = [[12, 5], [3, 8]];
+            const s = [2, 3];
+            const e = [1, -1];
+            const r = [1, 2];
+            const e1 = [1, 0];
+            const e2 = 1;
+
+            const bitSelect = document.getElementById("kyber-bit");
+            const message = bitSelect ? parseInt(bitSelect.value, 10) : 1;
+            const messageScaled = message * 8;
+
+            const As = kyberMulMatVec(A, s).map(x => kyberMod(x, modulo));
+            const b = As.map((val, i) => kyberMod(val + e[i], modulo));
+
+            const At = [[A[0][0], A[1][0]], [A[0][1], A[1][1]]];
+            const Atr = kyberMulMatVec(At, r).map(x => kyberMod(x, modulo));
+            const u = Atr.map((val, i) => kyberMod(val + e1[i], modulo));
+
+            const btr = b.reduce((sum, val, i) => sum + val * r[i], 0);
+            const v = kyberMod(btr + e2 + messageScaled, modulo);
+
+            const stu = s.reduce((sum, val, i) => sum + val * u[i], 0);
+            const decrypted = kyberMod(v - stu, modulo);
+            const recoveredMessage = decrypted >= 4 && decrypted <= 12 ? 1 : 0;
+
+            return {
+                modulo, A, s, e, r, e1, e2,
+                message, messageScaled,
+                As, b, At, Atr, u, btr, v, stu,
+                decrypted, recoveredMessage
+            };
+        }
+
+        function kyberSteps(data) {
+            return [
+                {
+                    title: "Configuracion inicial",
+                    desc: "Trabajamos modulo 17 y vectores de dimension 2.",
+                    formula: "Todo modulo q = 17",
+                    details: [
+                        `q = ${data.modulo}`,
+                        `A = [[${data.A[0].join(", ")}],[${data.A[1].join(", ")}]]`,
+                        "Dimension 2 (solo para aprender)"
+                    ]
+                },
+                {
+                    title: "Bob elige su secreto",
+                    desc: "Bob crea su clave privada s y un ruido e.",
+                    formula: "s secreto, e ruido pequeno",
+                    details: [
+                        `s = [${data.s.join(", ")}]`,
+                        `e = [${data.e.join(", ")}]`
+                    ]
+                },
+                {
+                    title: "Clave publica de Bob",
+                    desc: "b = A * s + e (mod q)",
+                    formula: "b = A*s + e (mod q)",
+                    details: [
+                        `A*s = [${data.As.join(", ")}]`,
+                        `b = [${data.b.join(", ")}]`
+                    ]
+                },
+                {
+                    title: "Alice prepara mensaje",
+                    desc: "Alice fija m y elige valores aleatorios.",
+                    formula: "m' = m * 8",
+                    details: [
+                        `m = ${data.message}  ->  m' = ${data.messageScaled}`,
+                        `r = [${data.r.join(", ")}]`,
+                        `e1 = [${data.e1.join(", ")}], e2 = ${data.e2}`
+                    ]
+                },
+                {
+                    title: "Componente u",
+                    desc: "u = A^T * r + e1 (mod q)",
+                    formula: "u = A^T*r + e1 (mod q)",
+                    details: [
+                        `A^T*r = [${data.Atr.join(", ")}]`,
+                        `u = [${data.u.join(", ")}]`
+                    ]
+                },
+                {
+                    title: "Componente v",
+                    desc: "v = b^T * r + e2 + m' (mod q)",
+                    formula: "v = b^T*r + e2 + m' (mod q)",
+                    details: [
+                        `b^T*r = ${kyberMod(data.btr, data.modulo)}`,
+                        `v = ${data.v}`
+                    ]
+                },
+                {
+                    title: "Cifrado enviado",
+                    desc: "Alice envia (u, v).",
+                    formula: "cipher = (u, v)",
+                    details: [
+                        `u = [${data.u.join(", ")}]`,
+                        `v = ${data.v}`
+                    ]
+                },
+                {
+                    title: "Bob descifra",
+                    desc: "m' ≈ v - s^T*u (mod q)",
+                    formula: "m' = v - s^T*u (mod q)",
+                    details: [
+                        `s^T*u = ${kyberMod(data.stu, data.modulo)}`,
+                        `m' = ${data.decrypted}`
+                    ]
+                },
+                {
+                    title: "Decodificacion",
+                    desc: "Si m' esta cerca de 0 -> 0, cerca de 8 -> 1.",
+                    formula: "m = Decode(m')",
+                    details: [
+                        `m' = ${data.decrypted}`,
+                        `Mensaje recuperado = ${data.recoveredMessage}`
+                    ]
+                }
+            ];
+        }
+
+        function kyberRender() {
+            kyberState.data = kyberCompute();
+            const steps = kyberSteps(kyberState.data);
+            const step = Math.max(0, Math.min(kyberState.step, steps.length - 1));
+            kyberState.step = step;
+
+            const title = document.getElementById("kyber-step-title");
+            const desc = document.getElementById("kyber-step-desc");
+            const formula = document.getElementById("kyber-step-formula");
+            const details = document.getElementById("kyber-step-details");
+            const keybox = document.getElementById("kyber-step-keybox");
+            const list = document.getElementById("kyber-step-list");
+            const progress = document.getElementById("kyber-progress");
+            if (!title || !desc || !formula || !details || !keybox || !list || !progress) return;
+
+            title.textContent = `Paso ${step + 1}: ${steps[step].title}`;
+            desc.textContent = steps[step].desc;
+            formula.textContent = steps[step].formula;
+            details.innerHTML = steps[step].details.map(line => `<div class="kyber-math-line">${line}</div>`).join("");
+            keybox.innerHTML = kyberKeyChips(step, kyberState.data);
+            list.innerHTML = kyberStepList(step, kyberState.data);
+
+            const totalSteps = steps.length - 1;
+            const pct = totalSteps <= 0 ? 100 : Math.round((step / totalSteps) * 100);
+            progress.style.width = `${pct}%`;
+            progress.textContent = `${pct}%`;
+
+        }
+
+        function kyberNext() {
+            kyberState.step += 1;
+            kyberRender();
+        }
+
+        function kyberPrev() {
+            kyberState.step -= 1;
+            kyberRender();
+        }
+
+        function kyberReset() {
+            kyberState.step = 0;
+            kyberRender();
+        }
+
+        function kyberKeyChips(step, data) {
+            const chips = [];
+            if (step === 0) {
+                chips.push(`q=${data.modulo}`);
+                chips.push(`A=[[${data.A[0].join(", ")}],[${data.A[1].join(", ")}]]`);
+            } else if (step === 1) {
+                chips.push(`s=[${data.s.join(", ")}]`);
+                chips.push(`e=[${data.e.join(", ")}]`);
+            } else if (step === 2) {
+                chips.push(`b=[${data.b.join(", ")}]`);
+            } else if (step === 3) {
+                chips.push(`m=${data.message}`);
+                chips.push(`m'=${data.messageScaled}`);
+                chips.push(`r=[${data.r.join(", ")}]`);
+            } else if (step === 4) {
+                chips.push(`u=[${data.u.join(", ")}]`);
+            } else if (step === 5) {
+                chips.push(`v=${data.v}`);
+            } else if (step === 6) {
+                chips.push(`(u, v)=([${data.u.join(", ")}], ${data.v})`);
+            } else if (step === 7) {
+                chips.push(`m'=${data.decrypted}`);
+            } else if (step === 8) {
+                chips.push(`m=${data.recoveredMessage}`);
+            }
+            return chips.map(item => {
+                const parts = item.split("=");
+                if (parts.length === 2) {
+                    return `<span class="kyber-pill"><strong>${parts[0]}</strong>${parts[1]}</span>`;
+                }
+                return `<span class="kyber-pill">${item}</span>`;
+            }).join("");
+        }
+
+        function kyberStepList(step, data) {
+            const lines = [];
+            if (step === 0) {
+                lines.push("Objetivo: acordar un secreto usando reticulas (LWE).");
+                lines.push("Todo es modulo q=17 para que los numeros sean pequenos.");
+            } else if (step === 1) {
+                lines.push("Bob elige s (secreto) y un ruido pequeno e.");
+                lines.push("Solo Bob conoce s.");
+            } else if (step === 2) {
+                lines.push("Bob publica b = A*s + e.");
+                lines.push("A y b son publicos.");
+            } else if (step === 3) {
+                lines.push("Alice fija el bit m y lo escala a m'.");
+                lines.push("Alice elige r, e1, e2 aleatorios.");
+            } else if (step === 4) {
+                lines.push("Alice calcula u = A^T*r + e1.");
+            } else if (step === 5) {
+                lines.push("Alice calcula v = b^T*r + e2 + m'.");
+            } else if (step === 6) {
+                lines.push("Alice envia el cifrado (u, v).");
+            } else if (step === 7) {
+                lines.push("Bob calcula m' = v - s^T*u.");
+            } else if (step === 8) {
+                lines.push("Bob decodifica m' y recupera m.");
+            }
+            if (!lines.length) return "";
+            return `<ol>${lines.map(line => `<li>${line}</li>`).join("")}</ol>`;
+        }
+
         
 
         // ===== SIMULADOR DE ATAQUES =====
@@ -1347,8 +1798,12 @@ const maxHistory = 50;
 
         // Inicializar el checklist
         updateReadiness();
+        updateShorAOptions();
         let boardCanvas, boardCtx;
 let drawing = false;
+let brushColor = "#ffffff";
+let brushSize = 6;
+let isEraser = false;
 
 function openBoard() {
   const overlay = document.getElementById("whiteboard");
@@ -1363,9 +1818,8 @@ function openBoard() {
   boardCanvas.height = boardCanvas.clientHeight * dpr;
   boardCtx.scale(dpr, dpr);
 
-  boardCtx.strokeStyle = "#ffffff";
-  boardCtx.lineWidth = 5;
   boardCtx.lineCap = "round";
+  applyBrush();
 
   boardCanvas.addEventListener("mousedown", startDraw);
   boardCanvas.addEventListener("mousemove", draw);
@@ -1373,32 +1827,30 @@ function openBoard() {
   boardCanvas.addEventListener("mouseleave", stopDraw);
 
   boardCanvas.addEventListener("touchstart", startDraw, { passive: false });
-boardCanvas.addEventListener("touchmove", draw, { passive: false });
-boardCanvas.addEventListener("touchend", stopDraw);
+  boardCanvas.addEventListener("touchmove", draw, { passive: false });
+  boardCanvas.addEventListener("touchend", stopDraw);
 }
 
 function closeBoard() {
   const overlay = document.getElementById("whiteboard");
   overlay.style.display = "none";
-  clearBoard();
+}
+
+function applyBrush() {
+  if (!boardCtx) return;
+  boardCtx.lineWidth = brushSize;
+  if (isEraser) {
+    boardCtx.globalCompositeOperation = "destination-out";
+    boardCtx.strokeStyle = "rgba(0,0,0,1)";
+  } else {
+    boardCtx.globalCompositeOperation = "source-over";
+    boardCtx.strokeStyle = brushColor;
+  }
 }
 
 function startDraw(e) {
   e.preventDefault();
   const pos = getPos(e, boardCanvas);
-
-  if (drawMode === "line") {
-    saveState();
-    lineStart = pos;
-    snapshot = boardCtx.getImageData(
-      0, 0, boardCanvas.width, boardCanvas.height
-    );
-    drawing = true;
-    return;
-  }
-
-  // Modo dibujo libre
-  saveState();
   drawing = true;
   boardCtx.beginPath();
   boardCtx.moveTo(pos.x, pos.y);
@@ -1408,17 +1860,6 @@ function draw(e) {
   if (!drawing) return;
   e.preventDefault();
   const pos = getPos(e, boardCanvas);
-
-  if (drawMode === "line") {
-    boardCtx.putImageData(snapshot, 0, 0);
-    boardCtx.beginPath();
-    boardCtx.moveTo(lineStart.x, lineStart.y);
-    boardCtx.lineTo(pos.x, pos.y);
-    boardCtx.stroke();
-    return;
-  }
-
-  // Modo libre
   boardCtx.lineTo(pos.x, pos.y);
   boardCtx.stroke();
 }
@@ -1427,93 +1868,54 @@ function stopDraw(e) {
   if (!drawing) return;
   e.preventDefault();
   drawing = false;
-
-  if (drawMode === "line") {
-    drawMode = "free"; // vuelve a dibujo libre automáticamente
-    lineStart = null;
-    snapshot = null;
-  }
-}
-function setLineMode() {
-  drawMode = "line";
-}
-function saveState() {
-  if (!boardCtx || !boardCanvas) return;
-  historyStack.push(
-    boardCtx.getImageData(0, 0, boardCanvas.width, boardCanvas.height)
-  );
-  if (historyStack.length > maxHistory) {
-    historyStack.shift();
-  }
+  boardCtx.closePath();
 }
 
-function clearBoard() {
-  if (!boardCtx || !boardCanvas) return;
-  if (historyStack.length === 0) return;
-
-  const lastState = historyStack.pop();
-  boardCtx.putImageData(lastState, 0, 0);
+function setBrushColor(value) {
+  brushColor = value;
+  if (!isEraser) applyBrush();
 }
+
+function setBrushSize(value) {
+  brushSize = Number(value);
+  applyBrush();
+}
+
+function toggleEraser() {
+  isEraser = !isEraser;
+  const eraserBtn = document.getElementById("eraserToggle");
+  if (eraserBtn) eraserBtn.classList.toggle("active", isEraser);
+  applyBrush();
+}
+
 function clearCanvas() {
   if (!boardCtx || !boardCanvas) return;
   const dpr = window.devicePixelRatio || 1;
   boardCtx.clearRect(0, 0, boardCanvas.width / dpr, boardCanvas.height / dpr);
 }
-        // ===== PASOS KYBER (SIMULACIÓN) =====
-        function runKyberSteps({ publicKey, privateKey, sharedSecret, encrypted, message }) {
-            const steps = [
-                {
-                    title: "Paso 1 — KeyGen (Bob)",
-                    detail: `Bob genera (pk, sk). pk=[${publicKey.slice(0, 4).join(", ")}...] sk=[${privateKey.slice(0, 4).join(", ")}...]`
-                },
-                {
-                    title: "Paso 2 — Encapsulate (Alice)",
-                    detail: `Alice usa pk para crear ciphertext + secreto. c=[${encrypted.slice(0, 8).join(", ")}...] s=[${sharedSecret.join(", ")}...]`
-                },
-                {
-                    title: "Paso 3 — Decapsulate (Bob)",
-                    detail: `Bob usa sk para recuperar s. Resultado: s' = s (secreto compartido)`
-                },
-                {
-                    title: "Paso 4 — Usar el secreto",
-                    detail: `Con s, ambos derivan una clave para cifrar mensajes reales. Ejemplo: "${message}"`
-                }
-            ];
+function drawReticulaDemo() {
+  if (!boardCtx || !boardCanvas) return;
+  clearCanvas();
 
-            const list = document.getElementById("kyber-steps");
-            const progress = document.getElementById("kyber-progress");
-            if (!list || !progress) return;
+  const w = boardCanvas.clientWidth;
+  const h = boardCanvas.clientHeight;
+  const step = 36;
 
-            list.innerHTML = steps.map((step, i) => `
-                <div class="kyber-step" data-step="${i}">
-                    <div class="kyber-step-title">${step.title}</div>
-                    <div class="kyber-step-detail">${step.detail}</div>
-                </div>
-            `).join("");
+  // Fondo
+  boardCtx.fillStyle = "#0b1020";
+  boardCtx.fillRect(0, 0, w, h);
 
-            let idx = -1;
-            const advance = () => {
-                if (idx >= 0) {
-                    const prev = list.querySelector(`[data-step="${idx}"]`);
-                    if (prev) prev.classList.remove("active");
-                    if (prev) prev.classList.add("done");
-                }
-                idx += 1;
-                if (idx < steps.length) {
-                    const current = list.querySelector(`[data-step="${idx}"]`);
-                    if (current) current.classList.add("active");
-                    const pct = Math.round((idx / steps.length) * 100);
-                    progress.style.width = `${pct}%`;
-                    progress.textContent = `${pct}%`;
-                    setTimeout(advance, 1100);
-                } else {
-                    progress.style.width = "100%";
-                    progress.textContent = "100%";
-                }
-            };
-
-            advance();
-        }
+  // Reticula simple (solo puntos)
+  boardCtx.fillStyle = "rgba(160,220,255,0.7)";
+  for (let x = step; x <= w - step; x += step) {
+    for (let y = step; y <= h - step; y += step) {
+      boardCtx.beginPath();
+      boardCtx.arc(x, y, 2.2, 0, Math.PI * 2);
+      boardCtx.fill();
+    }
+  }
+}
+        kyberRender();
 function getPos(e, canvas) {
   const rect = canvas.getBoundingClientRect();
 
@@ -1529,113 +1931,16 @@ function getPos(e, canvas) {
     y: e.offsetY
   };
 }
-function drawBoardGrid(step = 30) {
-  if (!boardCtx || !boardCanvas) return;
-  saveState();
-
-  const prevStroke = boardCtx.strokeStyle;
-  const prevWidth = boardCtx.lineWidth;
-  const prevFill = boardCtx.fillStyle;
-  const prevAlpha = boardCtx.globalAlpha;
-
-  const w = boardCanvas.clientWidth;
-  const h = boardCanvas.clientHeight;
-
-  // Líneas
-  boardCtx.strokeStyle = "rgba(150,235,255,0.7)";
-  boardCtx.lineWidth = 2;
-  boardCtx.globalAlpha = 1;
-
-  for (let x = 0; x <= w; x += step) {
-    boardCtx.beginPath();
-    boardCtx.moveTo(x, 0);
-    boardCtx.lineTo(x, h);
-    boardCtx.stroke();
-  }
-
-  for (let y = 0; y <= h; y += step) {
-    boardCtx.beginPath();
-    boardCtx.moveTo(0, y);
-    boardCtx.lineTo(w, y);
-    boardCtx.stroke();
-  }
-
-  // 🔵 PUNTOS en intersecciones
-  boardCtx.fillStyle = "rgba(190,245,255,0.9)";
-  for (let x = 0; x <= w; x += step) {
-    for (let y = 0; y <= h; y += step) {
-      boardCtx.beginPath();
-      boardCtx.arc(x, y, 2.3, 0, Math.PI * 2);
-      boardCtx.fill();
-    }
-  }
-
-  // Restaurar estilo previo
-  boardCtx.strokeStyle = prevStroke;
-  boardCtx.lineWidth = prevWidth;
-  boardCtx.fillStyle = prevFill;
-  boardCtx.globalAlpha = prevAlpha;
-}
-function drawDiagonalLattice() {
-  if (!boardCtx || !boardCanvas) return;
-
-  saveState();
-  clearCanvas();
-
-  const w = boardCanvas.clientWidth;
-  const h = boardCanvas.clientHeight;
-  const step = 48;
-
-  // Capas = "dimensiones"
-  const layers = [
-    { dx: 0,  dy: 0,  color: "rgba(120,210,255,0.65)" },
-    { dx: 12, dy: -9, color: "rgba(255,210,120,0.6)" },
-    { dx: 24, dy: -18, color: "rgba(200,160,255,0.58)" },
-    { dx: 36, dy: -27, color: "rgba(140,255,200,0.55)" }
-  ];
-
-  layers.forEach(layer => {
-    boardCtx.strokeStyle = layer.color;
-    boardCtx.fillStyle = layer.color;
-    boardCtx.lineWidth = 2;
-
-    // Líneas verticales
-    for (let x = layer.dx; x <= w; x += step) {
-      boardCtx.beginPath();
-      boardCtx.moveTo(x, 0);
-      boardCtx.lineTo(x, h);
-      boardCtx.stroke();
-    }
-
-    // Líneas horizontales
-    for (let y = layer.dy; y <= h; y += step) {
-      boardCtx.beginPath();
-      boardCtx.moveTo(0, y);
-      boardCtx.lineTo(w, y);
-      boardCtx.stroke();
-    }
-
-    // Puntos (lo importante)
-    for (let x = layer.dx; x <= w; x += step) {
-      for (let y = layer.dy; y <= h; y += step) {
-        boardCtx.beginPath();
-        boardCtx.arc(x, y, 2.4, 0, Math.PI * 2);
-        boardCtx.fill();
-      }
-    }
-  });
-}
 
     </script>
     <!-- PIZARRA -->
 <div class="whiteboard-overlay" id="whiteboard">
   <div class="whiteboard-header">
-    <button class="clear" onclick="clearBoard()">🧹 Borrar</button>
-    <button type="button" onclick="drawBoardGrid()">📐 Retícula</button>
-    <button type="button" onclick="drawDiagonalLattice()">🧊 Dimensiones</button>
-    <button type="button" onclick="setLineMode()">📏 Línea</button>
-    
-    
+    <label>🎨 <input type="color" value="#ffffff" oninput="setBrushColor(this.value)"></label>
+    <label>🖌️ <input type="range" min="2" max="24" value="6" oninput="setBrushSize(this.value)"></label>
+    <button type="button" class="tool-toggle" id="eraserToggle" onclick="toggleEraser()">🧽 Borrador</button>
+    <button type="button" class="tool-secondary" onclick="drawReticulaDemo()">📐 Reticula</button>
+    <button class="clear" onclick="clearCanvas()">🗑️ Limpiar</button>
     <button class="close" onclick="closeBoard()">❌ Cerrar</button>
   </div>
   <canvas class="whiteboard-canvas" id="boardCanvas"></canvas>
