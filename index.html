@@ -249,9 +249,6 @@
                 overflow-x: auto;
                 white-space: nowrap;
             }
-            .whiteboard-header {
-                flex-wrap: wrap;
-            }
         }
 
         .quantum-visual {
@@ -366,168 +363,136 @@
             font-family: 'Courier New', monospace;
             overflow-x: auto;
         }
-.kyber-steps {
-  display: grid;
-  gap: 12px;
-  margin-top: 14px;
+.kyber-demo {
+  background: radial-gradient(circle at top, rgba(214, 224, 255, 0.65), transparent 60%),
+    linear-gradient(135deg, #f5f7ff 0%, #e9ecff 45%, #f0f4ff 100%);
+  border: 2px solid #667eea;
+  position: relative;
+  overflow: hidden;
 }
-.kyber-step {
-  background: #f8f9fa;
-  border-left: 4px solid #c3cfe2;
-  padding: 12px 14px;
-  border-radius: 8px;
-  transition: border-color 0.3s, background 0.3s;
+.kyber-demo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(120deg, rgba(102, 126, 234, 0.12) 0 1px, transparent 1px 12px);
+  opacity: 0.2;
+  pointer-events: none;
 }
-.kyber-step.active {
-  border-color: #667eea;
-  background: #eef1ff;
+.kyber-demo > * {
+  position: relative;
+  z-index: 1;
 }
-.kyber-step.done {
-  border-color: #28a745;
-  background: #e9f7ef;
-}
-.kyber-step-title {
-  font-weight: bold;
-  color: #3b4cca;
-  margin-bottom: 6px;
-}
-.kyber-step-detail {
-  font-family: monospace;
-  font-size: 0.95em;
+.kyber-demo p {
   color: #2b2f3a;
 }
-.kyber-step-visual {
-  margin-top: 10px;
+.kyber-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
 }
-.kyber-visual {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.kyber-node {
+.kyber-card {
   background: #ffffff;
-  border: 2px solid #c3cfe2;
-  border-radius: 10px;
-  padding: 8px 10px;
-  min-width: 120px;
-  text-align: center;
-  font-family: monospace;
-  font-size: 0.9em;
+  border-radius: 16px;
+  border: 1px solid #d2d9ff;
+  padding: 18px;
+  box-shadow: 0 12px 22px rgba(76, 88, 170, 0.18);
+  animation: kyberRise 0.6s ease both;
 }
-.kyber-node-title {
+.kyber-card:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.kyber-card:nth-child(3) {
+  animation-delay: 0.16s;
+}
+.kyber-card h4 {
+  margin-bottom: 10px;
+  font-size: 1.3em;
+  color: #4b57c0;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+.kyber-subtitle {
   font-weight: bold;
-  color: #3b4cca;
+  color: #5b3ea1;
+  margin-top: 12px;
   margin-bottom: 6px;
 }
-.kyber-chip {
+.kyber-mono {
+  font-family: "Courier New", monospace;
+  background: rgba(118, 75, 162, 0.12);
+  padding: 4px 8px;
+  border-radius: 8px;
   display: inline-block;
-  padding: 2px 6px;
-  border-radius: 6px;
-  background: #eef1ff;
-  border: 1px solid #cbd6ff;
-  margin: 2px;
 }
-.kyber-arrow {
-  font-family: monospace;
-  font-weight: bold;
-  color: #667eea;
-}
-.kyber-interactive-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
-  margin-top: 16px;
-}
-.kyber-panel {
-  background: #0f1325;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 16px;
-  color: #e7ecff;
-}
-.kyber-panel-grid {
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 16px;
-}
-.kyber-legend-box {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 0.9em;
-  color: #dbe3ff;
-}
-.kyber-legend-box h5 {
-  margin-bottom: 8px;
-  color: #b9c7ff;
-}
-.kyber-legend-box ul {
-  margin: 0;
-  padding-left: 18px;
-  line-height: 1.6;
-  font-family: monospace;
-}
-.kyber-legend-box li {
-  margin: 6px 0;
-}
-.kyber-panel h4 {
-  color: #b9c7ff;
-  margin-bottom: 8px;
-}
-.kyber-math {
-  font-family: monospace;
-  font-size: 0.95em;
-  color: #e2e7ff;
-}
-.kyber-math-line {
-  margin: 6px 0;
-}
-.kyber-keybox {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-}
-.kyber-pill {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 999px;
-  padding: 4px 10px;
-  font-family: monospace;
-  font-size: 0.85em;
-  color: #e7ecff;
-}
-.kyber-pill strong {
-  color: #b9c7ff;
-  margin-right: 4px;
-}
-.kyber-controls {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-.kyber-controls button {
-  padding: 10px 16px;
-  font-size: 0.95em;
-}
-.kyber-step-list {
-  margin-top: 12px;
-  padding-left: 18px;
-  line-height: 1.6;
-  color: #dfe6ff;
-  font-family: monospace;
-}
-.kyber-formula {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 10px;
+.kyber-equation {
+  font-family: "Courier New", monospace;
+  background: #2a2f55;
+  color: #eef1ff;
   padding: 10px 12px;
-  font-family: monospace;
-  color: #f4f6ff;
-  margin-top: 10px;
+  border-radius: 10px;
+  margin: 10px 0;
+  font-size: 0.95em;
+}
+.kyber-matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: #e8edff;
+  border-radius: 12px;
+  padding: 10px;
+  font-family: "Courier New", monospace;
+  color: #2b2f3a;
+  margin: 10px 0;
+}
+.kyber-matrix div {
+  background: #f7f8ff;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+}
+.kyber-list {
+  margin: 8px 0 0 20px;
+  color: #2b2f3a;
+  line-height: 1.6;
+}
+.kyber-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+.kyber-flow-box {
+  background: linear-gradient(135deg, #3b3f7c, #4f2f6d);
+  color: #f3f4ff;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.kyber-flow-box span {
+  display: block;
+  font-family: "Courier New", monospace;
+  margin-top: 6px;
+  color: #d6dcff;
+  font-size: 0.9em;
+}
+.kyber-note {
+  background: #eef1ff;
+  border-left: 4px solid #764ba2;
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-top: 18px;
+  color: #2b2f3a;
+}
+@keyframes kyberRise {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 .shor-steps {
   display: grid;
@@ -558,71 +523,6 @@
   font-family: monospace;
   font-size: 0.95em;
   color: #2b2f3a;
-}
-.whiteboard-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 18, 35, 0.96);
-  z-index: 9999;
-  display: none;
-  flex-direction: column;
-}
-
-.whiteboard-header {
-  padding: 12px 16px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  background: rgba(255,255,255,0.05);
-  color: white;
-}
-
-.whiteboard-header button {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-}
-.whiteboard-header input[type="color"] {
-  width: 44px;
-  height: 32px;
-  border: none;
-  border-radius: 6px;
-  padding: 0;
-  cursor: pointer;
-  background: transparent;
-}
-.whiteboard-header input[type="range"] {
-  width: 120px;
-}
-.whiteboard-header .tool-toggle {
-  background: #667eea;
-  color: white;
-}
-.whiteboard-header .tool-toggle.active {
-  background: #ffc107;
-  color: #111;
-}
-.whiteboard-header .tool-secondary {
-  background: #17a2b8;
-  color: white;
-}
-
-.whiteboard-header .close {
-  background: #dc3545;
-  color: white;
-}
-
-.whiteboard-header .clear {
-  background: #ffc107;
-}
-
-.whiteboard-canvas {
-  flex: 1;
-  background: #111;
-  cursor: crosshair;
-  touch-action: none;
 }
     </style>
 </head>
@@ -874,65 +774,78 @@
                 <p><strong>La clave del sistema:</strong> el ruido es lo bastante grande para confundir atacantes, pero lo bastante pequeño para que Bob pueda recuperarlo.</p>
             </div>
 
-            <div class="interactive-demo">
-                <div class="demo-title">🔬 Kyber con números pequeños (paso a paso)</div>
+            <div class="interactive-demo kyber-demo">
+                <div class="demo-title">🧭 Demostración Kyber: generación de claves, cifrado y descifrado</div>
 
-                <p>Este demo muestra la matemática básica con números pequeños. Es solo educativo.</p>
+                <p>Trabajamos con polinomios y números pequeños solo para aprender. En Kyber real, los parámetros son mucho más grandes.</p>
 
-                <div class="grid-2">
-                    <div>
-                        <label><strong>Bit de mensaje (m):</strong></label>
-                        <select id="kyber-bit" onchange="kyberReset()">
-                            <option value="0">0</option>
-                            <option value="1" selected>1</option>
-                        </select>
-                    </div>
-                    <div style="display:flex; align-items:end; gap:10px;">
-                        <button type="button" onclick="openBoard()">🖊️ Abrir pizarra</button>
-                    </div>
-                </div>
-
-                <div class="progress-bar">
-                    <div class="progress-fill" id="kyber-progress">0%</div>
-                </div>
-
-                <div class="kyber-interactive-grid">
-                    <div class="kyber-panel">
-                        <div class="kyber-panel-grid">
-                            <div class="kyber-legend-box">
-                                <h5>Variables clave</h5>
-                                <ul>
-                                    <li>A: matriz publica</li>
-                                    <li>s: secreto de Bob</li>
-                                    <li>e, e1, e2: ruido pequeno</li>
-                                    <li>r: aleatorio de Alice</li>
-                                    <li>b: clave publica</li>
-                                    <li>u, v: cifrado</li>
-                                    <li>m: bit (0/1)</li>
-                                    <li>m': m escalado</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 id="kyber-step-title">Paso 1</h4>
-                                <p id="kyber-step-desc"></p>
-                                <div id="kyber-step-formula" class="kyber-formula"></div>
-                                <div id="kyber-step-details" class="kyber-math"></div>
-                                <div id="kyber-step-keybox" class="kyber-keybox"></div>
-
-                                <div id="kyber-step-list" class="kyber-step-list"></div>
-
-                                <div class="kyber-controls">
-                                    <button type="button" onclick="kyberPrev()">← Anterior</button>
-                                    <button type="button" onclick="kyberReset()">Reiniciar</button>
-                                    <button type="button" onclick="kyberNext()">Siguiente →</button>
-                                </div>
-                            </div>
+                <div class="kyber-demo-grid">
+                    <article class="kyber-card">
+                        <h4>1) Generación de claves</h4>
+                        <p>La clave privada es un vector de polinomios con coeficientes pequeños.</p>
+                        <div class="kyber-equation">s = (-x<sup>3</sup> - x<sup>2</sup> + x, -x<sup>3</sup> - x)</div>
+                        <p class="kyber-subtitle">Matriz pública</p>
+                        <div class="kyber-matrix">
+                            <div>6x<sup>3</sup> + 16x<sup>2</sup> + 16x + 1</div>
+                            <div>19x<sup>3</sup> + 4x<sup>2</sup> + 6x + 3</div>
+                            <div>5x<sup>3</sup> + 3x<sup>2</sup> + 10x + 1</div>
+                            <div>6x<sup>3</sup> + x<sup>2</sup> + 9x + 15</div>
                         </div>
-                    </div>
+                        <div class="kyber-equation">A = matriz aleatoria mod q, con q = 17</div>
+                        <p class="kyber-subtitle">Ruido y clave pública</p>
+                        <div class="kyber-equation">e = (x<sup>2</sup>, x<sup>2</sup> - x)</div>
+                        <div class="kyber-equation">t = A s + e</div>
+                        <div class="kyber-equation">t = (16x<sup>3</sup> + 15x<sup>2</sup> + 7, 10x<sup>3</sup> + 12x<sup>2</sup> + 11x + 6)</div>
+                        <ul class="kyber-list">
+                            <li><strong>Clave privada:</strong> s</li>
+                            <li><strong>Clave pública:</strong> (A, t)</li>
+                        </ul>
+                    </article>
+
+                    <article class="kyber-card">
+                        <h4>2) Cifrado</h4>
+                        <p>Se generan nuevos r, e<sub>1</sub> y e<sub>2</sub> para cada mensaje. Todo es “pequeño”.</p>
+                        <div class="kyber-equation">r = (-x<sup>3</sup> + x<sup>2</sup>, x<sup>3</sup> + x<sup>2</sup> - 1)</div>
+                        <div class="kyber-equation">e<sub>1</sub> = (x<sup>2</sup> + x, x<sup>2</sup>), e<sub>2</sub> = -x<sup>3</sup> - x<sup>2</sup></div>
+                        <p class="kyber-subtitle">Mensaje y escalado</p>
+                        <div class="kyber-equation">11<sub>10</sub> = 1011<sub>2</sub></div>
+                        <div class="kyber-equation">m<sub>b</sub> = x<sup>3</sup> + x + 1</div>
+                        <div class="kyber-equation">m = ⌊q/2⌉ · m<sub>b</sub> = 9x<sup>3</sup> + 9x + 9</div>
+                        <p class="kyber-subtitle">Cálculo del cifrado</p>
+                        <div class="kyber-equation">u = A<sup>T</sup> r + e<sub>1</sub></div>
+                        <div class="kyber-equation">v = t<sup>T</sup> r + e<sub>2</sub> + m</div>
+                        <div class="kyber-equation">u = (11x<sup>3</sup> + 11x<sup>2</sup> + 10x + 3, 4x<sup>3</sup> + 4x<sup>2</sup> + 13x + 11)</div>
+                        <div class="kyber-equation">v = 7x<sup>3</sup> + 6x<sup>2</sup> + 8x + 15</div>
+                        <div class="kyber-equation">Ciphertext = (u, v)</div>
+                    </article>
+
+                    <article class="kyber-card">
+                        <h4>3) Descifrado</h4>
+                        <p>Bob usa su clave privada para eliminar el ruido.</p>
+                        <div class="kyber-equation">m<sub>n</sub> = v - s<sup>T</sup> u</div>
+                        <div class="kyber-equation">m<sub>n</sub> = 7x<sup>3</sup> + 14x<sup>2</sup> + 7x + 5</div>
+                        <p class="kyber-subtitle">Redondeo por coeficientes</p>
+                        <ul class="kyber-list">
+                            <li>7 está más cerca de 9 → 9</li>
+                            <li>14 está más cerca de 0 o q → 0</li>
+                            <li>7 está más cerca de 9 → 9</li>
+                            <li>5 está más cerca de 9 → 9</li>
+                        </ul>
+                        <div class="kyber-equation">m = 9x<sup>3</sup> + 0x<sup>2</sup> + 9x + 9</div>
+                        <div class="kyber-equation">m<sub>b</sub> = (1/9) (9x<sup>3</sup> + 0x<sup>2</sup> + 9x + 9) = (1x<sup>3</sup> + 0x<sup>2</sup> + 1x + 1)</div>
+                        <div class="kyber-equation">1011<sub>2</sub> = 11<sub>10</sub></div>
+                        <p><strong>Mensaje recuperado:</strong> 11</p>
+                    </article>
                 </div>
 
-                <div class="success" style="margin-top: 16px;">
-                    <strong>✅ Resistencia Cuántica:</strong> No existe un algoritmo cuántico conocido que resuelva eficientemente los problemas de retículas usados por Kyber.
+                <div class="kyber-flow">
+                    <div class="kyber-flow-box">KeyGen<span>s, A, t</span></div>
+                    <div class="kyber-flow-box">Cifrado<span>u, v = A<sup>T</sup> r + e<sub>1</sub>, t<sup>T</sup> r + e<sub>2</sub> + m</span></div>
+                    <div class="kyber-flow-box">Descifrado<span>m = v - s<sup>T</sup> u</span></div>
+                </div>
+
+                <div class="kyber-note">
+                    <strong>Idea clave:</strong> recuperar <span class="kyber-mono">s</span> desde <span class="kyber-mono">(A, t)</span> equivale a resolver el problema MLWE, considerado difícil incluso para computadoras cuánticas.
                 </div>
             </div>
 
@@ -1076,6 +989,7 @@ with Signature("Dilithium2") as signer:
                 <li><strong>Side-channels:</strong> ataques por tiempo/consumo y cómo mitigarlos (constant-time).</li>
                 <li><strong>Tolerancia a fallos:</strong> cómo manejar errores físicos y computación imperfecta.</li>
                 <li><strong>Implementación real:</strong> empaquetado de claves, formatos, y compatibilidad con TLS.</li>
+                <li><strong>Reticulas:</strong> se fundamentan en la dificultad computacional de problemas relacionados con retículos (estructuras matemáticas multidimensionales), como el {Shortest Vector Problem} (SVP) y el {Short Integer Solution} (SIS).</li>
             </ul>
         </section>
 
@@ -1469,252 +1383,6 @@ const maxHistory = 50;
             initShorDemo();
         }
 
-        // ===== KYBER INTERACTIVO (NUMEROS PEQUENOS) =====
-        const kyberState = {
-            step: 0,
-            data: null
-        };
-
-        function kyberMod(n, m) {
-            return ((n % m) + m) % m;
-        }
-
-        function kyberMulMatVec(matrix, vector) {
-            return matrix.map(row => row.reduce((sum, val, i) => sum + val * vector[i], 0));
-        }
-
-        function kyberCompute() {
-            const modulo = 17;
-            const A = [[12, 5], [3, 8]];
-            const s = [2, 3];
-            const e = [1, -1];
-            const r = [1, 2];
-            const e1 = [1, 0];
-            const e2 = 1;
-
-            const bitSelect = document.getElementById("kyber-bit");
-            const message = bitSelect ? parseInt(bitSelect.value, 10) : 1;
-            const messageScaled = message * 8;
-
-            const As = kyberMulMatVec(A, s).map(x => kyberMod(x, modulo));
-            const b = As.map((val, i) => kyberMod(val + e[i], modulo));
-
-            const At = [[A[0][0], A[1][0]], [A[0][1], A[1][1]]];
-            const Atr = kyberMulMatVec(At, r).map(x => kyberMod(x, modulo));
-            const u = Atr.map((val, i) => kyberMod(val + e1[i], modulo));
-
-            const btr = b.reduce((sum, val, i) => sum + val * r[i], 0);
-            const v = kyberMod(btr + e2 + messageScaled, modulo);
-
-            const stu = s.reduce((sum, val, i) => sum + val * u[i], 0);
-            const decrypted = kyberMod(v - stu, modulo);
-            const recoveredMessage = decrypted >= 4 && decrypted <= 12 ? 1 : 0;
-
-            return {
-                modulo, A, s, e, r, e1, e2,
-                message, messageScaled,
-                As, b, At, Atr, u, btr, v, stu,
-                decrypted, recoveredMessage
-            };
-        }
-
-        function kyberSteps(data) {
-            return [
-                {
-                    title: "Configuracion inicial",
-                    desc: "Trabajamos modulo 17 y vectores de dimension 2.",
-                    formula: "Todo modulo q = 17",
-                    details: [
-                        `q = ${data.modulo}`,
-                        `A = [[${data.A[0].join(", ")}],[${data.A[1].join(", ")}]]`,
-                        "Dimension 2 (solo para aprender)"
-                    ]
-                },
-                {
-                    title: "Bob elige su secreto",
-                    desc: "Bob crea su clave privada s y un ruido e.",
-                    formula: "s secreto, e ruido pequeno",
-                    details: [
-                        `s = [${data.s.join(", ")}]`,
-                        `e = [${data.e.join(", ")}]`
-                    ]
-                },
-                {
-                    title: "Clave publica de Bob",
-                    desc: "b = A * s + e (mod q)",
-                    formula: "b = A*s + e (mod q)",
-                    details: [
-                        `A*s = [${data.As.join(", ")}]`,
-                        `b = [${data.b.join(", ")}]`
-                    ]
-                },
-                {
-                    title: "Alice prepara mensaje",
-                    desc: "Alice fija m y elige valores aleatorios.",
-                    formula: "m' = m * 8",
-                    details: [
-                        `m = ${data.message}  ->  m' = ${data.messageScaled}`,
-                        `r = [${data.r.join(", ")}]`,
-                        `e1 = [${data.e1.join(", ")}], e2 = ${data.e2}`
-                    ]
-                },
-                {
-                    title: "Componente u",
-                    desc: "u = A^T * r + e1 (mod q)",
-                    formula: "u = A^T*r + e1 (mod q)",
-                    details: [
-                        `A^T*r = [${data.Atr.join(", ")}]`,
-                        `u = [${data.u.join(", ")}]`
-                    ]
-                },
-                {
-                    title: "Componente v",
-                    desc: "v = b^T * r + e2 + m' (mod q)",
-                    formula: "v = b^T*r + e2 + m' (mod q)",
-                    details: [
-                        `b^T*r = ${kyberMod(data.btr, data.modulo)}`,
-                        `v = ${data.v}`
-                    ]
-                },
-                {
-                    title: "Cifrado enviado",
-                    desc: "Alice envia (u, v).",
-                    formula: "cipher = (u, v)",
-                    details: [
-                        `u = [${data.u.join(", ")}]`,
-                        `v = ${data.v}`
-                    ]
-                },
-                {
-                    title: "Bob descifra",
-                    desc: "m' ≈ v - s^T*u (mod q)",
-                    formula: "m' = v - s^T*u (mod q)",
-                    details: [
-                        `s^T*u = ${kyberMod(data.stu, data.modulo)}`,
-                        `m' = ${data.decrypted}`
-                    ]
-                },
-                {
-                    title: "Decodificacion",
-                    desc: "Si m' esta cerca de 0 -> 0, cerca de 8 -> 1.",
-                    formula: "m = Decode(m')",
-                    details: [
-                        `m' = ${data.decrypted}`,
-                        `Mensaje recuperado = ${data.recoveredMessage}`
-                    ]
-                }
-            ];
-        }
-
-        function kyberRender() {
-            kyberState.data = kyberCompute();
-            const steps = kyberSteps(kyberState.data);
-            const step = Math.max(0, Math.min(kyberState.step, steps.length - 1));
-            kyberState.step = step;
-
-            const title = document.getElementById("kyber-step-title");
-            const desc = document.getElementById("kyber-step-desc");
-            const formula = document.getElementById("kyber-step-formula");
-            const details = document.getElementById("kyber-step-details");
-            const keybox = document.getElementById("kyber-step-keybox");
-            const list = document.getElementById("kyber-step-list");
-            const progress = document.getElementById("kyber-progress");
-            if (!title || !desc || !formula || !details || !keybox || !list || !progress) return;
-
-            title.textContent = `Paso ${step + 1}: ${steps[step].title}`;
-            desc.textContent = steps[step].desc;
-            formula.textContent = steps[step].formula;
-            details.innerHTML = steps[step].details.map(line => `<div class="kyber-math-line">${line}</div>`).join("");
-            keybox.innerHTML = kyberKeyChips(step, kyberState.data);
-            list.innerHTML = kyberStepList(step, kyberState.data);
-
-            const totalSteps = steps.length - 1;
-            const pct = totalSteps <= 0 ? 100 : Math.round((step / totalSteps) * 100);
-            progress.style.width = `${pct}%`;
-            progress.textContent = `${pct}%`;
-
-        }
-
-        function kyberNext() {
-            kyberState.step += 1;
-            kyberRender();
-        }
-
-        function kyberPrev() {
-            kyberState.step -= 1;
-            kyberRender();
-        }
-
-        function kyberReset() {
-            kyberState.step = 0;
-            kyberRender();
-        }
-
-        function kyberKeyChips(step, data) {
-            const chips = [];
-            if (step === 0) {
-                chips.push(`q=${data.modulo}`);
-                chips.push(`A=[[${data.A[0].join(", ")}],[${data.A[1].join(", ")}]]`);
-            } else if (step === 1) {
-                chips.push(`s=[${data.s.join(", ")}]`);
-                chips.push(`e=[${data.e.join(", ")}]`);
-            } else if (step === 2) {
-                chips.push(`b=[${data.b.join(", ")}]`);
-            } else if (step === 3) {
-                chips.push(`m=${data.message}`);
-                chips.push(`m'=${data.messageScaled}`);
-                chips.push(`r=[${data.r.join(", ")}]`);
-            } else if (step === 4) {
-                chips.push(`u=[${data.u.join(", ")}]`);
-            } else if (step === 5) {
-                chips.push(`v=${data.v}`);
-            } else if (step === 6) {
-                chips.push(`(u, v)=([${data.u.join(", ")}], ${data.v})`);
-            } else if (step === 7) {
-                chips.push(`m'=${data.decrypted}`);
-            } else if (step === 8) {
-                chips.push(`m=${data.recoveredMessage}`);
-            }
-            return chips.map(item => {
-                const parts = item.split("=");
-                if (parts.length === 2) {
-                    return `<span class="kyber-pill"><strong>${parts[0]}</strong>${parts[1]}</span>`;
-                }
-                return `<span class="kyber-pill">${item}</span>`;
-            }).join("");
-        }
-
-        function kyberStepList(step, data) {
-            const lines = [];
-            if (step === 0) {
-                lines.push("Objetivo: acordar un secreto usando reticulas (LWE).");
-                lines.push("Todo es modulo q=17 para que los numeros sean pequenos.");
-            } else if (step === 1) {
-                lines.push("Bob elige s (secreto) y un ruido pequeno e.");
-                lines.push("Solo Bob conoce s.");
-            } else if (step === 2) {
-                lines.push("Bob publica b = A*s + e.");
-                lines.push("A y b son publicos.");
-            } else if (step === 3) {
-                lines.push("Alice fija el bit m y lo escala a m'.");
-                lines.push("Alice elige r, e1, e2 aleatorios.");
-            } else if (step === 4) {
-                lines.push("Alice calcula u = A^T*r + e1.");
-            } else if (step === 5) {
-                lines.push("Alice calcula v = b^T*r + e2 + m'.");
-            } else if (step === 6) {
-                lines.push("Alice envia el cifrado (u, v).");
-            } else if (step === 7) {
-                lines.push("Bob calcula m' = v - s^T*u.");
-            } else if (step === 8) {
-                lines.push("Bob decodifica m' y recupera m.");
-            }
-            if (!lines.length) return "";
-            return `<ol>${lines.map(line => `<li>${line}</li>`).join("")}</ol>`;
-        }
-
-        
-
         // ===== SIMULADOR DE ATAQUES =====
         function attackClassical(system) {
             const resultId = system + '-attack-result';
@@ -1799,151 +1467,6 @@ const maxHistory = 50;
         // Inicializar el checklist
         updateReadiness();
         updateShorAOptions();
-        let boardCanvas, boardCtx;
-let drawing = false;
-let brushColor = "#ffffff";
-let brushSize = 6;
-let isEraser = false;
-
-function openBoard() {
-  const overlay = document.getElementById("whiteboard");
-  overlay.style.display = "flex";
-
-  boardCanvas = document.getElementById("boardCanvas");
-  boardCtx = boardCanvas.getContext("2d");
-
-  // Ajustar tamaño real
-  const dpr = window.devicePixelRatio || 1;
-  boardCanvas.width = boardCanvas.clientWidth * dpr;
-  boardCanvas.height = boardCanvas.clientHeight * dpr;
-  boardCtx.scale(dpr, dpr);
-
-  boardCtx.lineCap = "round";
-  applyBrush();
-
-  boardCanvas.addEventListener("mousedown", startDraw);
-  boardCanvas.addEventListener("mousemove", draw);
-  boardCanvas.addEventListener("mouseup", stopDraw);
-  boardCanvas.addEventListener("mouseleave", stopDraw);
-
-  boardCanvas.addEventListener("touchstart", startDraw, { passive: false });
-  boardCanvas.addEventListener("touchmove", draw, { passive: false });
-  boardCanvas.addEventListener("touchend", stopDraw);
-}
-
-function closeBoard() {
-  const overlay = document.getElementById("whiteboard");
-  overlay.style.display = "none";
-}
-
-function applyBrush() {
-  if (!boardCtx) return;
-  boardCtx.lineWidth = brushSize;
-  if (isEraser) {
-    boardCtx.globalCompositeOperation = "destination-out";
-    boardCtx.strokeStyle = "rgba(0,0,0,1)";
-  } else {
-    boardCtx.globalCompositeOperation = "source-over";
-    boardCtx.strokeStyle = brushColor;
-  }
-}
-
-function startDraw(e) {
-  e.preventDefault();
-  const pos = getPos(e, boardCanvas);
-  drawing = true;
-  boardCtx.beginPath();
-  boardCtx.moveTo(pos.x, pos.y);
-}
-
-function draw(e) {
-  if (!drawing) return;
-  e.preventDefault();
-  const pos = getPos(e, boardCanvas);
-  boardCtx.lineTo(pos.x, pos.y);
-  boardCtx.stroke();
-}
-
-function stopDraw(e) {
-  if (!drawing) return;
-  e.preventDefault();
-  drawing = false;
-  boardCtx.closePath();
-}
-
-function setBrushColor(value) {
-  brushColor = value;
-  if (!isEraser) applyBrush();
-}
-
-function setBrushSize(value) {
-  brushSize = Number(value);
-  applyBrush();
-}
-
-function toggleEraser() {
-  isEraser = !isEraser;
-  const eraserBtn = document.getElementById("eraserToggle");
-  if (eraserBtn) eraserBtn.classList.toggle("active", isEraser);
-  applyBrush();
-}
-
-function clearCanvas() {
-  if (!boardCtx || !boardCanvas) return;
-  const dpr = window.devicePixelRatio || 1;
-  boardCtx.clearRect(0, 0, boardCanvas.width / dpr, boardCanvas.height / dpr);
-}
-function drawReticulaDemo() {
-  if (!boardCtx || !boardCanvas) return;
-  clearCanvas();
-
-  const w = boardCanvas.clientWidth;
-  const h = boardCanvas.clientHeight;
-  const step = 36;
-
-  // Fondo
-  boardCtx.fillStyle = "#0b1020";
-  boardCtx.fillRect(0, 0, w, h);
-
-  // Reticula simple (solo puntos)
-  boardCtx.fillStyle = "rgba(160,220,255,0.7)";
-  for (let x = step; x <= w - step; x += step) {
-    for (let y = step; y <= h - step; y += step) {
-      boardCtx.beginPath();
-      boardCtx.arc(x, y, 2.2, 0, Math.PI * 2);
-      boardCtx.fill();
-    }
-  }
-}
-        kyberRender();
-function getPos(e, canvas) {
-  const rect = canvas.getBoundingClientRect();
-
-  if (e.touches && e.touches[0]) {
-    return {
-      x: e.touches[0].clientX - rect.left,
-      y: e.touches[0].clientY - rect.top
-    };
-  }
-
-  return {
-    x: e.offsetX,
-    y: e.offsetY
-  };
-}
-
     </script>
-    <!-- PIZARRA -->
-<div class="whiteboard-overlay" id="whiteboard">
-  <div class="whiteboard-header">
-    <label>🎨 <input type="color" value="#ffffff" oninput="setBrushColor(this.value)"></label>
-    <label>🖌️ <input type="range" min="2" max="24" value="6" oninput="setBrushSize(this.value)"></label>
-    <button type="button" class="tool-toggle" id="eraserToggle" onclick="toggleEraser()">🧽 Borrador</button>
-    <button type="button" class="tool-secondary" onclick="drawReticulaDemo()">📐 Reticula</button>
-    <button class="clear" onclick="clearCanvas()">🗑️ Limpiar</button>
-    <button class="close" onclick="closeBoard()">❌ Cerrar</button>
-  </div>
-  <canvas class="whiteboard-canvas" id="boardCanvas"></canvas>
-</div>
 </body>
 </html>
