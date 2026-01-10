@@ -140,6 +140,9 @@
             margin: 0 auto;
             border-radius: 10px;
             cursor: crosshair;
+            width: 100%;
+            max-width: 600px;
+            height: auto;
         }
         
         .controls {
@@ -285,6 +288,27 @@
             
             .step-text {
                 font-size: 1rem;
+            }
+
+            .canvas-container {
+                padding: 1rem;
+                margin: 1.5rem 0;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: stretch;
+            }
+
+            button {
+                width: 100%;
+                font-size: 0.9rem;
+                padding: 0.8rem 1rem;
+            }
+
+            .interactive-label {
+                font-size: 0.8rem;
             }
         }
     </style>
