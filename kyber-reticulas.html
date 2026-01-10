@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador de Retículas Kyber</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Crimson+Pro:wght@300;600&display=swap');
+        
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-card: #1a1f3a;
+            --accent-cyan: #00f0ff;
+            --accent-magenta: #ff00aa;
+            --accent-yellow: #ffee00;
+            --text-primary: #e8e8f0;
+            --text-secondary: #9999bb;
+            --lattice-point: #00f0ff;
+            --lattice-line: #2a3f5f;
+            --noise-color: #ff00aa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+        }
+        
+        h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta), var(--accent-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+        
+        .step-container {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s ease-out forwards;
+        }
+        
+        .step-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+        }
+        
+        .step-container:nth-child(1) { animation-delay: 0.1s; }
+        .step-container:nth-child(2) { animation-delay: 0.2s; }
+        .step-container:nth-child(3) { animation-delay: 0.3s; }
+        .step-container:nth-child(4) { animation-delay: 0.4s; }
+        .step-container:nth-child(5) { animation-delay: 0.5s; }
+        .step-container:nth-child(6) { animation-delay: 0.6s; }
+        .step-container:nth-child(7) { animation-delay: 0.7s; }
+        
+        .step-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        .step-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .step-text {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        .highlight {
+            color: var(--accent-yellow);
+            font-weight: 600;
+        }
+        
+        .canvas-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+        
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px;
+            cursor: crosshair;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        button {
+            font-family: 'Space Mono', monospace;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            border: none;
+            color: var(--bg-dark);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .slider-container {
+            margin: 1.5rem 0;
+        }
+        
+        .slider-label {
+            font-family: 'Space Mono', monospace;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: var(--accent-magenta);
+            transform: scale(1.2);
+        }
+        
+        .info-box {
+            background: rgba(0, 240, 255, 0.1);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--accent-yellow);
+            overflow-x: auto;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .interactive-label {
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+            color: var(--accent-yellow);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .step-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .step-title {
+                font-size: 1.5rem;
+            }
+            
+            .step-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>EXPLORADOR DE RETÍCULAS KYBER</h1>
+            
+        </header>
+
+        <!-- Paso 1: Estableciendo la Intuición -->
+        <div class="step-container">
+            <div class="step-number">Paso 01</div>
+            <div class="step-title">Estableciendo la Intuición</div>
+            <div class="step-text">
+                Para entender Kyber, olvidemos las computadoras cuánticas por un momento.
+                El verdadero héroe de Kyber es algo llamado <span class="highlight">retícula</span>.
+            </div>
+            <div class="step-text">
+                Una retícula es simplemente una cuadrícula de puntos en el espacio — como papel cuadriculado, pero posiblemente en muchas dimensiones.
+            </div>
+            <div class="step-text">
+                En 2D, una retícula se ve como puntos espaciados uniformemente: cada punto puede alcanzarse combinando dos vectores base.
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="lattice1" width="600" height="600"></canvas>
+                <div class="interactive-label"> Pasa el cursor para ver la estructura de la retícula</div>
+            </div>
+        </div>
+
+        <!-- Paso 2: Qué Hace Especiales a las Retículas -->
+        <div class="step-container">
+            <div class="step-number">Paso 02</div>
+            <div class="step-title">Qué Hace Especiales a las Retículas</div>
+            <div class="step-text">
+                Aquí está la parte importante: las retículas son <span class="highlight">fáciles de generar, pero difíciles de revertir</span>.
+            </div>
+            <div class="step-text">
+                Si te doy los vectores que definen la cuadrícula, puedes generar todos los puntos fácilmente y moverte por la retícula con facilidad.
+            </div>
+            <div class="step-text">
+                Pero si te doy un punto aleatorio en la retícula y pregunto: "¿Qué combinación de vectores produjo este punto?" Ese problema se vuelve <span class="highlight">extremadamente difícil</span>.
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="lattice2" width="600" height="600"></canvas>
+                <div class="controls">
+                    <button onclick="showRandomPoint()">Mostrar Punto Aleatorio</button>
+                    <button onclick="revealVectors()">Revelar Combinación de Vectores</button>
+                    <button onclick="resetDemo2()">Reiniciar</button>
+                </div>
+                <div class="interactive-label">¿Puedes adivinar qué vectores crearon el punto resaltado?</div>
+            </div>
+            
+            <div class="info-box">
+                Esta dificultad es lo que protege a Kyber.
+            </div>
+        </div>
+
+        <!-- Paso 3: El Problema Difícil Principal -->
+        <div class="step-container">
+            <div class="step-number">Paso 03</div>
+            <div class="step-title">El Problema Difícil Principal (Sin Matemáticas)</div>
+            <div class="step-text">
+                Kyber se basa en un problema llamado <span class="highlight">Aprendizaje Con Errores, o LWE</span>.
+            </div>
+            <div class="code-block">
+                Funciona así:<br>
+                – Comienza con una retícula limpia<br>
+                – Elige una dirección secreta<br>
+                – Agrega un poco de ruido
+            </div>
+            <div class="step-text">
+                Ese ruido es crucial. Oculta el secreto de una manera que es fácil de hacer — pero casi <span class="highlight">imposible de deshacer</span>.
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="lattice3" width="600" height="600"></canvas>
+                <div class="slider-container">
+                    <label class="slider-label">Nivel de Ruido: <span id="noiseValue">0</span></label>
+                    <input type="range" id="noiseSlider" min="0" max="100" value="0" oninput="updateNoise(this.value)">
+                </div>
+                <div class="interactive-label">Ajusta el deslizador para agregar ruido y ver cómo oscurece el patrón</div>
+            </div>
+        </div>
+
+        <!-- Paso 4: Una Analogía Concreta -->
+        <div class="step-container">
+            <div class="step-number">Paso 04</div>
+            <div class="step-title">Una Analogía Concreta</div>
+            <div class="step-text">
+                Imagina que te digo: "Este punto está a <span class="highlight">6 pasos al este y 6 pasos al norte</span>." Fácil de revertir.
+            </div>
+            <div class="step-text">
+                Ahora imagina que digo: "Está <span class="highlight">alrededor</span> de 6 al este y 6 al norte… más o menos."
+            </div>
+            <div class="step-text">
+                Esa pequeña incertidumbre explota en muchas respuestas posibles.
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="lattice4" width="600" height="600"></canvas>
+                <div class="controls">
+                    <button onclick="showExactPoint()">Mostrar Punto Exacto (6, 6)</button>
+                    <button onclick="showUncertainty()">Agregar Incertidumbre</button>
+                    <button onclick="resetDemo4()">Reiniciar</button>
+                </div>
+                <div class="interactive-label">Mira cómo la incertidumbre crea múltiples posibilidades válidas</div>
+            </div>
+            
+            <div class="info-box">
+                Kyber vive en cientos de dimensiones, no dos. Esa incertidumbre se vuelve <span class="highlight">astronómica</span>.
+            </div>
+        </div>
+
+        <!-- Paso 5: Cómo Kyber Usa Esto -->
+        <div class="step-container">
+            <div class="step-number">Paso 05</div>
+            <div class="step-title">Cómo Kyber Usa Esto</div>
+            <div class="step-text">
+                Kyber construye una retícula pública usando datos públicos.
+            </div>
+            <div class="code-block">
+                Entonces:<br>
+                – la <span class="highlight">clave pública</span> es un punto de retícula con ruido<br>
+                – la <span class="highlight">clave privada</span> es la dirección que lo generó
+            </div>
+            <div class="step-text">
+                Con la clave privada, decodificar es fácil. Sin ella, te enfrentas a un problema masivo de retículas: encontrar el punto más cercano en una cuadrícula de alta dimensión.
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="lattice5" width="600" height="600"></canvas>
+                <div class="controls">
+                    <button onclick="generateKeyPair()">Generar Par de Claves</button>
+                    <button onclick="showPrivateKey()">Revelar Clave Privada</button>
+                    <button onclick="resetDemo5()">Reiniciar</button>
+                </div>
+                <div class="interactive-label">Clave pública: visible para todos | Clave privada: revela la dirección secreta</div>
+            </div>
+        </div>
+
+        <!-- Paso 6: Por Qué las Computadoras Cuánticas No lo Rompen -->
+        <div class="step-container">
+            <div class="step-number">Paso 06</div>
+            <div class="step-title">Por Qué las Computadoras Cuánticas No lo Rompen</div>
+            <div class="step-text">
+                Las computadoras cuánticas son excelentes en <span class="highlight">problemas estructurados</span>: factorización, logaritmos discretos, periodicidad.
+            </div>
+            <div class="step-text">
+                Las retículas no tienen esa estructura limpia. El ruido rompe la simetría. No hay <span class="highlight">atajos</span>.
+            </div>
+            <div class="step-text">
+                Por eso Kyber se llama <span class="highlight">seguro post-cuántico</span>.
+            </div>
+            
+            <div class="info-box">
+                La criptografía tradicional (como RSA) se basa en la dificultad de factorizar números grandes — un problema que las computadoras cuánticas pueden resolver eficientemente usando el algoritmo de Shor. Los problemas de retículas permanecen difíciles incluso para las computadoras cuánticas porque carecen de la estructura matemática que los algoritmos cuánticos explotan.
+            </div>
+        </div>
+
+        <!-- Paso 7: Intuición Final -->
+        <div class="step-container">
+            <div class="step-number">Paso 07</div>
+            <div class="step-title">Intuición Final</div>
+            <div class="step-text">
+                Entonces, la seguridad de Kyber proviene de tres ideas:
+            </div>
+            <div class="code-block">
+                1. Retículas de alta dimensión<br>
+                2. Errores pequeños, cuidadosamente elegidos<br>
+                3. Problemas que son fáciles hacia adelante — pero brutales hacia atrás
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="lattice7" width="600" height="600"></canvas>
+                <div class="controls">
+                    <button onclick="animateFinalDemo()">Ver Flujo Completo</button>
+                    <button onclick="resetDemo7()">Reiniciar</button>
+                </div>
+            </div>
+            
+            <div class="info-box" style="background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(255, 0, 170, 0.1)); border-left-color: var(--accent-magenta);">
+                <strong>En resumen:</strong> Kyber oculta secretos en una retícula nebulosa — donde solo el receptor previsto sabe cómo ver con claridad.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Step 1: Basic Lattice Visualization
+        const canvas1 = document.getElementById('lattice1');
+        const ctx1 = canvas1.getContext('2d');
+        
+        function drawLattice1() {
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            const gridSize = 32;
+            const offset = 220;
+            
+            // Draw grid lines
+            ctx1.strokeStyle = 'rgba(42, 63, 95, 0.5)';
+            ctx1.lineWidth = 1;
+            for (let i = 0; i <= 12; i++) {
+                ctx1.beginPath();
+                ctx1.moveTo(offset + i * gridSize, offset);
+                ctx1.lineTo(offset + i * gridSize, offset + 12 * gridSize);
+                ctx1.stroke();
+                
+                ctx1.beginPath();
+                ctx1.moveTo(offset, offset + i * gridSize);
+                ctx1.lineTo(offset + 12 * gridSize, offset + i * gridSize);
+                ctx1.stroke();
+            }
+            
+            // Draw lattice points
+            ctx1.fillStyle = '#00f0ff';
+            for (let i = 0; i <= 12; i++) {
+                for (let j = 0; j <= 12; j++) {
+                    ctx1.beginPath();
+                    ctx1.arc(offset + i * gridSize, offset + j * gridSize, 4, 0, Math.PI * 2);
+                    ctx1.fill();
+                }
+            }
+            
+            // Draw base vectors
+            ctx1.strokeStyle = '#ffee00';
+            ctx1.lineWidth = 3;
+            ctx1.setLineDash([5, 5]);
+            
+            // Vector 1
+            ctx1.beginPath();
+            ctx1.moveTo(offset, offset);
+            ctx1.lineTo(offset + 3 * gridSize, offset);
+            ctx1.stroke();
+            drawArrow(ctx1, offset + 3 * gridSize, offset, 0);
+            
+            // Vector 2
+            ctx1.beginPath();
+            ctx1.moveTo(offset, offset);
+            ctx1.lineTo(offset, offset + 3 * gridSize);
+            ctx1.stroke();
+            drawArrow(ctx1, offset, offset + 3 * gridSize, Math.PI / 2);
+            
+            ctx1.setLineDash([]);
+            
+            // Labels
+            ctx1.fillStyle = '#ffee00';
+            ctx1.font = 'bold 16px Space Mono';
+            ctx1.fillText('v₁', offset + 3 * gridSize + 10, offset - 5);
+            ctx1.fillText('v₂', offset - 25, offset + 3 * gridSize);
+        }
+        
+        function drawArrow(ctx, x, y, angle) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(-10, -5);
+            ctx.lineTo(-10, 5);
+            ctx.closePath();
+            ctx.fillStyle = '#ffee00';
+            ctx.fill();
+            ctx.restore();
+        }
+        
+        canvas1.addEventListener('mousemove', (e) => {
+            const rect = canvas1.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            drawLattice1();
+            
+            // Highlight nearby point
+            const gridSize = 40;
+            const offset = 100;
+            const gridX = Math.round((x - offset) / gridSize);
+            const gridY = Math.round((y - offset) / gridSize);
+            
+            if (gridX >= 0 && gridX <= 12 && gridY >= 0 && gridY <= 12) {
+                ctx1.fillStyle = '#ff00aa';
+                ctx1.beginPath();
+                ctx1.arc(offset + gridX * gridSize, offset + gridY * gridSize, 8, 0, Math.PI * 2);
+                ctx1.fill();
+                
+                ctx1.fillStyle = '#ffee00';
+                ctx1.font = 'bold 14px Space Mono';
+                ctx1.fillText(`(${gridX}, ${gridY})`, x + 15, y - 15);
+            }
+        });
+        
+        // Step 2: Random Point Demo
+        const canvas2 = document.getElementById('lattice2');
+        const ctx2 = canvas2.getContext('2d');
+        let randomPoint2 = null;
+        let currentVectorCombination = 0;
+        let showVectors2 = false;
+        
+        function drawLattice2(highlight = false) {
+            ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+            const gridSize = 40;
+            const offset = 100;
+            
+            // Draw grid
+            ctx2.strokeStyle = 'rgba(42, 63, 95, 0.3)';
+            ctx2.lineWidth = 1;
+            for (let i = 0; i <= 12; i++) {
+                for (let j = 0; j <= 12; j++) {
+                    ctx2.fillStyle = '#00f0ff';
+                    ctx2.globalAlpha = 0.5;
+                    ctx2.beginPath();
+                    ctx2.arc(offset + i * gridSize, offset + j * gridSize, 3, 0, Math.PI * 2);
+                    ctx2.fill();
+                    ctx2.globalAlpha = 1;
+                }
+            }
+            
+            if (randomPoint2) {
+                // Draw the mystery point
+                ctx2.fillStyle = '#ff00aa';
+                ctx2.beginPath();
+                ctx2.arc(offset + randomPoint2.x * gridSize, offset + randomPoint2.y * gridSize, 10, 0, Math.PI * 2);
+                ctx2.fill();
+                
+                ctx2.strokeStyle = '#ff00aa';
+                ctx2.lineWidth = 2;
+                ctx2.beginPath();
+                ctx2.arc(offset + randomPoint2.x * gridSize, offset + randomPoint2.y * gridSize, 20, 0, Math.PI * 2);
+                ctx2.stroke();
+                
+                if (showVectors2) {
+                    // Calculate different vector combinations that reach the same point
+                    // For point (x, y), we can represent it as:
+                    // Combination 0: x * v1 + y * v2 (standard)
+                    // Combination 1: (x + a) * v1 + (y - a) * v2 (where a divides both x and y evenly)
+                    // Combination 2: Different basis vectors
+                    
+                    let displayX, displayY, v1Label, v2Label;
+                    
+                    if (currentVectorCombination === 0) {
+                        // Standard representation
+                        displayX = randomPoint2.x;
+                        displayY = randomPoint2.y;
+                        v1Label = `${displayX} × v₁`;
+                        v2Label = `${displayY} × v₂`;
+                    } else if (currentVectorCombination === 1) {
+                        // Alternative representation using different basis
+                        // Show path going vertical first, then horizontal
+                        displayX = randomPoint2.y;
+                        displayY = randomPoint2.x;
+                        v1Label = `${displayY} × v₁`;
+                        v2Label = `${displayX} × v₂`;
+                        
+                        // Draw vertical first
+                        ctx2.strokeStyle = '#00f0ff';
+                        ctx2.lineWidth = 3;
+                        ctx2.setLineDash([5, 5]);
+                        
+                        ctx2.beginPath();
+                        ctx2.moveTo(offset, offset);
+                        ctx2.lineTo(offset, offset + displayX * gridSize);
+                        ctx2.stroke();
+                        
+                        ctx2.beginPath();
+                        ctx2.moveTo(offset, offset + displayX * gridSize);
+                        ctx2.lineTo(offset + displayY * gridSize, offset + randomPoint2.y * gridSize);
+                        ctx2.stroke();
+                        
+                        ctx2.setLineDash([]);
+                        
+                        ctx2.fillStyle = '#00f0ff';
+                        ctx2.font = 'bold 16px Space Mono';
+                        ctx2.fillText(`${displayX} × v₂`, offset - 60, offset + (displayX * gridSize) / 2);
+                        ctx2.fillText(`${displayY} × v₁`, offset + (displayY * gridSize) / 2 - 30, offset + randomPoint2.y * gridSize + 25);
+                        
+                        // Add label
+                        ctx2.fillStyle = '#ffee00';
+                        ctx2.font = 'bold 14px Space Mono';
+                        ctx2.fillText('Combinación alternativa: orden diferente', offset + 10, offset + 12 * gridSize + 35);
+                        return;
+                    } else if (currentVectorCombination === 2) {
+                        // Show using scaled vectors
+                        const scale = 2;
+                        if (randomPoint2.x % scale === 0 && randomPoint2.y % scale === 0) {
+                            displayX = randomPoint2.x / scale;
+                            displayY = randomPoint2.y / scale;
+                            v1Label = `${displayX} × (${scale}v₁)`;
+                            v2Label = `${displayY} × (${scale}v₂)`;
+                            
+                            ctx2.strokeStyle = '#9370db';
+                            ctx2.lineWidth = 3;
+                            ctx2.setLineDash([5, 5]);
+                            
+                            // Draw using scaled vectors
+                            for (let i = 0; i < displayX; i++) {
+                                ctx2.beginPath();
+                                ctx2.moveTo(offset + i * scale * gridSize, offset);
+                                ctx2.lineTo(offset + (i + 1) * scale * gridSize, offset);
+                                ctx2.stroke();
+                            }
+                            
+                            for (let j = 0; j < displayY; j++) {
+                                ctx2.beginPath();
+                                ctx2.moveTo(offset + randomPoint2.x * gridSize, offset + j * scale * gridSize);
+                                ctx2.lineTo(offset + randomPoint2.x * gridSize, offset + (j + 1) * scale * gridSize);
+                                ctx2.stroke();
+                            }
+                            
+                            ctx2.setLineDash([]);
+                            
+                            ctx2.fillStyle = '#9370db';
+                            ctx2.font = 'bold 16px Space Mono';
+                            ctx2.fillText(v1Label, offset + (randomPoint2.x * gridSize) / 2 - 40, offset - 10);
+                            ctx2.fillText(v2Label, offset + randomPoint2.x * gridSize + 10, offset + (randomPoint2.y * gridSize) / 2);
+                            
+                            ctx2.fillStyle = '#ffee00';
+                            ctx2.font = 'bold 14px Space Mono';
+                            ctx2.fillText('Combinación con vectores escalados', offset + 10, offset + 12 * gridSize + 35);
+                            return;
+                        } else {
+                            // If point doesn't divide evenly, cycle back to combination 0
+                            currentVectorCombination = 0;
+                            displayX = randomPoint2.x;
+                            displayY = randomPoint2.y;
+                            v1Label = `${displayX} × v₁`;
+                            v2Label = `${displayY} × v₂`;
+                        }
+                    }
+                    
+                    // Draw standard representation (horizontal then vertical)
+                    ctx2.strokeStyle = '#ffee00';
+                    ctx2.lineWidth = 3;
+                    ctx2.setLineDash([5, 5]);
+                    
+                    ctx2.beginPath();
+                    ctx2.moveTo(offset, offset);
+                    ctx2.lineTo(offset + randomPoint2.x * gridSize, offset);
+                    ctx2.stroke();
+                    
+                    ctx2.beginPath();
+                    ctx2.moveTo(offset + randomPoint2.x * gridSize, offset);
+                    ctx2.lineTo(offset + randomPoint2.x * gridSize, offset + randomPoint2.y * gridSize);
+                    ctx2.stroke();
+                    
+                    ctx2.setLineDash([]);
+                    
+                    ctx2.fillStyle = '#ffee00';
+                    ctx2.font = 'bold 16px Space Mono';
+                    ctx2.fillText(v1Label, offset + (randomPoint2.x * gridSize) / 2 - 30, offset - 10);
+                    ctx2.fillText(v2Label, offset + randomPoint2.x * gridSize + 10, offset + (randomPoint2.y * gridSize) / 2);
+                    
+                    if (currentVectorCombination === 0) {
+                        ctx2.fillStyle = '#ffee00';
+                        ctx2.font = 'bold 14px Space Mono';
+                        ctx2.fillText('Combinación estándar: horizontal primero', offset + 10, offset + 12 * gridSize + 35);
+                    }
+                }
+            }
+        }
+        
+        function showRandomPoint() {
+            randomPoint2 = {
+                x: Math.floor(Math.random() * 10) + 2,
+                y: Math.floor(Math.random() * 10) + 2
+            };
+            showVectors2 = false;
+            currentVectorCombination = 0;
+            drawLattice2();
+        }
+        
+        function revealVectors() {
+            if (!randomPoint2) {
+                // Si no hay punto, generar uno nuevo
+                showRandomPoint();
+            }
+            showVectors2 = true;
+            // Cycle through different combinations
+            currentVectorCombination = (currentVectorCombination + 1) % 3;
+            drawLattice2();
+        }
+        
+        function resetDemo2() {
+            randomPoint2 = null;
+            showVectors2 = false;
+            currentVectorCombination = 0;
+            drawLattice2();
+        }
+        
+        // Step 3: Noise Visualization
+        const canvas3 = document.getElementById('lattice3');
+        const ctx3 = canvas3.getContext('2d');
+        let noiseLevel = 0;
+        
+        function drawLattice3(noise) {
+            ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
+            const gridSize = 40;
+            const offset = 100;
+            
+            // Draw clean lattice points
+            for (let i = 0; i <= 12; i++) {
+                for (let j = 0; j <= 12; j++) {
+                    const cleanX = offset + i * gridSize;
+                    const cleanY = offset + j * gridSize;
+                    
+                    // Add noise
+                    const noiseX = (Math.random() - 0.5) * noise * gridSize / 10;
+                    const noiseY = (Math.random() - 0.5) * noise * gridSize / 10;
+                    
+                    // Draw clean point (faded)
+                    ctx3.fillStyle = 'rgba(0, 240, 255, 0.3)';
+                    ctx3.beginPath();
+                    ctx3.arc(cleanX, cleanY, 3, 0, Math.PI * 2);
+                    ctx3.fill();
+                    
+                    // Draw noisy point
+                    ctx3.fillStyle = noise > 0 ? '#ff00aa' : '#00f0ff';
+                    ctx3.beginPath();
+                    ctx3.arc(cleanX + noiseX, cleanY + noiseY, 5, 0, Math.PI * 2);
+                    ctx3.fill();
+                    
+                    // Draw connection if noise is present
+                    if (noise > 20) {
+                        ctx3.strokeStyle = 'rgba(255, 0, 170, 0.3)';
+                        ctx3.lineWidth = 1;
+                        ctx3.setLineDash([2, 2]);
+                        ctx3.beginPath();
+                        ctx3.moveTo(cleanX, cleanY);
+                        ctx3.lineTo(cleanX + noiseX, cleanY + noiseY);
+                        ctx3.stroke();
+                        ctx3.setLineDash([]);
+                    }
+                }
+            }
+        }
+        
+        function updateNoise(value) {
+            noiseLevel = parseInt(value);
+            document.getElementById('noiseValue').textContent = noiseLevel;
+            drawLattice3(noiseLevel);
+        }
+        
+        // Step 4: Uncertainty Visualization
+        const canvas4 = document.getElementById('lattice4');
+        const ctx4 = canvas4.getContext('2d');
+        let showExact4 = false;
+        let showUncertain4 = false;
+        
+        function drawLattice4() {
+            ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
+            const gridSize = 40;
+            const offset = 100;
+            
+            // Draw grid
+            ctx4.strokeStyle = 'rgba(42, 63, 95, 0.3)';
+            ctx4.lineWidth = 1;
+            for (let i = 0; i <= 12; i++) {
+                for (let j = 0; j <= 12; j++) {
+                    ctx4.fillStyle = 'rgba(0, 240, 255, 0.3)';
+                    ctx4.beginPath();
+                    ctx4.arc(offset + i * gridSize, offset + j * gridSize, 2, 0, Math.PI * 2);
+                    ctx4.fill();
+                }
+            }
+            
+            if (showExact4) {
+                // Show exact point at (6, 6) - más centrado
+                ctx4.fillStyle = '#ffee00';
+                ctx4.beginPath();
+                ctx4.arc(offset + 6 * gridSize, offset + 6 * gridSize, 8, 0, Math.PI * 2);
+                ctx4.fill();
+                
+                ctx4.fillStyle = '#ffee00';
+                ctx4.font = 'bold 16px Space Mono';
+                ctx4.fillText('Exacto: (6, 6)', offset + 6 * gridSize + 15, offset + 6 * gridSize);
+            }
+            
+            if (showUncertain4) {
+                // Show uncertainty cloud
+                const centerX = offset + 6 * gridSize;
+                const centerY = offset + 6 * gridSize;
+                const radius = 80;
+                
+                // Draw uncertainty circle
+                ctx4.strokeStyle = 'rgba(255, 0, 170, 0.5)';
+                ctx4.lineWidth = 2;
+                ctx4.setLineDash([5, 5]);
+                ctx4.beginPath();
+                ctx4.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                ctx4.stroke();
+                ctx4.setLineDash([]);
+                
+                // Highlight all points within uncertainty
+                for (let i = 0; i <= 12; i++) {
+                    for (let j = 0; j <= 12; j++) {
+                        const px = offset + i * gridSize;
+                        const py = offset + j * gridSize;
+                        const dist = Math.sqrt((px - centerX) ** 2 + (py - centerY) ** 2);
+                        
+                        if (dist <= radius) {
+                            ctx4.fillStyle = '#ff00aa';
+                            ctx4.globalAlpha = 0.6;
+                            ctx4.beginPath();
+                            ctx4.arc(px, py, 6, 0, Math.PI * 2);
+                            ctx4.fill();
+                            ctx4.globalAlpha = 1;
+                        }
+                    }
+                }
+                
+                ctx4.fillStyle = '#ff00aa';
+                ctx4.font = 'bold 14px Space Mono';
+                ctx4.fillText('¡Todos estos puntos están "cerca" de (6, 6)!', centerX - 160, centerY + radius + 25);
+            }
+        }
+        
+        function showExactPoint() {
+            showExact4 = true;
+            showUncertain4 = false;
+            drawLattice4();
+        }
+        
+        function showUncertainty() {
+            showUncertain4 = true;
+            drawLattice4();
+        }
+        
+        function resetDemo4() {
+            showExact4 = false;
+            showUncertain4 = false;
+            drawLattice4();
+        }
+        
+        // Step 5: Key Pair Visualization
+        const canvas5 = document.getElementById('lattice5');
+        const ctx5 = canvas5.getContext('2d');
+        let publicKey5 = null;
+        let privateKey5 = null;
+        let showPrivate5 = false;
+        
+        function drawLattice5() {
+            ctx5.clearRect(0, 0, canvas5.width, canvas5.height);
+            const gridSize = 40;
+            const offset = 100;
+            
+            // Draw lattice
+            for (let i = 0; i <= 12; i++) {
+                for (let j = 0; j <= 12; j++) {
+                    ctx5.fillStyle = 'rgba(0, 240, 255, 0.3)';
+                    ctx5.beginPath();
+                    ctx5.arc(offset + i * gridSize, offset + j * gridSize, 3, 0, Math.PI * 2);
+                    ctx5.fill();
+                }
+            }
+            
+            if (publicKey5) {
+                if (showPrivate5 && privateKey5) {
+                    // FIRST: Draw private key (secret direction) - draw first so it's behind
+                    const cleanX = offset + privateKey5.latticeX * gridSize;
+                    const cleanY = offset + privateKey5.latticeY * gridSize;
+                    
+                    // Draw arrow showing direction from origin
+                    ctx5.strokeStyle = '#ffee00';
+                    ctx5.lineWidth = 4;
+                    ctx5.setLineDash([8, 8]);
+                    ctx5.beginPath();
+                    ctx5.moveTo(offset, offset);
+                    ctx5.lineTo(cleanX, cleanY);
+                    ctx5.stroke();
+                    ctx5.setLineDash([]);
+                    
+                    // Draw arrowhead
+                    const angle = Math.atan2(cleanY - offset, cleanX - offset);
+                    ctx5.fillStyle = '#ffee00';
+                    ctx5.save();
+                    ctx5.translate(cleanX, cleanY);
+                    ctx5.rotate(angle);
+                    ctx5.beginPath();
+                    ctx5.moveTo(0, 0);
+                    ctx5.lineTo(-15, -8);
+                    ctx5.lineTo(-15, 8);
+                    ctx5.closePath();
+                    ctx5.fill();
+                    ctx5.restore();
+                    
+                    // Show the clean lattice point (enlarged)
+                    ctx5.fillStyle = '#ffee00';
+                    ctx5.beginPath();
+                    ctx5.arc(cleanX, cleanY, 10, 0, Math.PI * 2);
+                    ctx5.fill();
+                    
+                    // Glow effect for private key
+                    ctx5.strokeStyle = 'rgba(255, 238, 0, 0.3)';
+                    ctx5.lineWidth = 2;
+                    ctx5.beginPath();
+                    ctx5.arc(cleanX, cleanY, 20, 0, Math.PI * 2);
+                    ctx5.stroke();
+                    
+                    // Draw the noise vector (from clean point to public key)
+                    ctx5.strokeStyle = 'rgba(255, 100, 200, 0.8)';
+                    ctx5.lineWidth = 3;
+                    ctx5.setLineDash([4, 4]);
+                    ctx5.beginPath();
+                    ctx5.moveTo(cleanX, cleanY);
+                    ctx5.lineTo(offset + publicKey5.x, offset + publicKey5.y);
+                    ctx5.stroke();
+                    ctx5.setLineDash([]);
+                    
+                    // Draw small arrowhead for noise
+                    const noiseAngle = Math.atan2(offset + publicKey5.y - cleanY, offset + publicKey5.x - cleanX);
+                    ctx5.fillStyle = 'rgba(255, 100, 200, 0.8)';
+                    ctx5.save();
+                    ctx5.translate(offset + publicKey5.x, offset + publicKey5.y);
+                    ctx5.rotate(noiseAngle);
+                    ctx5.beginPath();
+                    ctx5.moveTo(0, 0);
+                    ctx5.lineTo(-10, -5);
+                    ctx5.lineTo(-10, 5);
+                    ctx5.closePath();
+                    ctx5.fill();
+                    ctx5.restore();
+                    
+                    // LABELS - positioned to avoid overlap
+                    // Origin label
+                    ctx5.fillStyle = '#00f0ff';
+                    ctx5.font = 'bold 14px Space Mono';
+                    ctx5.fillText('Origen', offset - 50, offset + 25);
+                    
+                    // Private key label - position based on location
+                    ctx5.fillStyle = '#ffee00';
+                    ctx5.font = 'bold 16px Space Mono';
+                    
+                    // Position label intelligently based on point location
+                    let privLabelX, privLabelY;
+                    if (cleanX < 300) {
+                        // Point is on left side, put label on right
+                        privLabelX = cleanX + 25;
+                        privLabelY = cleanY - 25;
+                    } else {
+                        // Point is on right side, put label on left
+                        privLabelX = cleanX - 180;
+                        privLabelY = cleanY - 25;
+                    }
+                    
+                    ctx5.fillText('CLAVE PRIVADA', privLabelX, privLabelY);
+                    ctx5.font = 'bold 13px Space Mono';
+                    ctx5.fillText(`Punto (${privateKey5.latticeX}, ${privateKey5.latticeY})`, privLabelX, privLabelY + 18);
+                    
+                    // Noise label - in the middle of noise vector
+                    const noiseMidX = (cleanX + offset + publicKey5.x) / 2;
+                    const noiseMidY = (cleanY + offset + publicKey5.y) / 2;
+                    ctx5.fillStyle = 'rgba(255, 100, 200, 1)';
+                    ctx5.font = 'bold 14px Space Mono';
+                    ctx5.fillText('+ Ruido', noiseMidX + 5, noiseMidY - 8);
+                }
+                
+                // SECOND: Draw public key (on top)
+                ctx5.fillStyle = '#ff00aa';
+                ctx5.beginPath();
+                ctx5.arc(offset + publicKey5.x, offset + publicKey5.y, 10, 0, Math.PI * 2);
+                ctx5.fill();
+                
+                // Glow effect for public key
+                ctx5.strokeStyle = 'rgba(255, 0, 170, 0.3)';
+                ctx5.lineWidth = 2;
+                ctx5.beginPath();
+                ctx5.arc(offset + publicKey5.x, offset + publicKey5.y, 20, 0, Math.PI * 2);
+                ctx5.stroke();
+                
+                // Public key label - always visible, positioned to avoid overlap
+                ctx5.fillStyle = '#ff00aa';
+                ctx5.font = 'bold 16px Space Mono';
+                
+                // Position based on location
+                let pubLabelX, pubLabelY;
+                if (offset + publicKey5.x < 300) {
+                    pubLabelX = offset + publicKey5.x + 25;
+                    pubLabelY = offset + publicKey5.y + 5;
+                } else {
+                    pubLabelX = offset + publicKey5.x - 180;
+                    pubLabelY = offset + publicKey5.y + 5;
+                }
+                
+                ctx5.fillText('CLAVE PÚBLICA', pubLabelX, pubLabelY);
+                ctx5.font = 'bold 13px Space Mono';
+                ctx5.fillText('(visible para todos)', pubLabelX, pubLabelY + 18);
+            }
+        }
+        
+        function generateKeyPair() {
+            const gridSize = 40;
+            
+            // Generate clean lattice point (keep it more centered to avoid going off screen)
+            privateKey5 = {
+                latticeX: Math.floor(Math.random() * 6) + 4,  // Range: 4-9
+                latticeY: Math.floor(Math.random() * 6) + 4   // Range: 4-9
+            };
+            
+            // Add noise to create public key (smaller noise to keep on screen)
+            const noiseX = (Math.random() - 0.5) * 25;
+            const noiseY = (Math.random() - 0.5) * 25;
+            
+            publicKey5 = {
+                x: privateKey5.latticeX * gridSize + noiseX,
+                y: privateKey5.latticeY * gridSize + noiseY
+            };
+            
+            showPrivate5 = false;
+            drawLattice5();
+        }
+        
+        function showPrivateKey() {
+            if (publicKey5) {
+                showPrivate5 = true;
+                drawLattice5();
+            }
+        }
+        
+        function resetDemo5() {
+            publicKey5 = null;
+            privateKey5 = null;
+            showPrivate5 = false;
+            drawLattice5();
+        }
+        
+        // Step 7: Final Animation
+        const canvas7 = document.getElementById('lattice7');
+        const ctx7 = canvas7.getContext('2d');
+        let animationFrame7 = 0;
+        let animating7 = false;
+        
+        function drawLattice7(frame) {
+            ctx7.clearRect(0, 0, canvas7.width, canvas7.height);
+            const gridSize = 40;
+            const offset = 100;
+            
+            // Legend box - positioned at top right, above the lattice
+            const legendWidth = 280;
+            const legendHeight = 160;
+            const legendX = canvas7.width - legendWidth - 20;
+            const legendY = 20;
+            
+            ctx7.fillStyle = 'rgba(26, 31, 58, 0.98)';
+            ctx7.strokeStyle = 'rgba(0, 240, 255, 0.5)';
+            ctx7.lineWidth = 2;
+            ctx7.fillRect(legendX, legendY, legendWidth, legendHeight);
+            ctx7.strokeRect(legendX, legendY, legendWidth, legendHeight);
+            
+            ctx7.fillStyle = '#00f0ff';
+            ctx7.font = 'bold 14px Space Mono';
+            ctx7.fillText('FASE DE ANIMACIÓN:', legendX + 15, legendY + 25);
+            
+            let phaseText = '';
+            let phaseColor = '#9999bb';
+            
+            // Phase 1: Draw lattice (frames 0-80) - más lento
+            if (frame < 80) {
+                phaseText = '1. Construyendo la retícula...';
+                phaseColor = '#00f0ff';
+                const alpha = Math.min(1, frame / 80);
+                for (let i = 0; i <= 12; i++) {
+                    for (let j = 0; j <= 12; j++) {
+                        ctx7.fillStyle = `rgba(0, 240, 255, ${alpha * 0.5})`;
+                        ctx7.beginPath();
+                        ctx7.arc(offset + i * gridSize, offset + j * gridSize, 3, 0, Math.PI * 2);
+                        ctx7.fill();
+                    }
+                }
+            } else {
+                // Draw complete lattice for subsequent phases
+                for (let i = 0; i <= 12; i++) {
+                    for (let j = 0; j <= 12; j++) {
+                        ctx7.fillStyle = 'rgba(0, 240, 255, 0.5)';
+                        ctx7.beginPath();
+                        ctx7.arc(offset + i * gridSize, offset + j * gridSize, 3, 0, Math.PI * 2);
+                        ctx7.fill();
+                    }
+                }
+            }
+            
+            // Phase 2: Show secret direction (frames 80-160) - más lento
+            if (frame >= 80 && frame < 160) {
+                phaseText = '2. Eligiendo dirección secreta...';
+                phaseColor = '#ffee00';
+                const progress = (frame - 80) / 80;
+                const targetX = 7;
+                const targetY = 5;
+                
+                ctx7.strokeStyle = '#ffee00';
+                ctx7.lineWidth = 4;
+                ctx7.setLineDash([5, 5]);
+                ctx7.beginPath();
+                ctx7.moveTo(offset, offset);
+                ctx7.lineTo(offset + targetX * gridSize * progress, offset + targetY * gridSize * progress);
+                ctx7.stroke();
+                ctx7.setLineDash([]);
+                
+                if (progress >= 0.5) {
+                    ctx7.fillStyle = '#ffee00';
+                    ctx7.beginPath();
+                    ctx7.arc(offset + targetX * gridSize * progress, offset + targetY * gridSize * progress, 8, 0, Math.PI * 2);
+                    ctx7.fill();
+                }
+            }
+            
+            // Phase 3: Add noise (frames 160-280) - más lento
+            if (frame >= 160 && frame < 280) {
+                phaseText = '3. Agregando ruido...';
+                phaseColor = '#ff00aa';
+                const targetX = 7;
+                const targetY = 5;
+                
+                // Draw complete secret direction
+                ctx7.strokeStyle = '#ffee00';
+                ctx7.lineWidth = 4;
+                ctx7.setLineDash([5, 5]);
+                ctx7.beginPath();
+                ctx7.moveTo(offset, offset);
+                ctx7.lineTo(offset + targetX * gridSize, offset + targetY * gridSize);
+                ctx7.stroke();
+                ctx7.setLineDash([]);
+                
+                ctx7.fillStyle = '#ffee00';
+                ctx7.beginPath();
+                ctx7.arc(offset + targetX * gridSize, offset + targetY * gridSize, 8, 0, Math.PI * 2);
+                ctx7.fill();
+                
+                const noiseProgress = (frame - 160) / 120;
+                const noiseX = 15 * noiseProgress;
+                const noiseY = -10 * noiseProgress;
+                
+                // Draw noise cloud
+                for (let i = 0; i < 30 * noiseProgress; i++) {
+                    const angle = (i / 30) * Math.PI * 2;
+                    const radius = 25 * noiseProgress;
+                    const nx = offset + targetX * gridSize + Math.cos(angle) * radius;
+                    const ny = offset + targetY * gridSize + Math.sin(angle) * radius;
+                    
+                    ctx7.fillStyle = `rgba(255, 0, 170, ${0.2 * noiseProgress})`;
+                    ctx7.beginPath();
+                    ctx7.arc(nx, ny, 2, 0, Math.PI * 2);
+                    ctx7.fill();
+                }
+                
+                // Draw noise vector
+                if (noiseProgress > 0.3) {
+                    ctx7.strokeStyle = 'rgba(255, 100, 200, 0.8)';
+                    ctx7.lineWidth = 3;
+                    ctx7.setLineDash([4, 4]);
+                    ctx7.beginPath();
+                    ctx7.moveTo(offset + targetX * gridSize, offset + targetY * gridSize);
+                    ctx7.lineTo(offset + targetX * gridSize + noiseX, offset + targetY * gridSize + noiseY);
+                    ctx7.stroke();
+                    ctx7.setLineDash([]);
+                }
+                
+                // Draw public key
+                ctx7.fillStyle = '#ff00aa';
+                ctx7.beginPath();
+                ctx7.arc(offset + targetX * gridSize + noiseX, offset + targetY * gridSize + noiseY, 10 * noiseProgress, 0, Math.PI * 2);
+                ctx7.fill();
+            }
+            
+            // Phase 4: Show complete system (frames 280-380) - más lento
+            if (frame >= 280) {
+                phaseText = '4. ¡Sistema completo!';
+                phaseColor = '#00f0ff';
+                const targetX = 7;
+                const targetY = 5;
+                const noiseX = 15;
+                const noiseY = -10;
+                
+                // Draw complete secret direction
+                ctx7.strokeStyle = '#ffee00';
+                ctx7.lineWidth = 4;
+                ctx7.setLineDash([5, 5]);
+                ctx7.beginPath();
+                ctx7.moveTo(offset, offset);
+                ctx7.lineTo(offset + targetX * gridSize, offset + targetY * gridSize);
+                ctx7.stroke();
+                ctx7.setLineDash([]);
+                
+                ctx7.fillStyle = '#ffee00';
+                ctx7.beginPath();
+                ctx7.arc(offset + targetX * gridSize, offset + targetY * gridSize, 8, 0, Math.PI * 2);
+                ctx7.fill();
+                
+                // Draw noise cloud
+                for (let i = 0; i < 30; i++) {
+                    const angle = (i / 30) * Math.PI * 2;
+                    const radius = 25;
+                    const nx = offset + targetX * gridSize + Math.cos(angle) * radius;
+                    const ny = offset + targetY * gridSize + Math.sin(angle) * radius;
+                    
+                    ctx7.fillStyle = 'rgba(255, 0, 170, 0.2)';
+                    ctx7.beginPath();
+                    ctx7.arc(nx, ny, 2, 0, Math.PI * 2);
+                    ctx7.fill();
+                }
+                
+                // Draw noise vector
+                ctx7.strokeStyle = 'rgba(255, 100, 200, 0.8)';
+                ctx7.lineWidth = 3;
+                ctx7.setLineDash([4, 4]);
+                ctx7.beginPath();
+                ctx7.moveTo(offset + targetX * gridSize, offset + targetY * gridSize);
+                ctx7.lineTo(offset + targetX * gridSize + noiseX, offset + targetY * gridSize + noiseY);
+                ctx7.stroke();
+                ctx7.setLineDash([]);
+                
+                // Draw public key with pulsing effect
+                const pulse = 1 + 0.1 * Math.sin((frame - 280) / 10);
+                ctx7.fillStyle = '#ff00aa';
+                ctx7.beginPath();
+                ctx7.arc(offset + targetX * gridSize + noiseX, offset + targetY * gridSize + noiseY, 10 * pulse, 0, Math.PI * 2);
+                ctx7.fill();
+                
+                // Add glow to public key
+                ctx7.strokeStyle = 'rgba(255, 0, 170, 0.4)';
+                ctx7.lineWidth = 2;
+                ctx7.beginPath();
+                ctx7.arc(offset + targetX * gridSize + noiseX, offset + targetY * gridSize + noiseY, 20 * pulse, 0, Math.PI * 2);
+                ctx7.stroke();
+            }
+            
+            // Draw legend phase text
+            ctx7.fillStyle = phaseColor;
+            ctx7.font = '15px Space Mono';
+            ctx7.fillText(phaseText, legendX + 15, legendY + 55);
+            
+            // Legend indicators - with colored dots
+            ctx7.font = 'bold 14px Space Mono';
+            
+            // Yellow dot - Clave Privada
+            ctx7.fillStyle = '#ffee00';
+            ctx7.beginPath();
+            ctx7.arc(legendX + 25, legendY + 75, 6, 0, Math.PI * 2);
+            ctx7.fill();
+            ctx7.fillText('Clave Privada', legendX + 40, legendY + 80);
+            
+            // Magenta dot - Clave Pública
+            ctx7.fillStyle = '#ff00aa';
+            ctx7.beginPath();
+            ctx7.arc(legendX + 25, legendY + 100, 6, 0, Math.PI * 2);
+            ctx7.fill();
+            ctx7.fillText('Clave Pública', legendX + 40, legendY + 105);
+            
+            // Progress bar
+            const progress = Math.min(100, (frame / 380) * 100);
+            ctx7.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx7.fillRect(legendX + 15, legendY + 120, 250, 20);
+            
+            const gradient = ctx7.createLinearGradient(legendX + 15, 0, legendX + 15 + 250, 0);
+            gradient.addColorStop(0, '#00f0ff');
+            gradient.addColorStop(0.5, '#ff00aa');
+            gradient.addColorStop(1, '#ffee00');
+            
+            ctx7.fillStyle = gradient;
+            ctx7.fillRect(legendX + 15, legendY + 120, (250 * progress) / 100, 20);
+            
+            ctx7.strokeStyle = 'rgba(0, 240, 255, 0.5)';
+            ctx7.lineWidth = 1;
+            ctx7.strokeRect(legendX + 15, legendY + 120, 250, 20);
+            
+            ctx7.fillStyle = '#9999bb';
+            ctx7.font = '11px Space Mono';
+            ctx7.fillText(`Progreso: ${Math.floor(progress)}%`, legendX + 95, legendY + 155);
+        }
+        
+        function animateFinalDemo() {
+            if (animating7) return;
+            
+            animating7 = true;
+            animationFrame7 = 0;
+            
+            const animate = () => {
+                drawLattice7(animationFrame7);
+                animationFrame7++;
+                
+                if (animationFrame7 < 380) {
+                    requestAnimationFrame(animate);
+                } else {
+                    animating7 = false;
+                }
+            };
+            
+            animate();
+        }
+        
+        function resetDemo7() {
+            animating7 = false;
+            animationFrame7 = 0;
+            ctx7.clearRect(0, 0, canvas7.width, canvas7.height);
+        }
+        
+        // Initialize all canvases
+        drawLattice1();
+        drawLattice2();
+        drawLattice3(0);
+        drawLattice4();
+        drawLattice5();
+        drawLattice7(0);
+    </script>
+</body>
+</html>

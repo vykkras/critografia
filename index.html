@@ -182,6 +182,17 @@
             border-radius: 5px;
         }
 
+        .resource-links a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .resource-links a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -756,11 +767,11 @@
 
             <h3>CRYSTALS-Kyber - Explicación simple</h3>
             <p><strong>¿Qué es?</strong> Kyber es un algoritmo post-cuántico de <strong>encapsulación de claves (KEM)</strong>. Su objetivo es que dos partes acuerden un secreto compartido que luego se usa para cifrar mensajes con un cifrado simétrico (por ejemplo, AES).</p>
-            <p><strong>Problema que resuelve:</strong> Las computadoras cuánticas podrán romper RSA y otros esquemas basados en factorización o logaritmos discretos. Kyber se apoya en problemas de <strong>retículas (lattices)</strong> que siguen siendo difíciles incluso con computación cuántica.</p>
+            
 
             <h4 style="color: #764ba2;">¿Cómo funciona? (versión simple)</h4>
             <ul>
-                <li><strong>Retículas:</strong> imagina una red de puntos en muchas dimensiones. Encontrar el punto correcto o el más cercano en esa red es extremadamente difícil.</li>
+                <li><strong>Retículas:</strong> una red de puntos en muchas dimensiones. Encontrar el punto correcto o el más cercano en esa red es extremadamente difícil.</li>
                 <li><strong>Intercambio de claves (lo más importante):</strong> Kyber no cifra el mensaje directamente; encapsula un secreto compartido.</li>
             </ul>
 
@@ -768,8 +779,8 @@
                 <h4>Intercambio de claves, paso a paso</h4>
                 <ul>
                     <li><strong>Paso 1 - KeyGen (Bob):</strong> Bob genera una clave pública y una privada. La pública incluye una estructura con <em>ruido controlado</em>.</li>
-                    <li><strong>Paso 2 - Encapsulate (Alice):</strong> Alice usa la clave pública de Bob, añade su propio ruido y envía un <em>ciphertext</em> que contiene el secreto encapsulado.</li>
-                    <li><strong>Paso 3 - Decapsulate (Bob):</strong> Bob usa su clave privada para eliminar el ruido y recuperar el mismo secreto compartido.</li>
+                    <li><strong>Paso 2 - Encapsular (Alicia):</strong> Alice usa la clave pública de Bob, añade su propio ruido y envía un <em>ciphertext</em> que contiene el secreto encapsulado.</li>
+                    <li><strong>Paso 3 - Decapsular (Bob):</strong> Bob usa su clave privada para eliminar el ruido y recuperar el mismo secreto compartido.</li>
                 </ul>
                 <p><strong>La clave del sistema:</strong> el ruido es lo bastante grande para confundir atacantes, pero lo bastante pequeño para que Bob pueda recuperarlo.</p>
             </div>
@@ -847,6 +858,10 @@
                 <div class="kyber-note">
                     <strong>Idea clave:</strong> recuperar <span class="kyber-mono">s</span> desde <span class="kyber-mono">(A, t)</span> equivale a resolver el problema MLWE, considerado difícil incluso para computadoras cuánticas.
                 </div>
+            </div>
+
+            <div class="controls">
+                <button type="button" onclick="window.open('kyber-reticulas.html', '_blank')">Abrir explicación visual de retículas Kyber</button>
             </div>
 
             
@@ -968,14 +983,15 @@ with Signature("Dilithium2") as signer:
             </div>
 
             <h3>Bibliografía y recursos de aprendizaje</h3>
-            <ul>
+            <ul class="resource-links">
                 <li><strong>NIST Post-Quantum Cryptography:</strong> <a href="https://csrc.nist.gov/projects/post-quantum-cryptography" target="_blank" rel="noopener">csrc.nist.gov/projects/post-quantum-cryptography</a></li>
                 <li><strong>Open Quantum Safe:</strong> <a href="https://openquantumsafe.org" target="_blank" rel="noopener">openquantumsafe.org</a></li>
                 <li><strong>PQShield:</strong> <a href="https://pqshield.com/learning-center/" target="_blank" rel="noopener">pqshield.com/learning-center/</a></li>
                 <li><strong>ETSI Quantum Safe Cryptography:</strong> <a href="https://www.etsi.org" target="_blank" rel="noopener">etsi.org</a></li>
                 <li><strong>Cryptopedia - Kyber:</strong> <a href="https://cryptopedia.dev/posts/kyber/" target="_blank" rel="noopener">cryptopedia.dev/posts/kyber/</a></li>
-                <li><strong>Veritasium - Video:</strong> <a href="https://www.youtube.com/watch?v=-UrdExQW0cs&t=429s" target="_blank" rel="noopener">youtube.com/watch?v=-UrdExQW0cs</a></li>
+                <li><strong>Veritasium - Video:</strong> <a href="https://youtu.be/-UrdExQW0cs?si=O_h_ezpU_TgsjCet" target="_blank" rel="noopener">youtu.be/-UrdExQW0cs</a></li>
             </ul>
+
         </section>
 
         <!-- Sección 8: Temas para profundizar -->
