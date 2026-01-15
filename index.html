@@ -18,6 +18,108 @@
             overflow-x: hidden;
         }
 
+        .atom-field {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .atom {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            opacity: 0.9;
+            animation: atomDrift 11s ease-in-out infinite;
+        }
+
+        .atom-core {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 204, 140, 0.95);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(255, 204, 140, 0.9);
+        }
+
+        .atom-orbit {
+            position: absolute;
+            inset: 6px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            animation: atomSpin 6s linear infinite;
+        }
+
+        .atom-orbit::after {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            top: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .atom-orbit.secondary {
+            inset: 10px;
+            border-color: rgba(255, 255, 255, 0.25);
+            animation-duration: 8s;
+            transform: rotate(60deg);
+        }
+
+        .atom-orbit.tertiary {
+            inset: 4px;
+            border-color: rgba(255, 255, 255, 0.2);
+            animation-duration: 10s;
+            transform: rotate(120deg);
+        }
+
+        .atom.left {
+            left: 1.5%;
+        }
+
+        .atom.right {
+            right: 1.5%;
+        }
+
+        .atom.variant-1 {
+            animation-duration: 9s;
+            transform: scale(1.05);
+        }
+
+        .atom.variant-2 {
+            animation-duration: 13s;
+            transform: scale(1.2);
+        }
+
+        .atom.variant-3 {
+            animation-duration: 10.5s;
+            transform: scale(0.9);
+        }
+
+        @keyframes atomDrift {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(8px, -16px) rotate(6deg);
+            }
+        }
+
+        @keyframes atomSpin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -68,7 +170,7 @@
             color: #667eea;
             font-size: 2em;
             margin-bottom: 20px;
-            border-bottom: 3px solid #667eea;
+            border-bottom: none;
             padding-bottom: 10px;
         }
 
@@ -140,7 +242,7 @@
 
         .output {
             background: #f8f9fa;
-            border-left: 4px solid #667eea;
+            border-left: none;
             padding: 20px;
             margin: 20px 0;
             border-radius: 5px;
@@ -160,7 +262,7 @@
 
         .warning {
             background: #f8d7da;
-            border-left: 4px solid #dc3545;
+            border-left: none;
             padding: 15px;
             margin: 20px 0;
             border-radius: 5px;
@@ -168,7 +270,7 @@
 
         .success {
             background: #d4edda;
-            border-left: 4px solid #28a745;
+            border-left: none;
             padding: 15px;
             margin: 20px 0;
             border-radius: 5px;
@@ -176,7 +278,7 @@
 
         .info-box {
             background: #d1ecf1;
-            border-left: 4px solid #17a2b8;
+            border-left: none;
             padding: 20px;
             margin: 20px 0;
             border-radius: 5px;
@@ -346,7 +448,7 @@
 
         .conclusion h2 {
             color: white;
-            border-bottom: 3px solid white;
+            border-bottom: none;
         }
 
         ul {
@@ -489,7 +591,7 @@
 }
 .kyber-note {
   background: #eef1ff;
-  border-left: 4px solid #764ba2;
+  border-left: none;
   padding: 14px 18px;
   border-radius: 10px;
   margin-top: 18px;
@@ -512,7 +614,7 @@
 }
 .shor-step {
   background: #f8f9fa;
-  border-left: 4px solid #c3cfe2;
+  border-left: none;
   padding: 12px 14px;
   border-radius: 8px;
   transition: border-color 0.3s, background 0.3s;
@@ -538,6 +640,46 @@
     </style>
 </head>
 <body>
+    <div class="atom-field" aria-hidden="true">
+        <div class="atom left variant-2" style="top: 9%;">
+            <span class="atom-core"></span>
+            <span class="atom-orbit"></span>
+            <span class="atom-orbit secondary"></span>
+        </div>
+        <div class="atom left variant-1" style="top: 29%;">
+            <span class="atom-core"></span>
+            <span class="atom-orbit"></span>
+            <span class="atom-orbit tertiary"></span>
+        </div>
+        <div class="atom left variant-3" style="top: 54%;">
+            <span class="atom-core"></span>
+            <span class="atom-orbit secondary"></span>
+            <span class="atom-orbit tertiary"></span>
+        </div>
+        <div class="atom left variant-2" style="top: 78%;">
+            <span class="atom-core"></span>
+            <span class="atom-orbit"></span>
+        </div>
+        <div class="atom right variant-3" style="top: 16%;">
+            <span class="atom-core"></span>
+            <span class="atom-orbit"></span>
+            <span class="atom-orbit secondary"></span>
+        </div>
+        <div class="atom right variant-1" style="top: 41%;">
+            <span class="atom-core"></span>
+            <span class="atom-orbit"></span>
+            <span class="atom-orbit tertiary"></span>
+        </div>
+        <div class="atom right variant-2" style="top: 63%;">
+            <span class="atom-core"></span>
+            <span class="atom-orbit secondary"></span>
+            <span class="atom-orbit tertiary"></span>
+        </div>
+        <div class="atom right variant-1" style="top: 85%;">
+            <span class="atom-core"></span>
+            <span class="atom-orbit"></span>
+        </div>
+    </div>
     <div class="container">
         <header>
             <div class="header-names">
@@ -994,23 +1136,6 @@ with Signature("Dilithium2") as signer:
 
         </section>
 
-        <!-- Sección 8: Temas para profundizar -->
-        <section class="section">
-            <h2>📚 Temas para profundizar</h2>
-            <p>Conceptos que no cubrimos a detalle, pero valen la pena estudiar:</p>
-            <ul>
-                <li><strong>Rounding/Decoding:</strong> cómo se mapea m' a bits (0/1) con tolerancia a ruido.</li>
-                <li><strong>Learning With Errors (LWE):</strong> base matemática que garantiza seguridad.</li>
-                <li><strong>Parámetros y niveles:</strong> cómo se eligen tamaños de clave para diferentes niveles de seguridad.</li>
-                <li><strong>CCA vs CPA:</strong> por qué Kyber usa técnicas para resistir ataques de texto cifrado adaptativo.</li>
-                <li><strong>Calidad de aleatoriedad:</strong> impacto de RNG débil en la seguridad.</li>
-                <li><strong>Side-channels:</strong> ataques por tiempo/consumo y cómo mitigarlos (constant-time).</li>
-                <li><strong>Tolerancia a fallos:</strong> cómo manejar errores físicos y computación imperfecta.</li>
-                <li><strong>Implementación real:</strong> empaquetado de claves, formatos, y compatibilidad con TLS.</li>
-                <li><strong>Reticulas:</strong> se fundamentan en la dificultad computacional de problemas relacionados con retículos (estructuras matemáticas multidimensionales), como el {Shortest Vector Problem} (SVP) y el {Short Integer Solution} (SIS).</li>
-            </ul>
-        </section>
-
         <!-- Conclusión -->
         <section class="conclusion">
             <h2>🎯 Conclusiones Clave</h2>
@@ -1036,6 +1161,23 @@ with Signature("Dilithium2") as signer:
                 
                 
             </div>
+        </section>
+
+        <!-- Sección 8: Temas para profundizar -->
+        <section class="section">
+            <h2>📚 Temas para profundizar</h2>
+            <p>Conceptos que no cubrimos a detalle, pero valen la pena estudiar:</p>
+            <ul>
+                <li><strong>Rounding/Decoding:</strong> cómo se mapea m' a bits (0/1) con tolerancia a ruido.</li>
+                <li><strong>Learning With Errors (LWE):</strong> base matemática que garantiza seguridad.</li>
+                <li><strong>Parámetros y niveles:</strong> cómo se eligen tamaños de clave para diferentes niveles de seguridad.</li>
+                <li><strong>CCA vs CPA:</strong> por qué Kyber usa técnicas para resistir ataques de texto cifrado adaptativo.</li>
+                <li><strong>Calidad de aleatoriedad:</strong> impacto de RNG débil en la seguridad.</li>
+                <li><strong>Side-channels:</strong> ataques por tiempo/consumo y cómo mitigarlos (constant-time).</li>
+                <li><strong>Tolerancia a fallos:</strong> cómo manejar errores físicos y computación imperfecta.</li>
+                <li><strong>Implementación real:</strong> empaquetado de claves, formatos, y compatibilidad con TLS.</li>
+                <li><strong>Reticulas:</strong> se fundamentan en la dificultad computacional de problemas relacionados con retículos (estructuras matemáticas multidimensionales), como el {Shortest Vector Problem} (SVP) y el {Short Integer Solution} (SIS).</li>
+            </ul>
         </section>
 
         

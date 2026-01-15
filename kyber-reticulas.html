@@ -504,10 +504,15 @@
         const canvas1 = document.getElementById('lattice1');
         const ctx1 = canvas1.getContext('2d');
         
+        function getLattice1Layout() {
+            const gridSize = 40;
+            const offset = (canvas1.width - 12 * gridSize) / 2;
+            return { gridSize, offset };
+        }
+
         function drawLattice1() {
             ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-            const gridSize = 32;
-            const offset = 220;
+            const { gridSize, offset } = getLattice1Layout();
             
             // Draw grid lines
             ctx1.strokeStyle = 'rgba(42, 63, 95, 0.5)';
@@ -584,8 +589,7 @@
             drawLattice1();
             
             // Highlight nearby point
-            const gridSize = 40;
-            const offset = 100;
+            const { gridSize, offset } = getLattice1Layout();
             const gridX = Math.round((x - offset) / gridSize);
             const gridY = Math.round((y - offset) / gridSize);
             
@@ -1034,35 +1038,35 @@
                     // LABELS - positioned to avoid overlap
                     // Origin label
                     ctx5.fillStyle = '#00f0ff';
-                    ctx5.font = 'bold 14px Space Mono';
-                    ctx5.fillText('Origen', offset - 50, offset + 25);
+                    ctx5.font = 'bold 13px Space Mono';
+                    ctx5.fillText('Origen', offset - 52, offset + 22);
                     
                     // Private key label - position based on location
                     ctx5.fillStyle = '#ffee00';
-                    ctx5.font = 'bold 16px Space Mono';
+                    ctx5.font = 'bold 14px Space Mono';
                     
                     // Position label intelligently based on point location
                     let privLabelX, privLabelY;
                     if (cleanX < 300) {
                         // Point is on left side, put label on right
-                        privLabelX = cleanX + 25;
-                        privLabelY = cleanY - 25;
+                        privLabelX = cleanX + 30;
+                        privLabelY = cleanY - 40;
                     } else {
                         // Point is on right side, put label on left
-                        privLabelX = cleanX - 180;
-                        privLabelY = cleanY - 25;
+                        privLabelX = cleanX - 200;
+                        privLabelY = cleanY - 40;
                     }
                     
                     ctx5.fillText('CLAVE PRIVADA', privLabelX, privLabelY);
-                    ctx5.font = 'bold 13px Space Mono';
-                    ctx5.fillText(`Punto (${privateKey5.latticeX}, ${privateKey5.latticeY})`, privLabelX, privLabelY + 18);
+                    ctx5.font = 'bold 12px Space Mono';
+                    ctx5.fillText(`Punto (${privateKey5.latticeX}, ${privateKey5.latticeY})`, privLabelX, privLabelY + 16);
                     
                     // Noise label - in the middle of noise vector
                     const noiseMidX = (cleanX + offset + publicKey5.x) / 2;
                     const noiseMidY = (cleanY + offset + publicKey5.y) / 2;
                     ctx5.fillStyle = 'rgba(255, 100, 200, 1)';
-                    ctx5.font = 'bold 14px Space Mono';
-                    ctx5.fillText('+ Ruido', noiseMidX + 5, noiseMidY - 8);
+                    ctx5.font = 'bold 12px Space Mono';
+                    ctx5.fillText('+ Ruido', noiseMidX + 8, noiseMidY - 12);
                 }
                 
                 // SECOND: Draw public key (on top)
@@ -1080,21 +1084,21 @@
                 
                 // Public key label - always visible, positioned to avoid overlap
                 ctx5.fillStyle = '#ff00aa';
-                ctx5.font = 'bold 16px Space Mono';
+                ctx5.font = 'bold 14px Space Mono';
                 
                 // Position based on location
                 let pubLabelX, pubLabelY;
                 if (offset + publicKey5.x < 300) {
-                    pubLabelX = offset + publicKey5.x + 25;
-                    pubLabelY = offset + publicKey5.y + 5;
+                    pubLabelX = offset + publicKey5.x + 30;
+                    pubLabelY = offset + publicKey5.y + 10;
                 } else {
-                    pubLabelX = offset + publicKey5.x - 180;
-                    pubLabelY = offset + publicKey5.y + 5;
+                    pubLabelX = offset + publicKey5.x - 200;
+                    pubLabelY = offset + publicKey5.y + 10;
                 }
                 
                 ctx5.fillText('CLAVE PÚBLICA', pubLabelX, pubLabelY);
-                ctx5.font = 'bold 13px Space Mono';
-                ctx5.fillText('(visible para todos)', pubLabelX, pubLabelY + 18);
+                ctx5.font = 'bold 12px Space Mono';
+                ctx5.fillText('(visible para todos)', pubLabelX, pubLabelY + 16);
             }
         }
         
@@ -1142,14 +1146,16 @@
         
         function drawLattice7(frame) {
             ctx7.clearRect(0, 0, canvas7.width, canvas7.height);
-            const gridSize = 40;
-            const offset = 100;
+            const gridSize = 34;
+            const offset = 140;
             
             // Legend box - positioned at top right, above the lattice
-            const legendWidth = 280;
-            const legendHeight = 160;
-            const legendX = canvas7.width - legendWidth - 20;
+            const legendWidth = 240;
+            const legendHeight = 120;
+            const legendX = 20;
             const legendY = 20;
+            const legendPadding = 15;
+            const legendBarWidth = legendWidth - legendPadding * 2;
             
             ctx7.fillStyle = 'rgba(26, 31, 58, 0.98)';
             ctx7.strokeStyle = 'rgba(0, 240, 255, 0.5)';
@@ -1158,8 +1164,8 @@
             ctx7.strokeRect(legendX, legendY, legendWidth, legendHeight);
             
             ctx7.fillStyle = '#00f0ff';
-            ctx7.font = 'bold 14px Space Mono';
-            ctx7.fillText('FASE DE ANIMACIÓN:', legendX + 15, legendY + 25);
+            ctx7.font = 'bold 13px Space Mono';
+            ctx7.fillText('FASE DE ANIMACIÓN:', legendX + legendPadding, legendY + 22);
             
             let phaseText = '';
             let phaseColor = '#9999bb';
@@ -1336,8 +1342,8 @@
             
             // Draw legend phase text
             ctx7.fillStyle = phaseColor;
-            ctx7.font = '15px Space Mono';
-            ctx7.fillText(phaseText, legendX + 15, legendY + 55);
+            ctx7.font = '13px Space Mono';
+            ctx7.fillText(phaseText, legendX + legendPadding, legendY + 42);
             
             // Legend indicators - with colored dots
             ctx7.font = 'bold 14px Space Mono';
@@ -1345,37 +1351,37 @@
             // Yellow dot - Clave Privada
             ctx7.fillStyle = '#ffee00';
             ctx7.beginPath();
-            ctx7.arc(legendX + 25, legendY + 75, 6, 0, Math.PI * 2);
+            ctx7.arc(legendX + 22, legendY + 60, 5, 0, Math.PI * 2);
             ctx7.fill();
-            ctx7.fillText('Clave Privada', legendX + 40, legendY + 80);
+            ctx7.fillText('Clave Privada', legendX + 35, legendY + 64);
             
             // Magenta dot - Clave Pública
             ctx7.fillStyle = '#ff00aa';
             ctx7.beginPath();
-            ctx7.arc(legendX + 25, legendY + 100, 6, 0, Math.PI * 2);
+            ctx7.arc(legendX + 22, legendY + 80, 5, 0, Math.PI * 2);
             ctx7.fill();
-            ctx7.fillText('Clave Pública', legendX + 40, legendY + 105);
+            ctx7.fillText('Clave Pública', legendX + 35, legendY + 84);
             
             // Progress bar
             const progress = Math.min(100, (frame / 380) * 100);
             ctx7.fillStyle = 'rgba(255, 255, 255, 0.1)';
-            ctx7.fillRect(legendX + 15, legendY + 120, 250, 20);
+            ctx7.fillRect(legendX + legendPadding, legendY + 92, legendBarWidth, 14);
             
-            const gradient = ctx7.createLinearGradient(legendX + 15, 0, legendX + 15 + 250, 0);
+            const gradient = ctx7.createLinearGradient(legendX + legendPadding, 0, legendX + legendPadding + legendBarWidth, 0);
             gradient.addColorStop(0, '#00f0ff');
             gradient.addColorStop(0.5, '#ff00aa');
             gradient.addColorStop(1, '#ffee00');
             
             ctx7.fillStyle = gradient;
-            ctx7.fillRect(legendX + 15, legendY + 120, (250 * progress) / 100, 20);
+            ctx7.fillRect(legendX + legendPadding, legendY + 92, (legendBarWidth * progress) / 100, 14);
             
             ctx7.strokeStyle = 'rgba(0, 240, 255, 0.5)';
             ctx7.lineWidth = 1;
-            ctx7.strokeRect(legendX + 15, legendY + 120, 250, 20);
+            ctx7.strokeRect(legendX + legendPadding, legendY + 92, legendBarWidth, 14);
             
             ctx7.fillStyle = '#9999bb';
             ctx7.font = '11px Space Mono';
-            ctx7.fillText(`Progreso: ${Math.floor(progress)}%`, legendX + 95, legendY + 155);
+            ctx7.fillText(`Progreso: ${Math.floor(progress)}%`, legendX + legendPadding + 60, legendY + 114);
         }
         
         function animateFinalDemo() {
