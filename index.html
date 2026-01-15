@@ -1109,21 +1109,6 @@
         <section class="section">
             <h2>🛠️ Recursos y Herramientas</h2>
             
-            <h3>Bibliotecas Open Source</h3>
-            <div class="code-block">
-# Ejemplo: liboqs (Open Quantum Safe)
-from oqs import Signature
-
-# Crear firmante con Dilithium
-with Signature("Dilithium2") as signer:
-    public_key = signer.generate_keypair()
-    message = b"Mensaje importante"
-    signature = signer.sign(message)
-    
-    # Verificar firma
-    is_valid = signer.verify(message, signature, public_key)
-            </div>
-
             <h3>Bibliografía y recursos de aprendizaje</h3>
             <ul class="resource-links">
                 <li><strong>NIST Post-Quantum Cryptography:</strong> <a href="https://csrc.nist.gov/projects/post-quantum-cryptography" target="_blank" rel="noopener">csrc.nist.gov/projects/post-quantum-cryptography</a></li>
