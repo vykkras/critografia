@@ -11,11 +11,48 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #050505;
+            --text: #D0D0D0;
+            --accent: #7B5CFF;
+            --detail: #FF4D9A;
+            --panel: rgba(22, 22, 28, 0.9);
+            --panel-strong: rgba(30, 30, 38, 0.95);
+            --line: rgba(123, 92, 255, 0.45);
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            background: var(--bg);
+            color: var(--text);
             overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 18% 20%, rgba(123, 92, 255, 0.18), transparent 40%),
+                radial-gradient(circle at 80% 10%, rgba(255, 77, 154, 0.12), transparent 45%),
+                radial-gradient(circle at 60% 85%, rgba(123, 92, 255, 0.16), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                radial-gradient(rgba(255, 77, 154, 0.06) 1px, transparent 1px);
+            background-size: 120px 120px, 200px 200px;
+            background-position: 0 0, 40px 60px;
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
         }
 
 
@@ -24,13 +61,15 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
 
         header {
             text-align: center;
             padding: 60px 20px;
-            color: white;
-            background: rgba(0, 0, 0, 0.2);
+            color: var(--text);
+            background: var(--panel-strong);
             border-radius: 20px;
             margin-bottom: 40px;
             backdrop-filter: blur(10px);
@@ -40,7 +79,28 @@
         h1 {
             font-size: 3em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 0 18px rgba(123, 92, 255, 0.4);
+        }
+
+        .electric-title {
+            position: relative;
+            display: inline-block;
+            color: var(--text);
+            text-shadow:
+                0 0 10px rgba(123, 92, 255, 0.7),
+                0 0 24px rgba(123, 92, 255, 0.5),
+                0 0 36px rgba(255, 77, 154, 0.35);
+        }
+
+        .electric-title::after {
+            content: "";
+            position: absolute;
+            left: -6%;
+            right: -6%;
+            bottom: -12px;
+            height: 6px;
+            background: linear-gradient(90deg, rgba(123, 92, 255, 0), rgba(123, 92, 255, 0.9), rgba(255, 77, 154, 0.7), rgba(123, 92, 255, 0));
+            filter: blur(2px);
         }
 
         .subtitle {
@@ -59,15 +119,16 @@
         }
 
         .section {
-            background: white;
+            background: var(--panel);
             border-radius: 20px;
             padding: 40px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.45);
         }
 
         h2 {
-            color: #667eea;
+            color: var(--accent);
             font-size: 2em;
             margin-bottom: 20px;
             border-bottom: none;
@@ -75,7 +136,7 @@
         }
 
         h3 {
-            color: #764ba2;
+            color: var(--text);
             font-size: 1.5em;
             margin-top: 30px;
             margin-bottom: 15px;
@@ -88,15 +149,16 @@
         }
 
         .interactive-demo {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(145deg, rgba(20, 20, 28, 0.92), rgba(10, 10, 18, 0.92));
             border-radius: 15px;
             padding: 30px;
             margin: 30px 0;
-            border: 2px solid #667eea;
+            border: 1px solid var(--line);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
         }
 
         .demo-title {
-            color: #667eea;
+            color: var(--accent);
             font-size: 1.3em;
             font-weight: bold;
             margin-bottom: 20px;
@@ -104,8 +166,8 @@
         }
 
         button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, rgba(123, 92, 255, 0.95), rgba(255, 77, 154, 0.45));
+            color: var(--text);
             border: none;
             padding: 15px 30px;
             font-size: 1.1em;
@@ -113,12 +175,12 @@
             cursor: pointer;
             transition: all 0.3s;
             margin: 10px 5px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 18px rgba(123, 92, 255, 0.35);
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 6px 24px rgba(123, 92, 255, 0.55);
         }
 
         button:active {
@@ -129,19 +191,21 @@
             width: 100%;
             padding: 12px;
             margin: 10px 0;
-            border: 2px solid #ddd;
+            border: 2px solid rgba(123, 92, 255, 0.25);
             border-radius: 8px;
             font-size: 1em;
             font-family: monospace;
+            background: rgba(10, 10, 18, 0.95);
+            color: var(--text);
         }
 
         input:focus, textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--accent);
         }
 
         .output {
-            background: #f8f9fa;
+            background: rgba(10, 10, 18, 0.9);
             border-left: none;
             padding: 20px;
             margin: 20px 0;
@@ -151,8 +215,8 @@
         }
 
         .key-display {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
+            background: rgba(18, 18, 28, 0.92);
+            border: 2px solid rgba(123, 92, 255, 0.4);
             padding: 15px;
             margin: 15px 0;
             border-radius: 8px;
@@ -161,7 +225,7 @@
         }
 
         .warning {
-            background: #f8d7da;
+            background: rgba(42, 20, 35, 0.85);
             border-left: none;
             padding: 15px;
             margin: 20px 0;
@@ -169,7 +233,7 @@
         }
 
         .success {
-            background: #d4edda;
+            background: rgba(20, 40, 30, 0.85);
             border-left: none;
             padding: 15px;
             margin: 20px 0;
@@ -177,7 +241,7 @@
         }
 
         .info-box {
-            background: #d1ecf1;
+            background: rgba(24, 26, 36, 0.92);
             border-left: none;
             padding: 20px;
             margin: 20px 0;
@@ -185,12 +249,12 @@
         }
 
         .resource-links a {
-            color: #667eea;
+            color: var(--accent);
             text-decoration: none;
         }
 
         .resource-links a:hover {
-            color: #764ba2;
+            color: var(--detail);
             text-decoration: underline;
         }
 
@@ -276,16 +340,16 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 77, 154, 0.7), rgba(123, 92, 255, 0.95));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--text);
             font-size: 1.5em;
             font-weight: bold;
             margin: 10px;
             animation: pulse 2s infinite;
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+            box-shadow: 0 0 20px rgba(123, 92, 255, 0.45);
         }
 
         @keyframes pulse {
@@ -307,19 +371,19 @@
         }
 
         .comparison-table th {
-            background: #667eea;
-            color: white;
+            background: rgba(123, 92, 255, 0.85);
+            color: var(--text);
             font-weight: bold;
         }
 
         .comparison-table tr:hover {
-            background: #f5f7fa;
+            background: rgba(123, 92, 255, 0.12);
         }
 
         .progress-bar {
             width: 100%;
             height: 30px;
-            background: #e9ecef;
+            background: rgba(10, 10, 18, 0.95);
             border-radius: 15px;
             overflow: hidden;
             margin: 15px 0;
@@ -327,19 +391,19 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            background: linear-gradient(90deg, rgba(123, 92, 255, 0.95), rgba(255, 77, 154, 0.65));
             width: 0%;
             transition: width 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--text);
             font-weight: bold;
         }
 
         .conclusion {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--panel-strong);
+            color: var(--text);
             padding: 60px 40px;
             border-radius: 20px;
             text-align: center;
@@ -347,7 +411,7 @@
         }
 
         .conclusion h2 {
-            color: white;
+            color: var(--text);
             border-bottom: none;
         }
 
@@ -361,15 +425,15 @@
         }
 
         .highlight {
-            background: linear-gradient(120deg, #ffd89b 0%, #19547b 100%);
+            background: rgba(123, 92, 255, 0.2);
             padding: 2px 8px;
             border-radius: 4px;
             font-weight: bold;
         }
 
         .code-block {
-            background: #282c34;
-            color: #abb2bf;
+            background: rgba(10, 10, 18, 0.95);
+            color: var(--text);
             padding: 20px;
             border-radius: 8px;
             margin: 15px 0;
@@ -547,7 +611,7 @@
                 Rafael Torres<br>
                 Adalid Claure
             </div>
-            <h1>🔐 Criptografía Post-Cuántica</h1>
+            <h1 class="electric-title">🔐 Criptografía Post-Cuántica</h1>
             <p class="subtitle">El Futuro de la Seguridad en la Era Cuántica</p>
         </header>
 
@@ -1442,22 +1506,27 @@ const maxHistory = 50;
                 statusDiv.innerHTML = '<strong>🔴 No iniciado:</strong> Tu organización aún no ha comenzado la transición a criptografía post-cuántica.';
                 statusDiv.style.borderColor = '#dc3545';
                 statusDiv.style.background = '#f8d7da';
+                statusDiv.style.color = '#050505';
             } else if (percentage < 50) {
                 statusDiv.innerHTML = '<strong>🟡 Fase inicial:</strong> Has dado los primeros pasos. Continúa con el inventario y planificación.';
                 statusDiv.style.borderColor = '#ffc107';
                 statusDiv.style.background = '#fff3cd';
+                statusDiv.style.color = '#050505';
             } else if (percentage < 80) {
                 statusDiv.innerHTML = '<strong>🟠 Progreso medio:</strong> Buen avance. Enfócate en implementación y capacitación.';
                 statusDiv.style.borderColor = '#fd7e14';
                 statusDiv.style.background = '#ffe5d0';
+                statusDiv.style.color = '#050505';
             } else if (percentage < 100) {
                 statusDiv.innerHTML = '<strong>🟢 Casi listo:</strong> Excelente progreso. Completa los últimos pasos para estar preparado.';
                 statusDiv.style.borderColor = '#28a745';
                 statusDiv.style.background = '#d4edda';
+                statusDiv.style.color = '#050505';
             } else {
                 statusDiv.innerHTML = '<strong>✅ Completamente preparado:</strong> Tu organización está lista para la era post-cuántica. ¡Excelente trabajo!';
                 statusDiv.style.borderColor = '#28a745';
                 statusDiv.style.background = '#d4edda';
+                statusDiv.style.color = '#050505';
             }
         }
 
