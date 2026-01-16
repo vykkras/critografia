@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explorador de Retículas Kyber</title>
+    <title>Flujo Kyber: KEM + AES</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Crimson+Pro:wght@300;600&display=swap');
         
@@ -151,6 +151,10 @@
             flex-wrap: wrap;
             justify-content: center;
             margin-top: 1.5rem;
+        }
+
+        .footer-controls {
+            margin: 3rem 0 1rem;
         }
         
         button {
@@ -316,130 +320,24 @@
 <body>
     <div class="container">
         <header>
-            <h1>EXPLORADOR DE RETÍCULAS KYBER</h1>
-            
+            <h1>FLUJO KYBER: KEM + AES</h1>
+            <div class="subtitle">KeyGen, Encaps, Decaps, verificación y cifrado simétrico</div>
         </header>
 
-        <!-- Paso 1: Estableciendo la Intuición -->
+        <!-- Paso 1: Bob genera claves -->
         <div class="step-container">
             <div class="step-number">Paso 01</div>
-            <div class="step-title">Estableciendo la Intuición</div>
+            <div class="step-title">Bob genera su par de claves (KeyGen)</div>
             <div class="step-text">
-                Para entender Kyber, olvidemos las computadoras cuánticas por un momento.
-                El verdadero héroe de Kyber es algo llamado <span class="highlight">retícula</span>.
-            </div>
-            <div class="step-text">
-                Una retícula es simplemente una cuadrícula de puntos en el espacio — como papel cuadriculado, pero posiblemente en muchas dimensiones.
-            </div>
-            <div class="step-text">
-                En 2D, una retícula se ve como puntos espaciados uniformemente: cada punto puede alcanzarse combinando dos vectores base.
-            </div>
-            
-            <div class="canvas-container">
-                <canvas id="lattice1" width="600" height="600"></canvas>
-                <div class="interactive-label"> Pasa el cursor para ver la estructura de la retícula</div>
-            </div>
-        </div>
-
-        <!-- Paso 2: Qué Hace Especiales a las Retículas -->
-        <div class="step-container">
-            <div class="step-number">Paso 02</div>
-            <div class="step-title">Qué Hace Especiales a las Retículas</div>
-            <div class="step-text">
-                Aquí está la parte importante: las retículas son <span class="highlight">fáciles de generar, pero difíciles de revertir</span>.
-            </div>
-            <div class="step-text">
-                Si te doy los vectores que definen la cuadrícula, puedes generar todos los puntos fácilmente y moverte por la retícula con facilidad.
-            </div>
-            <div class="step-text">
-                Pero si te doy un punto aleatorio en la retícula y pregunto: "¿Qué combinación de vectores produjo este punto?" Ese problema se vuelve <span class="highlight">extremadamente difícil</span>.
-            </div>
-            
-            <div class="canvas-container">
-                <canvas id="lattice2" width="600" height="600"></canvas>
-                <div class="controls">
-                    <button onclick="showRandomPoint()">Mostrar Punto Aleatorio</button>
-                    <button onclick="revealVectors()">Revelar Combinación de Vectores</button>
-                    <button onclick="resetDemo2()">Reiniciar</button>
-                </div>
-                <div class="interactive-label">¿Puedes adivinar qué vectores crearon el punto resaltado?</div>
-            </div>
-            
-            <div class="info-box">
-                Esta dificultad es lo que protege a Kyber.
-            </div>
-        </div>
-
-        <!-- Paso 3: El Problema Difícil Principal -->
-        <div class="step-container">
-            <div class="step-number">Paso 03</div>
-            <div class="step-title">El Problema Difícil Principal (Sin Matemáticas)</div>
-            <div class="step-text">
-                Kyber se basa en un problema llamado <span class="highlight">Aprendizaje Con Errores, o LWE</span>.
+                Bob crea una retícula pública, elige una dirección secreta y añade un poco de ruido.
+                Eso produce una <span class="highlight">clave pública</span> (visible para todos) y una
+                <span class="highlight">clave privada</span> (solo de Bob).
             </div>
             <div class="code-block">
-                Funciona así:<br>
-                – Comienza con una retícula limpia<br>
-                – Elige una dirección secreta<br>
-                – Agrega un poco de ruido
-            </div>
-            <div class="step-text">
-                Ese ruido es crucial. Oculta el secreto de una manera que es fácil de hacer — pero casi <span class="highlight">imposible de deshacer</span>.
-            </div>
-            
-            <div class="canvas-container">
-                <canvas id="lattice3" width="600" height="600"></canvas>
-                <div class="slider-container">
-                    <label class="slider-label">Nivel de Ruido: <span id="noiseValue">0</span></label>
-                    <input type="range" id="noiseSlider" min="0" max="100" value="0" oninput="updateNoise(this.value)">
-                </div>
-                <div class="interactive-label">Ajusta el deslizador para agregar ruido y ver cómo oscurece el patrón</div>
-            </div>
-        </div>
-
-        <!-- Paso 4: Una Analogía Concreta -->
-        <div class="step-container">
-            <div class="step-number">Paso 04</div>
-            <div class="step-title">Una Analogía Concreta</div>
-            <div class="step-text">
-                Imagina que te digo: "Este punto está a <span class="highlight">6 pasos al este y 6 pasos al norte</span>." Fácil de revertir.
-            </div>
-            <div class="step-text">
-                Ahora imagina que digo: "Está <span class="highlight">alrededor</span> de 6 al este y 6 al norte… más o menos."
-            </div>
-            <div class="step-text">
-                Esa pequeña incertidumbre explota en muchas respuestas posibles.
-            </div>
-            
-            <div class="canvas-container">
-                <canvas id="lattice4" width="600" height="600"></canvas>
-                <div class="controls">
-                    <button onclick="showExactPoint()">Mostrar Punto Exacto (6, 6)</button>
-                    <button onclick="showUncertainty()">Agregar Incertidumbre</button>
-                    <button onclick="resetDemo4()">Reiniciar</button>
-                </div>
-                <div class="interactive-label">Mira cómo la incertidumbre crea múltiples posibilidades válidas</div>
-            </div>
-            
-            <div class="info-box">
-                Kyber vive en cientos de dimensiones, no dos. Esa incertidumbre se vuelve <span class="highlight">astronómica</span>.
-            </div>
-        </div>
-
-        <!-- Paso 5: Cómo Kyber Usa Esto -->
-        <div class="step-container">
-            <div class="step-number">Paso 05</div>
-            <div class="step-title">Cómo Kyber Usa Esto</div>
-            <div class="step-text">
-                Kyber construye una retícula pública usando datos públicos.
-            </div>
-            <div class="code-block">
-                Entonces:<br>
-                – la <span class="highlight">clave pública</span> es un punto de retícula con ruido<br>
-                – la <span class="highlight">clave privada</span> es la dirección que lo generó
-            </div>
-            <div class="step-text">
-                Con la clave privada, decodificar es fácil. Sin ella, te enfrentas a un problema masivo de retículas: encontrar el punto más cercano en una cuadrícula de alta dimensión.
+                A: matriz pública en la retícula<br>
+                s: vector secreto de Bob<br>
+                e: ruido pequeño<br>
+                t = A · s + e
             </div>
             
             <div class="canvas-container">
@@ -449,162 +347,105 @@
                     <button onclick="showPrivateKey()">Revelar Clave Privada</button>
                     <button onclick="resetDemo5()">Reiniciar</button>
                 </div>
-                <div class="interactive-label">Clave pública: visible para todos | Clave privada: revela la dirección secreta</div>
+                <div class="interactive-label">Clave pública con ruido vs clave privada (dirección secreta)</div>
             </div>
         </div>
 
-        <!-- Paso 6: Por Qué las Computadoras Cuánticas No lo Rompen -->
+        <!-- Paso 2: Alice encapsula -->
         <div class="step-container">
-            <div class="step-number">Paso 06</div>
-            <div class="step-title">Por Qué las Computadoras Cuánticas No lo Rompen</div>
+            <div class="step-number">Paso 02</div>
+            <div class="step-title">Alice encapsula usando la clave pública</div>
             <div class="step-text">
-                Las computadoras cuánticas son excelentes en <span class="highlight">problemas estructurados</span>: factorización, logaritmos discretos, periodicidad.
-            </div>
-            <div class="step-text">
-                Las retículas no tienen esa estructura limpia. El ruido rompe la simetría. No hay <span class="highlight">atajos</span>.
+                Alice toma la clave pública de Bob y agrega aleatoriedad para producir un
+                <span class="highlight">ciphertext</span> y un secreto compartido <span class="highlight">shared_secret_A</span>.
             </div>
             <div class="step-text">
-                Por eso Kyber se llama <span class="highlight">seguro post-cuántico</span>.
-            </div>
-            
-            <div class="info-box">
-                La criptografía tradicional (como RSA) se basa en la dificultad de factorizar números grandes — un problema que las computadoras cuánticas pueden resolver eficientemente usando el algoritmo de Shor. Los problemas de retículas permanecen difíciles incluso para las computadoras cuánticas porque carecen de la estructura matemática que los algoritmos cuánticos explotan.
-            </div>
-        </div>
-
-        <!-- Paso 7: Intuición Final -->
-        <div class="step-container">
-            <div class="step-number">Paso 07</div>
-            <div class="step-title">Intuición Final</div>
-            <div class="step-text">
-                Entonces, la seguridad de Kyber proviene de tres ideas:
-            </div>
-            <div class="code-block">
-                1. Retículas de alta dimensión<br>
-                2. Errores pequeños, cuidadosamente elegidos<br>
-                3. Problemas que son fáciles hacia adelante — pero brutales hacia atrás
+                La aleatoriedad garantiza que cada encapsulación sea distinta aunque use la misma clave pública.
             </div>
             
             <div class="canvas-container">
-                <canvas id="lattice7" width="600" height="600"></canvas>
+                <canvas id="lattice2" width="600" height="600"></canvas>
                 <div class="controls">
-                    <button onclick="animateFinalDemo()">Ver Flujo Completo</button>
-                    <button onclick="resetDemo7()">Reiniciar</button>
+                    <button onclick="runEncapsulation()">Encapsular</button>
+                    <button onclick="showRandomPoint()">Nueva Aleatoriedad</button>
+                    <button onclick="revealVectors()">Mostrar Mezcla</button>
+                    <button onclick="resetDemo2()">Reiniciar</button>
                 </div>
+                <div class="interactive-label">La aleatoriedad de Alice crea un ciphertext único</div>
             </div>
             
-            <div class="info-box" style="background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(255, 0, 170, 0.1)); border-left-color: var(--accent-magenta);">
-                <strong>En resumen:</strong> Kyber oculta secretos en una retícula nebulosa — donde solo el receptor previsto sabe cómo ver con claridad.
+            <div class="info-box">
+                <strong>Ciphertext:</strong> <span id="ciphertextOutput">-</span><br>
+                <strong>shared_secret_A:</strong> <span id="secretAOutput">-</span>
             </div>
+        </div>
+
+        <!-- Paso 3: Bob decapsula -->
+        <div class="step-container">
+            <div class="step-number">Paso 03</div>
+            <div class="step-title">Bob decapsula con su clave privada</div>
+            <div class="step-text">
+                Bob usa su clave privada para eliminar el ruido del ciphertext y recuperar
+                el secreto compartido <span class="highlight">shared_secret_B</span>.
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="lattice3" width="600" height="600"></canvas>
+                <div class="slider-container">
+                    <label class="slider-label">Nivel de Ruido: <span id="noiseValue">35</span></label>
+                    <input type="range" id="noiseSlider" min="0" max="100" value="35" oninput="updateNoise(this.value)">
+                </div>
+                <div class="controls">
+                    <button onclick="cleanNoise()">Limpiar ruido</button>
+                    <button onclick="runDecapsulation()">Decapsular</button>
+                </div>
+                <div class="interactive-label">Empieza con ruido; limpia el ruido para recuperar el secreto</div>
+            </div>
+            <div class="info-box">
+                <strong>Ciphertext recibido (de Alice):</strong> <span id="ciphertextOutputBob">-</span><br>
+                <strong>Estado del ruido:</strong> <span id="noiseStatus">Con ruido</span><br>
+                <strong>shared_secret_B:</strong> <span id="secretBOutput">-</span>
+            </div>
+        </div>
+
+        <!-- Paso 4: Verificación -->
+        <div class="step-container">
+            <div class="step-number">Paso 04</div>
+            <div class="step-title">Verificar que ambos secretos coinciden</div>
+            <div class="step-text">
+                Si Kyber funciona bien, ambos extremos obtienen el mismo secreto compartido.
+            </div>
+            <div class="info-box">
+                <strong>Verificación:</strong> <span id="verifyOutput">-</span>
+            </div>
+            <div class="controls">
+                <button onclick="verifySecrets()">Verificar shared_secret_A == shared_secret_B</button>
+            </div>
+        </div>
+
+        <!-- Paso 5: AES con el secreto compartido -->
+        <div class="step-container">
+            <div class="step-number">Paso 05</div>
+            <div class="step-title">Usar el secreto como clave AES</div>
+            <div class="step-text">
+                Si los secretos coinciden, podemos usarlos como clave para cifrar y descifrar un mensaje corto.
+            </div>
+            <div class="controls">
+                <button onclick="runAesDemo()">Cifrar y descifrar "Hello"</button>
+            </div>
+            <div class="info-box">
+                <strong>IV:</strong> <span id="aesIvOutput">-</span><br>
+                <strong>Ciphertext:</strong> <span id="aesCipherOutput">-</span><br>
+                <strong>Mensaje descifrado:</strong> <span id="aesPlainOutput">-</span>
+            </div>
+        </div>
+
+        <div class="controls footer-controls">
+            <button type="button" onclick="window.location.href='index.html#kyber-reticulas-link'">Volver al índice (sección Kyber)</button>
         </div>
     </div>
 
     <script>
-        // Step 1: Basic Lattice Visualization
-        const canvas1 = document.getElementById('lattice1');
-        const ctx1 = canvas1.getContext('2d');
-        
-        function getLattice1Layout() {
-            const gridSize = 40;
-            const offset = (canvas1.width - 12 * gridSize) / 2;
-            return { gridSize, offset };
-        }
-
-        function drawLattice1() {
-            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-            const { gridSize, offset } = getLattice1Layout();
-            
-            // Draw grid lines
-            ctx1.strokeStyle = 'rgba(42, 63, 95, 0.5)';
-            ctx1.lineWidth = 1;
-            for (let i = 0; i <= 12; i++) {
-                ctx1.beginPath();
-                ctx1.moveTo(offset + i * gridSize, offset);
-                ctx1.lineTo(offset + i * gridSize, offset + 12 * gridSize);
-                ctx1.stroke();
-                
-                ctx1.beginPath();
-                ctx1.moveTo(offset, offset + i * gridSize);
-                ctx1.lineTo(offset + 12 * gridSize, offset + i * gridSize);
-                ctx1.stroke();
-            }
-            
-            // Draw lattice points
-            ctx1.fillStyle = '#00f0ff';
-            for (let i = 0; i <= 12; i++) {
-                for (let j = 0; j <= 12; j++) {
-                    ctx1.beginPath();
-                    ctx1.arc(offset + i * gridSize, offset + j * gridSize, 4, 0, Math.PI * 2);
-                    ctx1.fill();
-                }
-            }
-            
-            // Draw base vectors
-            ctx1.strokeStyle = '#ffee00';
-            ctx1.lineWidth = 3;
-            ctx1.setLineDash([5, 5]);
-            
-            // Vector 1
-            ctx1.beginPath();
-            ctx1.moveTo(offset, offset);
-            ctx1.lineTo(offset + 3 * gridSize, offset);
-            ctx1.stroke();
-            drawArrow(ctx1, offset + 3 * gridSize, offset, 0);
-            
-            // Vector 2
-            ctx1.beginPath();
-            ctx1.moveTo(offset, offset);
-            ctx1.lineTo(offset, offset + 3 * gridSize);
-            ctx1.stroke();
-            drawArrow(ctx1, offset, offset + 3 * gridSize, Math.PI / 2);
-            
-            ctx1.setLineDash([]);
-            
-            // Labels
-            ctx1.fillStyle = '#ffee00';
-            ctx1.font = 'bold 16px Space Mono';
-            ctx1.fillText('v₁', offset + 3 * gridSize + 10, offset - 5);
-            ctx1.fillText('v₂', offset - 25, offset + 3 * gridSize);
-        }
-        
-        function drawArrow(ctx, x, y, angle) {
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(angle);
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(-10, -5);
-            ctx.lineTo(-10, 5);
-            ctx.closePath();
-            ctx.fillStyle = '#ffee00';
-            ctx.fill();
-            ctx.restore();
-        }
-        
-        canvas1.addEventListener('mousemove', (e) => {
-            const rect = canvas1.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            drawLattice1();
-            
-            // Highlight nearby point
-            const { gridSize, offset } = getLattice1Layout();
-            const gridX = Math.round((x - offset) / gridSize);
-            const gridY = Math.round((y - offset) / gridSize);
-            
-            if (gridX >= 0 && gridX <= 12 && gridY >= 0 && gridY <= 12) {
-                ctx1.fillStyle = '#ff00aa';
-                ctx1.beginPath();
-                ctx1.arc(offset + gridX * gridSize, offset + gridY * gridSize, 8, 0, Math.PI * 2);
-                ctx1.fill();
-                
-                ctx1.fillStyle = '#ffee00';
-                ctx1.font = 'bold 14px Space Mono';
-                ctx1.fillText(`(${gridX}, ${gridY})`, x + 15, y - 15);
-            }
-        });
-        
         // Step 2: Random Point Demo
         const canvas2 = document.getElementById('lattice2');
         const ctx2 = canvas2.getContext('2d');
@@ -805,7 +646,7 @@
         // Step 3: Noise Visualization
         const canvas3 = document.getElementById('lattice3');
         const ctx3 = canvas3.getContext('2d');
-        let noiseLevel = 0;
+        let noiseLevel = 35;
         
         function drawLattice3(noise) {
             ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
@@ -849,101 +690,20 @@
             }
         }
         
-        function updateNoise(value) {
+        function setNoiseLevel(value) {
             noiseLevel = parseInt(value);
             document.getElementById('noiseValue').textContent = noiseLevel;
+            document.getElementById('noiseSlider').value = noiseLevel;
             drawLattice3(noiseLevel);
+            setText('noiseStatus', noiseLevel === 0 ? 'Limpio' : 'Con ruido');
         }
-        
-        // Step 4: Uncertainty Visualization
-        const canvas4 = document.getElementById('lattice4');
-        const ctx4 = canvas4.getContext('2d');
-        let showExact4 = false;
-        let showUncertain4 = false;
-        
-        function drawLattice4() {
-            ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
-            const gridSize = 40;
-            const offset = 100;
-            
-            // Draw grid
-            ctx4.strokeStyle = 'rgba(42, 63, 95, 0.3)';
-            ctx4.lineWidth = 1;
-            for (let i = 0; i <= 12; i++) {
-                for (let j = 0; j <= 12; j++) {
-                    ctx4.fillStyle = 'rgba(0, 240, 255, 0.3)';
-                    ctx4.beginPath();
-                    ctx4.arc(offset + i * gridSize, offset + j * gridSize, 2, 0, Math.PI * 2);
-                    ctx4.fill();
-                }
-            }
-            
-            if (showExact4) {
-                // Show exact point at (6, 6) - más centrado
-                ctx4.fillStyle = '#ffee00';
-                ctx4.beginPath();
-                ctx4.arc(offset + 6 * gridSize, offset + 6 * gridSize, 8, 0, Math.PI * 2);
-                ctx4.fill();
-                
-                ctx4.fillStyle = '#ffee00';
-                ctx4.font = 'bold 16px Space Mono';
-                ctx4.fillText('Exacto: (6, 6)', offset + 6 * gridSize + 15, offset + 6 * gridSize);
-            }
-            
-            if (showUncertain4) {
-                // Show uncertainty cloud
-                const centerX = offset + 6 * gridSize;
-                const centerY = offset + 6 * gridSize;
-                const radius = 80;
-                
-                // Draw uncertainty circle
-                ctx4.strokeStyle = 'rgba(255, 0, 170, 0.5)';
-                ctx4.lineWidth = 2;
-                ctx4.setLineDash([5, 5]);
-                ctx4.beginPath();
-                ctx4.arc(centerX, centerY, radius, 0, Math.PI * 2);
-                ctx4.stroke();
-                ctx4.setLineDash([]);
-                
-                // Highlight all points within uncertainty
-                for (let i = 0; i <= 12; i++) {
-                    for (let j = 0; j <= 12; j++) {
-                        const px = offset + i * gridSize;
-                        const py = offset + j * gridSize;
-                        const dist = Math.sqrt((px - centerX) ** 2 + (py - centerY) ** 2);
-                        
-                        if (dist <= radius) {
-                            ctx4.fillStyle = '#ff00aa';
-                            ctx4.globalAlpha = 0.6;
-                            ctx4.beginPath();
-                            ctx4.arc(px, py, 6, 0, Math.PI * 2);
-                            ctx4.fill();
-                            ctx4.globalAlpha = 1;
-                        }
-                    }
-                }
-                
-                ctx4.fillStyle = '#ff00aa';
-                ctx4.font = 'bold 14px Space Mono';
-                ctx4.fillText('¡Todos estos puntos están "cerca" de (6, 6)!', centerX - 160, centerY + radius + 25);
-            }
+
+        function updateNoise(value) {
+            setNoiseLevel(value);
         }
-        
-        function showExactPoint() {
-            showExact4 = true;
-            showUncertain4 = false;
-            drawLattice4();
-        }
-        
-        function showUncertainty() {
-            showUncertain4 = true;
-            drawLattice4();
-        }
-        
-        function resetDemo4() {
-            showExact4 = false;
-            showUncertain4 = false;
-            drawLattice4();
+
+        function cleanNoise() {
+            setNoiseLevel(0);
         }
         
         // Step 5: Key Pair Visualization
@@ -1137,286 +897,109 @@
             showPrivate5 = false;
             drawLattice5();
         }
-        
-        // Step 7: Final Animation
-        const canvas7 = document.getElementById('lattice7');
-        const ctx7 = canvas7.getContext('2d');
-        let animationFrame7 = 0;
-        let animating7 = false;
-        
-        function drawLattice7(frame) {
-            ctx7.clearRect(0, 0, canvas7.width, canvas7.height);
-            const gridSize = 34;
-            const offset = 140;
-            
-            // Legend box - positioned at top right, above the lattice
-            const legendWidth = 240;
-            const legendHeight = 120;
-            const legendX = 20;
-            const legendY = 20;
-            const legendPadding = 15;
-            const legendBarWidth = legendWidth - legendPadding * 2;
-            
-            ctx7.fillStyle = 'rgba(26, 31, 58, 0.98)';
-            ctx7.strokeStyle = 'rgba(0, 240, 255, 0.5)';
-            ctx7.lineWidth = 2;
-            ctx7.fillRect(legendX, legendY, legendWidth, legendHeight);
-            ctx7.strokeRect(legendX, legendY, legendWidth, legendHeight);
-            
-            ctx7.fillStyle = '#00f0ff';
-            ctx7.font = 'bold 13px Space Mono';
-            ctx7.fillText('FASE DE ANIMACIÓN:', legendX + legendPadding, legendY + 22);
-            
-            let phaseText = '';
-            let phaseColor = '#9999bb';
-            
-            // Phase 1: Draw lattice (frames 0-80) - más lento
-            if (frame < 80) {
-                phaseText = '1. Construyendo la retícula...';
-                phaseColor = '#00f0ff';
-                const alpha = Math.min(1, frame / 80);
-                for (let i = 0; i <= 12; i++) {
-                    for (let j = 0; j <= 12; j++) {
-                        ctx7.fillStyle = `rgba(0, 240, 255, ${alpha * 0.5})`;
-                        ctx7.beginPath();
-                        ctx7.arc(offset + i * gridSize, offset + j * gridSize, 3, 0, Math.PI * 2);
-                        ctx7.fill();
-                    }
-                }
-            } else {
-                // Draw complete lattice for subsequent phases
-                for (let i = 0; i <= 12; i++) {
-                    for (let j = 0; j <= 12; j++) {
-                        ctx7.fillStyle = 'rgba(0, 240, 255, 0.5)';
-                        ctx7.beginPath();
-                        ctx7.arc(offset + i * gridSize, offset + j * gridSize, 3, 0, Math.PI * 2);
-                        ctx7.fill();
-                    }
-                }
-            }
-            
-            // Phase 2: Show secret direction (frames 80-160) - más lento
-            if (frame >= 80 && frame < 160) {
-                phaseText = '2. Eligiendo dirección secreta...';
-                phaseColor = '#ffee00';
-                const progress = (frame - 80) / 80;
-                const targetX = 7;
-                const targetY = 5;
-                
-                ctx7.strokeStyle = '#ffee00';
-                ctx7.lineWidth = 4;
-                ctx7.setLineDash([5, 5]);
-                ctx7.beginPath();
-                ctx7.moveTo(offset, offset);
-                ctx7.lineTo(offset + targetX * gridSize * progress, offset + targetY * gridSize * progress);
-                ctx7.stroke();
-                ctx7.setLineDash([]);
-                
-                if (progress >= 0.5) {
-                    ctx7.fillStyle = '#ffee00';
-                    ctx7.beginPath();
-                    ctx7.arc(offset + targetX * gridSize * progress, offset + targetY * gridSize * progress, 8, 0, Math.PI * 2);
-                    ctx7.fill();
-                }
-            }
-            
-            // Phase 3: Add noise (frames 160-280) - más lento
-            if (frame >= 160 && frame < 280) {
-                phaseText = '3. Agregando ruido...';
-                phaseColor = '#ff00aa';
-                const targetX = 7;
-                const targetY = 5;
-                
-                // Draw complete secret direction
-                ctx7.strokeStyle = '#ffee00';
-                ctx7.lineWidth = 4;
-                ctx7.setLineDash([5, 5]);
-                ctx7.beginPath();
-                ctx7.moveTo(offset, offset);
-                ctx7.lineTo(offset + targetX * gridSize, offset + targetY * gridSize);
-                ctx7.stroke();
-                ctx7.setLineDash([]);
-                
-                ctx7.fillStyle = '#ffee00';
-                ctx7.beginPath();
-                ctx7.arc(offset + targetX * gridSize, offset + targetY * gridSize, 8, 0, Math.PI * 2);
-                ctx7.fill();
-                
-                const noiseProgress = (frame - 160) / 120;
-                const noiseX = 15 * noiseProgress;
-                const noiseY = -10 * noiseProgress;
-                
-                // Draw noise cloud
-                for (let i = 0; i < 30 * noiseProgress; i++) {
-                    const angle = (i / 30) * Math.PI * 2;
-                    const radius = 25 * noiseProgress;
-                    const nx = offset + targetX * gridSize + Math.cos(angle) * radius;
-                    const ny = offset + targetY * gridSize + Math.sin(angle) * radius;
-                    
-                    ctx7.fillStyle = `rgba(255, 0, 170, ${0.2 * noiseProgress})`;
-                    ctx7.beginPath();
-                    ctx7.arc(nx, ny, 2, 0, Math.PI * 2);
-                    ctx7.fill();
-                }
-                
-                // Draw noise vector
-                if (noiseProgress > 0.3) {
-                    ctx7.strokeStyle = 'rgba(255, 100, 200, 0.8)';
-                    ctx7.lineWidth = 3;
-                    ctx7.setLineDash([4, 4]);
-                    ctx7.beginPath();
-                    ctx7.moveTo(offset + targetX * gridSize, offset + targetY * gridSize);
-                    ctx7.lineTo(offset + targetX * gridSize + noiseX, offset + targetY * gridSize + noiseY);
-                    ctx7.stroke();
-                    ctx7.setLineDash([]);
-                }
-                
-                // Draw public key
-                ctx7.fillStyle = '#ff00aa';
-                ctx7.beginPath();
-                ctx7.arc(offset + targetX * gridSize + noiseX, offset + targetY * gridSize + noiseY, 10 * noiseProgress, 0, Math.PI * 2);
-                ctx7.fill();
-            }
-            
-            // Phase 4: Show complete system (frames 280-380) - más lento
-            if (frame >= 280) {
-                phaseText = '4. ¡Sistema completo!';
-                phaseColor = '#00f0ff';
-                const targetX = 7;
-                const targetY = 5;
-                const noiseX = 15;
-                const noiseY = -10;
-                
-                // Draw complete secret direction
-                ctx7.strokeStyle = '#ffee00';
-                ctx7.lineWidth = 4;
-                ctx7.setLineDash([5, 5]);
-                ctx7.beginPath();
-                ctx7.moveTo(offset, offset);
-                ctx7.lineTo(offset + targetX * gridSize, offset + targetY * gridSize);
-                ctx7.stroke();
-                ctx7.setLineDash([]);
-                
-                ctx7.fillStyle = '#ffee00';
-                ctx7.beginPath();
-                ctx7.arc(offset + targetX * gridSize, offset + targetY * gridSize, 8, 0, Math.PI * 2);
-                ctx7.fill();
-                
-                // Draw noise cloud
-                for (let i = 0; i < 30; i++) {
-                    const angle = (i / 30) * Math.PI * 2;
-                    const radius = 25;
-                    const nx = offset + targetX * gridSize + Math.cos(angle) * radius;
-                    const ny = offset + targetY * gridSize + Math.sin(angle) * radius;
-                    
-                    ctx7.fillStyle = 'rgba(255, 0, 170, 0.2)';
-                    ctx7.beginPath();
-                    ctx7.arc(nx, ny, 2, 0, Math.PI * 2);
-                    ctx7.fill();
-                }
-                
-                // Draw noise vector
-                ctx7.strokeStyle = 'rgba(255, 100, 200, 0.8)';
-                ctx7.lineWidth = 3;
-                ctx7.setLineDash([4, 4]);
-                ctx7.beginPath();
-                ctx7.moveTo(offset + targetX * gridSize, offset + targetY * gridSize);
-                ctx7.lineTo(offset + targetX * gridSize + noiseX, offset + targetY * gridSize + noiseY);
-                ctx7.stroke();
-                ctx7.setLineDash([]);
-                
-                // Draw public key with pulsing effect
-                const pulse = 1 + 0.1 * Math.sin((frame - 280) / 10);
-                ctx7.fillStyle = '#ff00aa';
-                ctx7.beginPath();
-                ctx7.arc(offset + targetX * gridSize + noiseX, offset + targetY * gridSize + noiseY, 10 * pulse, 0, Math.PI * 2);
-                ctx7.fill();
-                
-                // Add glow to public key
-                ctx7.strokeStyle = 'rgba(255, 0, 170, 0.4)';
-                ctx7.lineWidth = 2;
-                ctx7.beginPath();
-                ctx7.arc(offset + targetX * gridSize + noiseX, offset + targetY * gridSize + noiseY, 20 * pulse, 0, Math.PI * 2);
-                ctx7.stroke();
-            }
-            
-            // Draw legend phase text
-            ctx7.fillStyle = phaseColor;
-            ctx7.font = '13px Space Mono';
-            ctx7.fillText(phaseText, legendX + legendPadding, legendY + 42);
-            
-            // Legend indicators - with colored dots
-            ctx7.font = 'bold 14px Space Mono';
-            
-            // Yellow dot - Clave Privada
-            ctx7.fillStyle = '#ffee00';
-            ctx7.beginPath();
-            ctx7.arc(legendX + 22, legendY + 60, 5, 0, Math.PI * 2);
-            ctx7.fill();
-            ctx7.fillText('Clave Privada', legendX + 35, legendY + 64);
-            
-            // Magenta dot - Clave Pública
-            ctx7.fillStyle = '#ff00aa';
-            ctx7.beginPath();
-            ctx7.arc(legendX + 22, legendY + 80, 5, 0, Math.PI * 2);
-            ctx7.fill();
-            ctx7.fillText('Clave Pública', legendX + 35, legendY + 84);
-            
-            // Progress bar
-            const progress = Math.min(100, (frame / 380) * 100);
-            ctx7.fillStyle = 'rgba(255, 255, 255, 0.1)';
-            ctx7.fillRect(legendX + legendPadding, legendY + 92, legendBarWidth, 14);
-            
-            const gradient = ctx7.createLinearGradient(legendX + legendPadding, 0, legendX + legendPadding + legendBarWidth, 0);
-            gradient.addColorStop(0, '#00f0ff');
-            gradient.addColorStop(0.5, '#ff00aa');
-            gradient.addColorStop(1, '#ffee00');
-            
-            ctx7.fillStyle = gradient;
-            ctx7.fillRect(legendX + legendPadding, legendY + 92, (legendBarWidth * progress) / 100, 14);
-            
-            ctx7.strokeStyle = 'rgba(0, 240, 255, 0.5)';
-            ctx7.lineWidth = 1;
-            ctx7.strokeRect(legendX + legendPadding, legendY + 92, legendBarWidth, 14);
-            
-            ctx7.fillStyle = '#9999bb';
-            ctx7.font = '11px Space Mono';
-            ctx7.fillText(`Progreso: ${Math.floor(progress)}%`, legendX + legendPadding + 60, legendY + 114);
+
+        // KEM + AES demo state
+        let sharedSecretA = null;
+        let sharedSecretB = null;
+        let ciphertextBytes = null;
+
+        function bytesToHex(bytes) {
+            return Array.from(bytes)
+                .map((b) => b.toString(16).padStart(2, '0'))
+                .join('');
         }
-        
-        function animateFinalDemo() {
-            if (animating7) return;
-            
-            animating7 = true;
-            animationFrame7 = 0;
-            
-            const animate = () => {
-                drawLattice7(animationFrame7);
-                animationFrame7++;
-                
-                if (animationFrame7 < 380) {
-                    requestAnimationFrame(animate);
-                } else {
-                    animating7 = false;
-                }
-            };
-            
-            animate();
+
+        function toBase64(bytes) {
+            let binary = '';
+            bytes.forEach((b) => {
+                binary += String.fromCharCode(b);
+            });
+            return btoa(binary);
         }
-        
-        function resetDemo7() {
-            animating7 = false;
-            animationFrame7 = 0;
-            ctx7.clearRect(0, 0, canvas7.width, canvas7.height);
+
+        function setText(id, value) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.textContent = value;
+            }
+        }
+
+        function runEncapsulation() {
+            sharedSecretA = crypto.getRandomValues(new Uint8Array(16));
+            ciphertextBytes = crypto.getRandomValues(new Uint8Array(32));
+            sharedSecretB = null;
+
+            setText('ciphertextOutput', bytesToHex(ciphertextBytes));
+            setText('ciphertextOutputBob', bytesToHex(ciphertextBytes));
+            setText('secretAOutput', bytesToHex(sharedSecretA));
+            setText('secretBOutput', '-');
+            setText('verifyOutput', '-');
+            setText('aesIvOutput', '-');
+            setText('aesCipherOutput', '-');
+            setText('aesPlainOutput', '-');
+            setNoiseLevel(35);
+        }
+
+        function runDecapsulation() {
+            if (!sharedSecretA) {
+                setText('secretBOutput', 'Encapsula primero.');
+                return;
+            }
+
+            cleanNoise();
+            sharedSecretB = new Uint8Array(sharedSecretA);
+            setText('secretBOutput', bytesToHex(sharedSecretB));
+            setText('verifyOutput', '-');
+        }
+
+        function verifySecrets() {
+            if (!sharedSecretA || !sharedSecretB) {
+                setText('verifyOutput', 'Faltan secretos para comparar.');
+                return;
+            }
+
+            const match = bytesToHex(sharedSecretA) === bytesToHex(sharedSecretB);
+            setText('verifyOutput', match ? 'Coinciden.' : 'No coinciden.');
+        }
+
+        async function runAesDemo() {
+            if (!sharedSecretB) {
+                setText('aesPlainOutput', 'Decapsula primero.');
+                return;
+            }
+            if (!crypto.subtle) {
+                setText('aesPlainOutput', 'AES requiere un contexto seguro (https o localhost).');
+                return;
+            }
+
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const key = await crypto.subtle.importKey(
+                'raw',
+                sharedSecretB,
+                'AES-GCM',
+                false,
+                ['encrypt', 'decrypt']
+            );
+
+            const encoder = new TextEncoder();
+            const decoder = new TextDecoder();
+            const plaintext = encoder.encode('Hello');
+            const ciphertext = new Uint8Array(
+                await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, plaintext)
+            );
+            const decrypted = new Uint8Array(
+                await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext)
+            );
+
+            setText('aesIvOutput', toBase64(iv));
+            setText('aesCipherOutput', toBase64(ciphertext));
+            setText('aesPlainOutput', decoder.decode(decrypted));
         }
         
         // Initialize all canvases
-        drawLattice1();
         drawLattice2();
-        drawLattice3(0);
-        drawLattice4();
+        setNoiseLevel(noiseLevel);
         drawLattice5();
-        drawLattice7(0);
     </script>
 </body>
 </html>
