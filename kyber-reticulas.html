@@ -434,9 +434,10 @@
                 <button onclick="runAesDemo()">Cifrar y descifrar "Hello"</button>
             </div>
             <div class="info-box">
+                <strong>Clave secreta compartida:</strong> <span id="sharedSecretDisplay">-</span><br>
                 <strong>IV:</strong> <span id="aesIvOutput">-</span><br>
                 <strong>Ciphertext:</strong> <span id="aesCipherOutput">-</span><br>
-                <strong>Mensaje descifrado:</strong> <span id="aesPlainOutput">-</span>
+                <strong>Mensaje descifrado (usando la clave secreta):</strong> <span id="aesPlainOutput">-</span>
             </div>
         </div>
 
@@ -937,6 +938,7 @@
             setText('aesIvOutput', '-');
             setText('aesCipherOutput', '-');
             setText('aesPlainOutput', '-');
+            setText('sharedSecretDisplay', '-');
             setNoiseLevel(35);
         }
 
@@ -965,6 +967,7 @@
         async function runAesDemo() {
             if (!sharedSecretB) {
                 setText('aesPlainOutput', 'Decapsula primero.');
+                setText('sharedSecretDisplay', '-');
                 return;
             }
             if (!crypto.subtle) {
@@ -994,6 +997,7 @@
             setText('aesIvOutput', toBase64(iv));
             setText('aesCipherOutput', toBase64(ciphertext));
             setText('aesPlainOutput', decoder.decode(decrypted));
+            setText('sharedSecretDisplay', bytesToHex(sharedSecretB));
         }
         
         // Initialize all canvases
