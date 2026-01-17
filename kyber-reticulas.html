@@ -363,9 +363,9 @@
             <div class="step-number">Paso 01</div>
             <div class="step-title">Bob genera su par de claves (KeyGen)</div>
             <div class="step-text">
-                Bob crea una retícula pública, elige una dirección secreta y añade un poco de ruido.
-                Eso produce una <span class="highlight">clave pública</span> (visible para todos) y una
-                <span class="highlight">clave privada</span> (solo de Bob).
+                Bob primero elige su dirección secreta <span class="highlight">s</span> (clave privada).
+                Luego usa la matriz pública <span class="highlight">A</span> y el ruido <span class="highlight">e</span>
+                para construir la <span class="highlight">clave pública</span> <span class="highlight">(A, t)</span>.
             </div>
             <div class="code-block">
                 A: matriz pública en la retícula<br>
@@ -378,8 +378,7 @@
             <div class="canvas-container">
                 <canvas id="lattice5" width="600" height="600"></canvas>
                 <div class="controls">
-                    <button onclick="generateKeyPair()">Crear clave pública</button>
-                    <button onclick="showPrivateKey()">Revelar Clave Privada</button>
+                    <button onclick="generatePrivateKey()">Crear claves privada y pública</button>
                     <button onclick="resetDemo5()">Reiniciar</button>
                 </div>
                 <div class="interactive-label">Clave pública con ruido vs clave privada (dirección secreta)</div>
@@ -955,10 +954,65 @@
                 ctx5.fillText('CLAVE PÚBLICA', pubLabelX, pubLabelY);
                 ctx5.font = 'bold 12px Space Mono';
                 ctx5.fillText('(visible para todos)', pubLabelX, pubLabelY + 16);
+            } else if (privateKey5) {
+                // Show only the private key when public key is not yet generated.
+                const cleanX = offset + privateKey5.latticeX * gridSize;
+                const cleanY = offset + privateKey5.latticeY * gridSize;
+
+                ctx5.strokeStyle = '#ffee00';
+                ctx5.lineWidth = 4;
+                ctx5.setLineDash([8, 8]);
+                ctx5.beginPath();
+                ctx5.moveTo(offset, offset);
+                ctx5.lineTo(cleanX, cleanY);
+                ctx5.stroke();
+                ctx5.setLineDash([]);
+
+                const angle = Math.atan2(cleanY - offset, cleanX - offset);
+                ctx5.fillStyle = '#ffee00';
+                ctx5.save();
+                ctx5.translate(cleanX, cleanY);
+                ctx5.rotate(angle);
+                ctx5.beginPath();
+                ctx5.moveTo(0, 0);
+                ctx5.lineTo(-15, -8);
+                ctx5.lineTo(-15, 8);
+                ctx5.closePath();
+                ctx5.fill();
+                ctx5.restore();
+
+                ctx5.fillStyle = '#ffee00';
+                ctx5.beginPath();
+                ctx5.arc(cleanX, cleanY, 10, 0, Math.PI * 2);
+                ctx5.fill();
+
+                ctx5.strokeStyle = 'rgba(255, 238, 0, 0.3)';
+                ctx5.lineWidth = 2;
+                ctx5.beginPath();
+                ctx5.arc(cleanX, cleanY, 20, 0, Math.PI * 2);
+                ctx5.stroke();
+
+                ctx5.fillStyle = '#00f0ff';
+                ctx5.font = 'bold 13px Space Mono';
+                ctx5.fillText('Origen', offset - 52, offset + 22);
+
+                ctx5.fillStyle = '#ffee00';
+                ctx5.font = 'bold 14px Space Mono';
+                let privLabelX, privLabelY;
+                if (cleanX < 300) {
+                    privLabelX = cleanX + 30;
+                    privLabelY = cleanY - 40;
+                } else {
+                    privLabelX = cleanX - 200;
+                    privLabelY = cleanY - 40;
+                }
+                ctx5.fillText('CLAVE PRIVADA', privLabelX, privLabelY);
+                ctx5.font = 'bold 12px Space Mono';
+                ctx5.fillText(`Punto (${privateKey5.latticeX}, ${privateKey5.latticeY})`, privLabelX, privLabelY + 16);
             }
         }
         
-        function generateKeyPair() {
+        function generatePrivateKey() {
             const gridSize = 40;
             
             // Generate clean lattice point (keep it more centered to avoid going off screen)
@@ -966,7 +1020,7 @@
                 latticeX: Math.floor(Math.random() * 6) + 4,  // Range: 4-9
                 latticeY: Math.floor(Math.random() * 6) + 4   // Range: 4-9
             };
-            
+
             // Add noise to create public key (smaller noise to keep on screen)
             const noiseX = (Math.random() - 0.5) * 25;
             const noiseY = (Math.random() - 0.5) * 25;
@@ -976,7 +1030,7 @@
                 y: privateKey5.latticeY * gridSize + noiseY
             };
             
-            showPrivate5 = false;
+            showPrivate5 = true;
             drawLattice5();
             syncPublicKeyToStep2();
         }
